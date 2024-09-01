@@ -5,19 +5,13 @@ using System.Text.Json;
 
 namespace Core.ExceptionHandling;
 
-public class ExceptionMiddleware
+public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
 {
     private const string ApplicationJsonType = "application/json";
 
-    private readonly RequestDelegate _next;
+    private readonly RequestDelegate _next = next;
 
-    private readonly ILogger<ExceptionMiddleware> _logger;
-
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
-    {
-        _next = next;
-        _logger = logger;
-    }
+    private readonly ILogger<ExceptionMiddleware> _logger = logger;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -27,7 +21,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Something went wrong: {ex}");
+            _logger.LogError("Something went wrong: {ex}", ex);
             await HandleExceptionAsync(context, ex);
         }
     }
