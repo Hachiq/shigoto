@@ -1,4 +1,5 @@
-﻿using Core.Options;
+﻿using Core.Exceptions;
+using Core.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -18,15 +19,18 @@ public class JwtBearerTokenValidationConfiguration(
         {
             Configure(options);
         }
-        catch (Exception ex)
+        catch (JwtConfigurationFailedException)
         {
-            logger.LogError("An error occurred while configuring JWT: {ex}", ex);
             throw;
         }
     }
 
     public void Configure(JwtBearerOptions options)
     {
+        if (_jwtSettings.Issuer is null || _jwtSettings.Audience is null || _jwtSettings.Secret is null)
+        {
+            throw new JwtConfigurationFailedException();
+        }
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
