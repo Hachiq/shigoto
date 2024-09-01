@@ -11,8 +11,6 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
 
     private readonly RequestDelegate _next = next;
 
-    private readonly ILogger<ExceptionMiddleware> _logger = logger;
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
@@ -21,7 +19,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddlewa
         }
         catch (Exception ex)
         {
-            _logger.LogError("Something went wrong: {ex}", ex);
+            logger.LogError("Something went wrong: {ex}", ex);
             await HandleExceptionAsync(context, ex);
         }
     }
