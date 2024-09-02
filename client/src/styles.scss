@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #FFCBCB;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --light-color: #f8f9fa;
+    --dark-color: #2B2A3C;
+    --background-color: #201F31;
+    --text-color: #fff;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.main-header {
+    background-color: var(--dark-color);
+    font-size: 20px;
+    min-height: 90px;
+}
+
+.nav-link {
+    color: var(--text-color);
+
+    &:hover{
+        color: var(--secondary-color);
+        cursor: pointer;
+    }
+    &:focus {
+        color: var(--text-color);
+    }
+}
+
+.text-primary {
+    color: var(--text-color);
+}
