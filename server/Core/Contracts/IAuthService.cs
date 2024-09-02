@@ -5,5 +5,6 @@ namespace Core.Contracts;
 public interface IAuthService
 {
     Task Register(RegisterRequestModel model);
-    Task Login(LoginRequestModel model);
+    Task<string> Login(LoginRequestModel model);
+    Task<string> RefreshAccessToken(string token);
 }

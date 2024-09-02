@@ -1,6 +1,7 @@
 ﻿using Core.Contracts;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Services.Implementations.Repository;
@@ -16,6 +17,11 @@ public class Repository(AppDbContext _context) : IRepository
     public async Task<T?> GetByIdAsync<T>(Guid id) where T : class
     {
         return await _context.Set<T>().FindAsync(id);
+    }
+
+    public async Task<T?> FindAsync<T>(Expression<Func<T, bool>> predicate) where T : class
+    {
+        return await _context.Set<T>().FirstOrDefaultAsync(predicate);
     }
 
     public async Task AddAsync<T>(T entity) where T : class

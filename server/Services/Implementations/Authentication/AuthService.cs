@@ -5,15 +5,27 @@ using Core.Entities;
 namespace Services.Implementations.Authentication;
 
 public class AuthService(
-    IRepository db,
-    IPasswordService passwordService,
-    IAccessTokenGenerator accessTokenGenerator,
-    IRefreshTokenGenerator refreshTokenGenerator) : IAuthService
+    IRepository _db,
+    IPasswordService _passwordService,
+    IAccessTokenGenerator _accessTokenGenerator,
+    IRefreshTokenGenerator _refreshTokenGenerator) : IAuthService
 {
 
     public async Task Register(RegisterRequestModel model)
     {
-        passwordService.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        var checkExistingUsername = await _db.FindAsync<User>(u => u.Username == model.Username);
+        if (checkExistingUsername is not null)
+        {
+            throw new Exception("User with such username already exists"); // Use custom exception
+        }
+
+        var checkExistingEmail = await _db.FindAsync<User>(u => u.Email == model.Email);
+        if (checkExistingEmail is not null)
+        {
+            throw new Exception("User with such email already exists"); // Use custom exception
+        }
+
+        _passwordService.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
         var user = new User
         {
@@ -24,15 +36,49 @@ public class AuthService(
             PasswordSalt = passwordSalt
         };
 
-        var refreshToken = refreshTokenGenerator.GenerateRefreshToken();
+        var refreshToken = _refreshTokenGenerator.GenerateRefreshToken();
 
         user.RefreshToken = refreshToken;
 
-        await db.AddAsync(user);
-        await db.SaveChangesAsync();
+        await _db.AddAsync(user);
+        await _db.SaveChangesAsync();
     }
-    public Task Login(LoginRequestModel model)
+    public async Task<string> Login(LoginRequestModel model)
     {
-        throw new NotImplementedException();
+        var user = await _db.FindAsync<User>(u => u.Username == model.Username);
+
+        if (user is null)
+        {
+            throw new Exception("Couldn't find the user."); // Use custom exception
+        }
+
+        var passwordMatch = _passwordService.VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt);
+
+        if (!passwordMatch)
+        {
+            throw new Exception("Wrong password."); // Use custom exception
+        }
+
+        var jwt = _accessTokenGenerator.GenerateAccessToken(user);
+
+        return jwt;
+    }
+
+    public async Task<string> RefreshAccessToken(string token)
+    {
+        // Consider using this line
+        //var user = await _db.FindAsync<User>(u => u.RefreshToken.Token == token);
+
+        var refreshToken = await _db.FindAsync<RefreshToken>(rt => rt.Token == token);
+        var user = await _db.FindAsync<User>(u => u.RefreshToken == refreshToken);
+
+        if (user is null)
+        {
+            throw new Exception("Wrong refresh token."); // Use custom exception
+        }
+
+        var jwt = _accessTokenGenerator.GenerateAccessToken(user);
+
+        return jwt;
     }
 }
