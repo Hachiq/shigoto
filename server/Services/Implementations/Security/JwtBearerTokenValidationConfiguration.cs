@@ -1,16 +1,13 @@
 ﻿using Core.Exceptions;
 using Core.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace Services.Implementations.Security;
 
-public class JwtBearerTokenValidationConfiguration(
-    IOptions<JwtSettings> jwtOptions,
-    ILogger<JwtBearerTokenValidationConfiguration> logger) : IConfigureNamedOptions<JwtBearerOptions>
+public class JwtBearerTokenValidationConfiguration(IOptions<JwtSettings> jwtOptions) : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly JwtSettings _jwtSettings = jwtOptions.Value;
     public void Configure(string? name, JwtBearerOptions options)
