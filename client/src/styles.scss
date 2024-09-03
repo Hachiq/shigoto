@@ -34,10 +34,11 @@ body {
 .nav-link {
     color: var(--text-color);
 
-    &:hover{
+    &:hover {
         color: var(--secondary-color);
         cursor: pointer;
     }
+
     &:focus {
         color: var(--text-color);
     }
@@ -45,4 +46,18 @@ body {
 
 .text-primary {
     color: var(--text-color);
+}
+
+.btn-empty {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit; /* Ensure font matches surrounding text */
+    color: inherit; /* Ensure color matches surrounding text */
+    cursor: pointer;
+    outline: none; /* Remove focus outline */
+    display: inline-flex; /* Align icon properly */
+    align-items: center; /* Center icon vertically */
+    justify-content: center; /* Center icon horizontally */
 }
