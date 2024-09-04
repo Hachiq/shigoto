@@ -1,29 +1,22 @@
 <nav class="main-header navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
-    <!-- Hamburger Menu -->
-    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> -->
-
     <button class="btn-empty" data-bs-toggle="collapse" (click)="toggleSidebar()">
       <span class="navbar-toggler-icon">
         <fa-icon [icon]="bars"></fa-icon>
       </span>
     </button>
 
-    <!-- Logo -->
+    <!-- TODO: Make your own logo -->
     <a class="navbar-brand ms-3" href="#">
-      <img src="assets/anime-logo.png" alt="Logo" width="60" height="60" />
+      <img src="assets/anime-logo.png" alt="Logo" width="60" height="60" /> 
     </a>
 
-    <!-- Collapsible Navbar Content -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
+        <li class="nav-item pr-1">
           <a class="nav-link" routerLink="register">Register</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item pr-1">
           <a class="nav-link" routerLink="login">Login</a>
         </li>
       </ul>
@@ -31,15 +24,14 @@
   </div>
 </nav>
 
-<!-- Sidebar Menu -->
 <div [class.active]="isSidebarOpen" class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <button class="close-btn" (click)="toggleSidebar()">← Close menu</button>
   </div>
   <ul class="list-unstyled">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Subbed Anime</a></li>
-    <li><a href="#">Dubbed Anime</a></li>
+    <li><a class="nav-link" href="#">Home</a></li>
+    <li><a class="nav-link" href="#">Subbed Anime</a></li>
+    <li><a class="nav-link" href="#">Dubbed Anime</a></li>
     <li><a href="#" class="btn btn-community"><fa-icon [icon]="comment"></fa-icon> Community</a></li>
   </ul>
 </div>

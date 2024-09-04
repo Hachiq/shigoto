@@ -1,17 +1,14 @@
-.bars-container:hover {
-    cursor: pointer;
-}
-
 .sidebar {
     position: fixed;
     top: 0;
     left: -250px;
     width: 250px;
     height: 100%;
-    background-color: #2e2e48;
+    background-color: var(--light-grey-transparent);
     padding-top: 60px;
     transition: all 0.3s ease;
     z-index: 2000;
+    backdrop-filter: blur(10px);
 }
 
 .sidebar.active {
@@ -20,7 +17,6 @@
 
 .sidebar-header {
     padding: 10px 15px;
-    background-color: #2e2e48;
     color: #fff;
     font-size: 16px;
     border-bottom: 1px solid #444;
