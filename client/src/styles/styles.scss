@@ -1,5 +1,6 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'basic.scss';
+@import url('https://fonts.googleapis.com/css2?family=Lunasima:wght@400;700&display=swap');
+
 
 :root {
     --primary: #007bff;
@@ -24,19 +25,36 @@ body {
 
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: "Lunasima", "Helvetica Neue", sans-serif;
     font-size: 20px;
     color: var(--text);
     background-color: var(--background);
 }
 
+.wrapper {
+    padding-top: 90px;
+}
+
+a {
+    text-decoration: none;
+}
+
 .main-header {
+    display: flex;
+    align-items: center;
     position: fixed;
-    min-width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     background-color: var(--dark-transparent);
-    font-size: 20px;
-    min-height: 90px;
     backdrop-filter: blur(10px);
+    align-items: center;
+    height: 90px;
+
+    .nav-item {
+        padding: 1rem;
+    }
 }
 
 .nav-link {
@@ -49,6 +67,16 @@ body {
 
     &:focus {
         color: var(--text);
+    }
+}
+
+.link-static {
+    &:hover {
+        color: unset;
+    }
+
+    &:focus {
+        color: unset;
     }
 }
 

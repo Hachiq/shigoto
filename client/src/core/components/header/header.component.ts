@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +15,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 export class HeaderComponent {
   bars = faBars;
   comment = faComment;
+  angleLeft = faAngleLeft;
 
   isSidebarOpen = false;
 

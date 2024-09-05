@@ -1,37 +1,57 @@
-<nav class="main-header navbar navbar-expand-lg navbar-light">
-  <div class="container-fluid">
-    <button class="btn-empty" data-bs-toggle="collapse" (click)="toggleSidebar()">
-      <span class="navbar-toggler-icon">
+<nav class="main-header fs-6">
+  <div class="nav-item">
+    <button class="btn-empty" (click)="toggleSidebar()">
+      <span class="navbar-toggler-icon fs-9">
         <fa-icon [icon]="bars"></fa-icon>
       </span>
     </button>
+  </div>
 
-    <!-- TODO: Make your own logo -->
-    <a class="navbar-brand ms-3" href="#">
-      <img src="assets/anime-logo.png" alt="Logo" width="60" height="60" /> 
+  <!-- TODO: Make your own logo -->
+  <!-- <div class="nav-item mt-1">
+    <a href="/">
+      <img src="assets/shigoto-logo.png" alt="Logo" />
     </a>
+  </div> -->
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item pr-1">
-          <a class="nav-link" routerLink="register">Register</a>
-        </li>
-        <li class="nav-item pr-1">
-          <a class="nav-link" routerLink="login">Login</a>
-        </li>
-      </ul>
+  <div class="nav-item">
+    <div class="logo fs-9">
+      <a class="nav-link link-static" href="/">
+        Shigoto
+      </a>
     </div>
+  </div>
+
+  <!-- <div class="nav-item">
+    <div class="nav-link">
+      <a routerLink="register">Register</a>
+    </div>
+  </div> -->
+
+  <div class="nav-item ml-auto">
+    <a class="nav-link" routerLink="login">Login</a>
   </div>
 </nav>
 
-<div [class.active]="isSidebarOpen" class="sidebar" id="sidebar">
+<!-- <nav class="main-header"></nav> -->
+
+<div [class.active]="isSidebarOpen" class="sidebar fw-6" id="sidebar">
   <div class="sidebar-header">
-    <button class="close-btn" (click)="toggleSidebar()">← Close menu</button>
+    <button class="close-btn pb-3 pt-3 pl-1 fs-5" (click)="toggleSidebar()">
+      <fa-icon [icon]="angleLeft"></fa-icon>
+      Close menu
+    </button>
   </div>
   <ul class="list-unstyled">
     <li><a class="nav-link" href="#">Home</a></li>
     <li><a class="nav-link" href="#">Subbed Anime</a></li>
     <li><a class="nav-link" href="#">Dubbed Anime</a></li>
-    <li><a href="#" class="btn btn-community"><fa-icon [icon]="comment"></fa-icon> Community</a></li>
+    <li><a class="nav-link" href="#">Most Popular</a></li>
+    <li><a class="nav-link" href="#">Movies</a></li>
+    <li><a class="nav-link" href="#">TV Series</a></li>
+    <li><a class="nav-link" href="#">OVAs</a></li>
+    <li><a class="nav-link" href="#">ONAs</a></li>
+    <li><a class="nav-link" href="#">Specials</a></li>
+    <!-- <li><a href="#" class="btn btn-community"><fa-icon [icon]="comment"></fa-icon> Community</a></li> -->
   </ul>
 </div>

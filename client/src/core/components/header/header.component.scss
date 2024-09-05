@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
+.logo {
+    font-family: "Calistoga", serif;
+    font-weight: bold;
+    font-style: normal;
+    letter-spacing: 5px;
+}
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -5,7 +14,6 @@
     width: 250px;
     height: 100%;
     background-color: var(--light-grey-transparent);
-    padding-top: 60px;
     transition: all 0.3s ease;
     z-index: 2000;
     backdrop-filter: blur(10px);
@@ -16,17 +24,13 @@
 }
 
 .sidebar-header {
-    padding: 10px 15px;
-    color: #fff;
-    font-size: 16px;
     border-bottom: 1px solid #444;
 }
 
 .close-btn {
+    color: var(--text);
     background: none;
     border: none;
-    color: #fff;
-    font-size: 16px;
     cursor: pointer;
 }
 
@@ -37,13 +41,13 @@
 }
 
 .list-unstyled li {
-    padding: 15px;
-    border-bottom: 1px solid #444;
+    padding: 25px 20px 25px 20px;
+    border-bottom: 1px solid var(--light-grey);
 }
 
 .btn-community {
     background-color: #6c5ce7;
-    color: #fff;
+    color: var(--text);
     border-radius: 30px;
     display: block;
     margin: 10px auto;
