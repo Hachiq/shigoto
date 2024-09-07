@@ -7,13 +7,6 @@
     </button>
   </div>
 
-  <!-- TODO: Make your own logo -->
-  <!-- <div class="nav-item mt-1">
-    <a href="/">
-      <img src="assets/shigoto-logo.png" alt="Logo" />
-    </a>
-  </div> -->
-
   <div class="nav-item">
     <div class="logo fs-9">
       <a class="nav-link link-static" href="/">
@@ -22,36 +15,7 @@
     </div>
   </div>
 
-  <!-- <div class="nav-item">
-    <div class="nav-link">
-      <a routerLink="register">Register</a>
-    </div>
-  </div> -->
-
   <div class="nav-item ml-auto">
     <a class="nav-link" routerLink="login">Login</a>
   </div>
 </nav>
-
-<!-- <nav class="main-header"></nav> -->
-
-<div [class.active]="isSidebarOpen" class="sidebar fw-6" id="sidebar">
-  <div class="sidebar-header">
-    <button class="close-btn pb-3 pt-3 pl-1 fs-5" (click)="toggleSidebar()">
-      <fa-icon [icon]="angleLeft"></fa-icon>
-      Close menu
-    </button>
-  </div>
-  <ul class="list-unstyled">
-    <li><a class="nav-link" href="#">Home</a></li>
-    <li><a class="nav-link" href="#">Subbed Anime</a></li>
-    <li><a class="nav-link" href="#">Dubbed Anime</a></li>
-    <li><a class="nav-link" href="#">Most Popular</a></li>
-    <li><a class="nav-link" href="#">Movies</a></li>
-    <li><a class="nav-link" href="#">TV Series</a></li>
-    <li><a class="nav-link" href="#">OVAs</a></li>
-    <li><a class="nav-link" href="#">ONAs</a></li>
-    <li><a class="nav-link" href="#">Specials</a></li>
-    <!-- <li><a href="#" class="btn btn-community"><fa-icon [icon]="comment"></fa-icon> Community</a></li> -->
-  </ul>
-</div>

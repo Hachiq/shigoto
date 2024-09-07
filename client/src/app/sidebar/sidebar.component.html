@@ -1,0 +1,19 @@
+<div [class.active]="isSidebarOpen" class="sidebar fw-6" id="sidebar">
+  <div class="sidebar-header">
+    <button class="close-btn fs-5" (click)="toggleSidebar(); toggleBackdrop()">
+      <fa-icon [icon]="angleLeft"></fa-icon> Close menu
+    </button>
+  </div>
+  <ul class="list-unstyled">
+    <li><a class="nav-link" href="#">Home</a></li>
+    <li><a class="nav-link" href="#">Subbed Anime</a></li>
+    <li><a class="nav-link" href="#">Dubbed Anime</a></li>
+    <li><a class="nav-link" href="#">Most Popular</a></li>
+    <li><a class="nav-link" href="#">Movies</a></li>
+    <li><a class="nav-link" href="#">TV Series</a></li>
+    <li><a class="nav-link" href="#">OVAs</a></li>
+    <li><a class="nav-link" href="#">ONAs</a></li>
+    <li><a class="nav-link" href="#">Specials</a></li>
+    <li><a href="#" class="btn btn-community"><fa-icon [icon]="comment"></fa-icon> Community</a></li>
+  </ul>
+</div>
