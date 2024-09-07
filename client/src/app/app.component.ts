@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Renderer2, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../core/components/header/header.component';
 import { SidebarComponent } from "../core/components/sidebar/sidebar.component";
@@ -17,6 +17,8 @@ export class AppComponent {
   title = 'client';
   showBackdrop = false;
 
+  constructor(private readonly renderer: Renderer2){}
+
   toggleSidebar() {
     this.changeBackdropState();
     this.sidebar.toggleSidebar();
@@ -24,5 +26,14 @@ export class AppComponent {
 
   changeBackdropState() {
     this.showBackdrop = !this.showBackdrop;
+    this.toggleBodyScroll();
+  }
+
+  toggleBodyScroll() {
+    if (this.showBackdrop) {
+      this.renderer.addClass(document.body, 'no-scroll');
+    } else {
+      this.renderer.removeClass(document.body, 'no-scroll');
+    }
   }
 }

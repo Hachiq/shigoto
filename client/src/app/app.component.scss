@@ -9,10 +9,10 @@
 }
 
 .backdrop.active {
+    backdrop-filter: blur(10px);
     display: block;
 }
 
 .sidebar-open {
-    backdrop-filter: blur(10px);
     pointer-events: none;
 }
