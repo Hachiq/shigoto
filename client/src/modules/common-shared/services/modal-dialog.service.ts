@@ -1,14 +1,13 @@
 import { EventEmitter, Injectable, Type } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
-import { isFunction } from 'util';
 
 export abstract class BaseModalWindowComponent {
   // [key: string]: any;
   onClose: Subject<any> = new Subject<any>();
   onSaveData: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(protected bsModalRef: BsModalRef) {}
+  constructor(protected readonly bsModalRef: BsModalRef) {}
 
   closeDialog() {
     this.onClose.next(1);
@@ -27,15 +26,7 @@ export class ModalDialogService {
     config: any,
     initialState: any,
     callbacks: Callbacks
-    // callbacks: {
-    //   onClose?: () => Promise<void>;
-    //   onSaveData?: (data: any) => Promise<void>
-    // },
   ) {
-    // const modalRef = this.bsModalService.show(
-    //   modalComponent,
-    //   { ...config, initialState: { ...initialState } }
-    // );
     const modalRef = this.bsModalService.show(
       modalComponent,
       Object.assign({}, config, { initialState })
@@ -53,7 +44,7 @@ export class ModalDialogService {
       }
       if (!!modalWindowComponentInstance['onClose']) {
         modalWindowComponentInstance['onClose'].subscribe(async result => {
-          const shouldClose = await callbacks[key as keyof Callbacks](result);
+          const shouldClose = await callbacks[key](result);
           if (shouldClose) {
             modalRef.hide();
           }
@@ -77,18 +68,10 @@ export class ModalDialogService {
     }
 
     return modalRef;
-
-    // const instance = modalRef.content as any;
-    // if (callbacks.onClose) {
-    //   instance.onClose = callbacks.onClose;
-    // }
-    // if (callbacks.onSaveData) {
-    //   instance.onSaveData = callbacks.onSaveData;
-    // }
   }
 }
 
-type CallbackFunction = (result: any) => Promise<any>;
+type CallbackFunction = (result: any) => Promise<boolean>;
 
 interface Callbacks {
   [key: string]: CallbackFunction;

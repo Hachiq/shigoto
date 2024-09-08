@@ -28,11 +28,14 @@ export class HeaderComponent {
   openLoginModal() {
     this.modalService.showModal(
       LoginComponent,
-      { class: 'modal-dialog-centered modal-dialog-xl' },
+      { class: 'modal-dialog modal-dialog-centered modal-dialog-l' },
       { allowLogin: true },
       {
-        onClose: async () => console.log("Closed"),
-        onSaveData: async () => console.log("Data saved"),
+        onClose: async () => {
+          console.log('Closed');
+          return true;
+        },
+        onSaveData: async () => true,
       }
     );
   }
