@@ -67,7 +67,7 @@ a {
   left: 0;
   right: 0;
   width: 100%;
-  background-color: var(--dark-transparent);
+  background: 0 0;
   backdrop-filter: blur(10px);
   align-items: center;
   height: 90px;
@@ -145,6 +145,15 @@ body.modal-open {
 
 .modal-dialog, .modal-dialog * {
   pointer-events: auto;
+}
+
+.modal-backdrop{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .5);
 }
 
 .modal-dialog-400 {
