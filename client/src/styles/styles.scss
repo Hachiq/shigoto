@@ -100,6 +100,10 @@ a {
   }
 }
 
+.link-active {
+  color: var(--secondary);
+}
+
 .text-primary {
   color: var(--text);
 }
@@ -198,6 +202,13 @@ body.modal-open {
   position: relative;
   display: block;
 
+  .modal-title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
   .close {
     position: absolute;
     top: -20px;
@@ -224,9 +235,69 @@ body.modal-open {
   }
 }
 
-.modal-title {
-  text-align: center;
-  font-weight: 600;
-  margin-bottom: 0;
-  line-height: 1.5;
+.modal-body {
+  padding: 20px 60px 30px;
+
+  .modal-form {
+    display: flex;
+    margin: 0 auto;
+    width: 100%;
+    flex-direction: column;
+
+    .input-group {
+      margin-bottom: 30px;
+    }
+
+    .input-group label {
+      font-size: 14px;
+      letter-spacing: 1px;
+      font-weight: 400;
+      opacity: .5;
+      display: block;
+      margin-bottom: .5rem;
+      text-transform: uppercase;
+    }
+
+    .input-group input {
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+      font-size: 16px;
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border-radius: 10px;
+      transition: border-color .15s ease-in-out, box-shadow 0.15s ease-in-out;
+    
+      &:focus {
+        box-shadow: 0 0 8px var(--primary)
+      }
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+  
+      .custom-checkbox {
+        font-weight: 300;
+      }
+      
+      .custom-checkbox label {
+        padding-left: 5px;
+      }
+    }
+  }
+
+  .submit-btn {
+    width: 100%;
+    border: none;
+    padding: 1.10rem 1rem;
+    background-color: var(--secondary);
+    border-radius: .5rem;
+    font-weight: 600;
+    font-size: 18px;
+    color: #000;
+  }
 }
