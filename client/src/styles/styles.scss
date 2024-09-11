@@ -139,7 +139,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80vh;
 }
 
 body.modal-open {
@@ -300,4 +299,13 @@ body.modal-open {
     font-size: 18px;
     color: #000;
   }
+}
+
+.modal-footer {
+  text-align: center;
+  font-weight: 300;
+  font-size: 18px;
+  padding: .75rem;
+  padding-bottom: 30px;
+
 }
