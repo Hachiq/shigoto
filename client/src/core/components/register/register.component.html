@@ -1,1 +1,35 @@
-<p>register works!</p>
+<div class="modal-content">
+  <div class="tab-content">
+    <div class="modal-header">
+      <h5 class="modal-title fs-7">Create an Account</h5>
+      <button type="button" class="btn-empty close" (click)="close()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form class="modal-form">
+        <div class="input-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Your username" [formControl]="username">
+        </div>
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input type="text" id="email" placeholder="name@email.com" [formControl]="email">
+        </div>
+        <div class="input-group">
+          <label for="passowrd">Password</label>
+          <input type="password" id="password" placeholder="Password" [formControl]="password">
+        </div>
+        <div class="input-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" [formControl]="confirmPassword">
+        </div>
+      </form>
+      <button class="btn-empty submit-btn" (click)="register()">Register</button>
+    </div>
+    <div class="modal-footer">
+      Have an account?
+      <a class="link-active pl-03" (click)="goToLogin()">Login</a>
+    </div>
+  </div>
+</div>

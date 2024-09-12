@@ -29,7 +29,7 @@ export class HeaderComponent {
     this.modalService.showModal(
       LoginComponent,
       { class: 'modal-dialog modal-dialog-centered modal-dialog-l' },
-      { allowLogin: true },
+      {},
       {
         onClose: async () => {
           console.log('Closed');

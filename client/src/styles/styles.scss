@@ -102,6 +102,10 @@ a {
 
 .link-active {
   color: var(--secondary);
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .text-primary {
@@ -150,13 +154,13 @@ body.modal-open {
   pointer-events: auto;
 }
 
-.modal-backdrop{
+.modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .7);
 }
 
 .modal-dialog-400 {
@@ -307,5 +311,4 @@ body.modal-open {
   font-size: 18px;
   padding: .75rem;
   padding-bottom: 30px;
-
 }
