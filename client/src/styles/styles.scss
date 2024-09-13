@@ -126,189 +126,172 @@ a {
   justify-content: center;
 }
 
-.modal-dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1050;
+.modal-backdrop {
   width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  z-index: 3;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: auto;
   background-color: rgba(255, 255, 255, .1);
   box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
   border-radius: 1.5rem;
-  overflow: visible;
-}
 
-.modal-dialog-centered {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-body.modal-open {
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.modal-dialog, .modal-dialog * {
-  pointer-events: auto;
-}
-
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, .7);
-}
-
-.modal-dialog-400 {
-  max-width: 400px;
-}
-
-.modal-dialog-500 {
-  max-width: 500px;
-}
-
-.modal-dialog-l{
-  max-width: 600px;
-}
-
-.modal-dialog-775{
-  max-width: 775px;
-}
-
-.modal-dialog-xl{
-  max-width: 800px;
-}
-
-.modal-dialog-large {
-  max-width: 1000px;
-}
-
-.modal-dialog-xxl{
-  max-width: 1000px;
-}
-
-.modal-content {
-  width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  backdrop-filter: blur(10px);
-}
-
-.modal-header {
-  border-bottom: 0;
-  border-radius: 0;
-  padding: 25px 30px 0;
-  position: relative;
-  display: block;
-
-  .modal-title {
-    text-align: center;
-    font-weight: 600;
-    margin-bottom: 0;
-    line-height: 1.5;
-  }
-
-  .close {
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    color: #111;
-    margin: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #fff;
-    z-index: 3;
-    text-align: center;
-    line-height: 30px;
-    display: inline-block;
-    padding: 0;
-    opacity: 1;
-    text-shadow: none;
-    font-weight: 700;
-    font-size: 1.75rem;
-
-    &:hover {
-      background-color: var(--secondary);
-    }
-  }
-}
-
-.modal-body {
-  padding: 20px 60px 30px;
-
-  .modal-form {
-    display: flex;
-    margin: 0 auto;
+  .tab-content {
     width: 100%;
-    flex-direction: column;
+    height: 100%;
+    border-radius: inherit;
+    backdrop-filter: blur(10px);
 
-    .input-group {
-      margin-bottom: 30px;
-    }
-
-    .input-group label {
-      font-size: 14px;
-      letter-spacing: 1px;
-      font-weight: 400;
-      opacity: .5;
-      display: block;
-      margin-bottom: .5rem;
-      text-transform: uppercase;
-    }
-
-    .input-group input {
-      border: none;
-      outline: none;
-      box-sizing: border-box;
-      font-size: 16px;
-      width: 100%;
-      padding: 1rem 1.2rem;
-      border-radius: 10px;
-      transition: border-color .15s ease-in-out, box-shadow 0.15s ease-in-out;
-    
-      &:focus {
-        box-shadow: 0 0 8px var(--primary)
-      }
-    }
-
-    .options {
+    .modal-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      font-size: 18px;
-  
-      .custom-checkbox {
-        font-weight: 300;
+      justify-content: center;
+      border-bottom: 0;
+      border-radius: 0;
+      padding: 25px 30px 10px;
+    
+      .modal-title {
+        font-weight: 600;
+        margin-bottom: 0;
+        line-height: 1.5;
       }
-      
-      .custom-checkbox label {
-        padding-left: 5px;
+    
+      .close {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        color: #111;
+        margin: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #fff;
+        z-index: 3;
+        text-align: center;
+        line-height: 30px;
+        display: inline-block;
+        padding: 0;
+        opacity: 1;
+        text-shadow: none;
+        font-weight: 700;
+        font-size: 1.75rem;
+    
+        &:hover {
+          background-color: var(--secondary);
+        }
       }
     }
-  }
 
-  .submit-btn {
-    width: 100%;
-    border: none;
-    padding: 1.10rem 1rem;
-    background-color: var(--secondary);
-    border-radius: .5rem;
-    font-weight: 600;
-    font-size: 18px;
-    color: #000;
+    .modal-body {
+      padding: 20px 60px 30px;
+    
+      .modal-form {
+        display: flex;
+        margin: 0 auto;
+        width: 100%;
+        flex-direction: column;
+    
+        .input-group {
+          margin-bottom: 30px;
+        }
+    
+        .input-group label {
+          font-size: 14px;
+          letter-spacing: 1px;
+          font-weight: 400;
+          opacity: .5;
+          display: block;
+          margin-bottom: .5rem;
+          text-transform: uppercase;
+        }
+    
+        .input-group input {
+          border: none;
+          outline: none;
+          box-sizing: border-box;
+          font-size: 16px;
+          width: 100%;
+          padding: 1rem 1.2rem;
+          border-radius: 10px;
+          transition: border-color .15s ease-in-out, box-shadow 0.15s ease-in-out;
+        
+          &:focus {
+            box-shadow: 0 0 8px var(--primary)
+          }
+        }
+    
+        .options {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+          font-size: 18px;
+      
+          .custom-checkbox {
+            font-weight: 300;
+          }
+          
+          .custom-checkbox label {
+            padding-left: 5px;
+          }
+        }
+      }
+    
+      .submit-btn {
+        width: 100%;
+        border: none;
+        padding: 1.10rem 1rem;
+        background-color: var(--secondary);
+        border-radius: .5rem;
+        font-weight: 600;
+        font-size: 18px;
+        color: #000;
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: center;
+      font-weight: 300;
+      font-size: 18px;
+      padding: .75rem;
+      padding-bottom: 30px;
+    }
   }
 }
 
-.modal-footer {
-  text-align: center;
-  font-weight: 300;
-  font-size: 18px;
-  padding: .75rem;
-  padding-bottom: 30px;
+.xs {
+  width: 400px;
+}
+
+.s {
+  width: 500px;
+}
+
+.m {
+  width: 600px;
+}
+
+.l {
+  width: 700px;
+}
+
+.xl {
+  width: 800px;
 }

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { BaseModalWindowComponent, ModalDialogService } from '../../../modules/common-shared/services/modal-dialog.service';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterComponent } from '../register/register.component';
 
@@ -17,34 +16,24 @@ export class LoginComponent extends BaseModalWindowComponent {
   password = new FormControl('', [Validators.required, Validators.minLength(6)]);
 
   constructor(
-    protected override readonly bsModalRef: BsModalRef,
+    protected override elementRef: ElementRef,
     private readonly modalService: ModalDialogService
   ) {
-    super(bsModalRef);
-  }
-
-  close() {
-    this.closeDialog();
+    super(elementRef);
   }
 
   login() {
-    console.log('logged in')
+    this.elementRef.nativeElement.remove();
+    this.closeEvent.emit();
   }
 
-  async goToRegister() {
+  goToRegister() {
     this.close();
-    // await new Promise(resolve => setTimeout(resolve, 2000));
-    this.modalService.showModal(
-      RegisterComponent,
-      { class: 'modal-dialog modal-dialog-centered modal-dialog-l' },
-      { allowLogin: true },
-      {
-        onClose: async () => {
-          console.log('Closed');
-          return true;
-        },
-        onSaveData: async () => true,
+    this.modalService
+      .open(RegisterComponent, { size: 'm', title: 'Foo' })
+      .subscribe((action) => {
+        console.log('modalAction', action);
       }
-    )
+    );
   }
 }
