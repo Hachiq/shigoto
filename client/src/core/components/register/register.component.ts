@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { BaseModalWindowComponent, ModalDialogService } from '../../../modules/common-shared/services/modal-dialog.service';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
 
@@ -19,14 +18,10 @@ export class RegisterComponent extends BaseModalWindowComponent {
   confirmPassword = new FormControl('', [Validators.required, Validators.minLength(6)]);
 
   constructor(
-    protected override readonly bsModalRef: BsModalRef,
+    protected override elementRef: ElementRef,
     private readonly modalService: ModalDialogService
   ) {
-    super(bsModalRef)
-  }
-
-  close() {
-    this.closeDialog();
+    super(elementRef);
   }
 
   register() {
@@ -35,11 +30,11 @@ export class RegisterComponent extends BaseModalWindowComponent {
 
   goToLogin() {
     this.close();
-    this.modalService.showModal(
-      LoginComponent,
-      { class: 'modal-dialog modal-dialog-centered modal-dialog-l' },
-      {},
-      {}
+    this.modalService
+      .open(LoginComponent, { size: 'm' })
+      .subscribe((action) => {
+        console.log('modalAction', action);
+      }
     );
   }
 }

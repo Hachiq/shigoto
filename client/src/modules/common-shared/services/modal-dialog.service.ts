@@ -1,16 +1,32 @@
-import { EventEmitter, Injectable, Type } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { DOCUMENT } from '@angular/common';
+import { Component, ComponentRef, ElementRef, EventEmitter, Inject, Injectable, Input, Output, Type, ViewContainerRef } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ModalOptions } from '../models/modal-options';
 
+@Component({
+  selector: 'app-modal',
+  standalone: true,
+  imports: [],
+  template: ``
+})
 export abstract class BaseModalWindowComponent {
-  // [key: string]: any;
-  onClose: Subject<any> = new Subject<any>();
-  onSaveData: EventEmitter<any> = new EventEmitter<any>();
+  @Input() size? = 'md';
 
-  constructor(protected readonly bsModalRef: BsModalRef) {}
+  @Output() closeEvent = new EventEmitter();
+  @Output() submitEvent = new EventEmitter();
 
-  closeDialog() {
-    this.onClose.next(1);
+  constructor(
+    protected elementRef: ElementRef
+  ) {}
+
+  close(): void {
+    this.elementRef.nativeElement.remove();
+    this.closeEvent.emit();
+  }
+
+  submit(): void {
+    this.elementRef.nativeElement.remove();
+    this.submitEvent.emit();
   }
 }
 
@@ -18,61 +34,38 @@ export abstract class BaseModalWindowComponent {
   providedIn: 'root'
 })
 export class ModalDialogService {
+  public viewContainer!: ViewContainerRef;
 
-  constructor(private bsModalService: BsModalService) {}
-
-  showModal(
-    modalComponent: Type<any>,
-    config: any,
-    initialState: any,
-    callbacks: Callbacks
-  ) {
-    const modalRef = this.bsModalService.show(
-      modalComponent,
-      Object.assign({}, config, { initialState })
-    );
-
-    const modalWindowComponentInstance = modalRef.content as BaseModalWindowComponent;
-    let closeHandled = false;
-
-    Object.keys(callbacks).forEach(key => {
-      if (key === 'onClose') {
-        closeHandled = true;
-      }
-      if (key === 'onSaveData') {
-        return;
-      }
-      if (!!modalWindowComponentInstance['onClose']) {
-        modalWindowComponentInstance['onClose'].subscribe(async result => {
-          const shouldClose = await callbacks[key](result);
-          if (shouldClose) {
-            modalRef.hide();
-          }
-        });
-      }
-    });
-
-    if (!closeHandled) {
-      modalWindowComponentInstance.onClose.subscribe(result => {
-        modalRef.hide();
-      });
-    }
-
-    if (!!modalWindowComponentInstance.onSaveData) {
-      modalWindowComponentInstance.onSaveData.subscribe(async result => {
-        const shouldClose = await callbacks['onSaveData']?.(result);
-        if (shouldClose) {
-          modalRef.hide();
-        }
-      });
-    }
-
-    return modalRef;
+  set modalRef(vcr: ViewContainerRef) {
+    this.viewContainer = vcr;
   }
-}
+  private modalNotifier?: Subject<string>;
+  constructor(
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
-type CallbackFunction = (result: any) => Promise<boolean>;
+  open<T>(component: Type<T>, options?: ModalOptions): Subject<string> {
+    const modalComponentRef: ComponentRef<any> = this.viewContainer.createComponent(component);
+    
+    modalComponentRef.instance.size = options?.size;
+    
+    modalComponentRef.instance.closeEvent.subscribe(() => this.closeModal(modalComponentRef));
+    modalComponentRef.instance.submitEvent.subscribe(() => this.submitModal(modalComponentRef));
 
-interface Callbacks {
-  [key: string]: CallbackFunction;
+    this.document.body.classList.add('no-scroll');
+    this.document.body.appendChild(modalComponentRef.location.nativeElement);
+    this.modalNotifier = new Subject();
+    return this.modalNotifier;
+  }
+
+  closeModal(modalComponentRef: ComponentRef<any>) {
+    this.document.body.classList.remove('no-scroll');
+    modalComponentRef.destroy();
+    this.modalNotifier?.complete();
+  }
+
+  submitModal(modalComponentRef: ComponentRef<any>) {
+    this.modalNotifier?.next('confirm');
+    this.closeModal(modalComponentRef);
+  }
 }

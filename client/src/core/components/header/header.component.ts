@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewContainerRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -19,23 +19,22 @@ export class HeaderComponent {
   
   bars = faBars;
 
-  constructor(private modalService: ModalDialogService) {}
+  constructor(
+    public viewContainer: ViewContainerRef,
+    private modalService: ModalDialogService
+  ) {
+    this.modalService.modalRef = this.viewContainer;
+  }
 
   toggleSidebar() {
     this.toggleSidebarEvent.emit();
   }
 
   openLoginModal() {
-    this.modalService.showModal(
-      LoginComponent,
-      { class: 'modal-dialog modal-dialog-centered modal-dialog-l' },
-      {},
-      {
-        onClose: async () => {
-          console.log('Closed');
-          return true;
-        },
-        onSaveData: async () => true,
+    this.modalService
+      .open(LoginComponent, { size: 'm' })
+      .subscribe((action) => {
+        console.log('modalAction', action);
       }
     );
   }
