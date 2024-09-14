@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <form class="modal-form">
+      <form (ngSubmit)="register()" class="modal-form">
         <div class="input-group">
           <label for="username">Username</label>
           <input type="text" id="username" placeholder="Your username" [formControl]="username">
@@ -25,7 +25,7 @@
           <input type="password" id="confirmPassword" placeholder="Confirm Password" [formControl]="confirmPassword">
         </div>
       </form>
-      <button class="btn-empty submit-btn" (click)="register()">Register</button>
+      <button type="submit" class="btn-empty submit-btn">Register</button>
     </div>
     <div class="modal-footer">
       Have an account?

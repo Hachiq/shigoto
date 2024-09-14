@@ -10,7 +10,7 @@ namespace Web.Modules.Authentication;
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController(
-    ILogger _logger,
+    ILogger<AuthController> _logger,
     IAuthService _authService) : ControllerBase
 {
     [HttpPost("register")]
@@ -34,7 +34,7 @@ public class AuthController(
                 _ => ""
             };
 
-            return Ok(new ConflictResponse
+            return BadRequest(new ConflictResponse
             {
                 ConflictReason = conflictReason,
                 Message = ex.Message

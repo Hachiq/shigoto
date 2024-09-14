@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="modal-body">
-      <form class="modal-form">
+      <form (ngSubmit)="login()" class="modal-form">
         <div class="input-group">
           <label for="username">Username</label>
           <input type="text" id="username" placeholder="Your username" [formControl]="username">
@@ -24,7 +24,7 @@
           <a href="#" class="link-active">Forgot password?</a>
         </div>
       </form>
-      <button class="btn-empty submit-btn" (click)="login()">Login</button>
+      <button type="submit" class="btn-empty submit-btn">Login</button>
     </div>
     <div class="modal-footer">
       Don't have an account?
