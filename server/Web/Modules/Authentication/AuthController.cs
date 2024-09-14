@@ -1,5 +1,7 @@
-﻿using Core.Contracts;
+﻿using Core.Constants;
+using Core.Contracts;
 using Core.DTOs.Authentication;
+using Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +9,9 @@ namespace Web.Modules.Authentication;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController(IAuthService _authService) : ControllerBase
+public class AuthController(
+    ILogger _logger,
+    IAuthService _authService) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<ActionResult> Register(RegisterRequestModel request)
@@ -18,9 +22,31 @@ public class AuthController(IAuthService _authService) : ControllerBase
 
             return Ok();
         }
+        catch (Exception ex) when (ex is EmailAndUsernameHaveBeenUsedException ||
+                                   ex is EmailHasBeenUsedException ||
+                                   ex is UsernameHasBeenUsedException)
+        {
+            string conflictReason = ex switch
+            {
+                EmailAndUsernameHaveBeenUsedException => UserConflicts.EmailAndUsernameTaken,
+                EmailHasBeenUsedException => UserConflicts.EmailTaken,
+                UsernameHasBeenUsedException => UserConflicts.UsernameTaken,
+                _ => ""
+            };
+
+            return Ok(new ConflictResponse
+            {
+                ConflictReason = conflictReason,
+                Message = ex.Message
+            });
+        }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            _logger.LogError(ex,
+                "Register user request failed. {username}, {email}",
+                request.Username, request.Email);
+
+            return BadRequest(ex);
         }
     }
 
