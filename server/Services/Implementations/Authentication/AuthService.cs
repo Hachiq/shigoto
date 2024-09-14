@@ -1,6 +1,7 @@
 ﻿using Core.Contracts;
 using Core.DTOs.Authentication;
 using Core.Entities;
+using Core.Exceptions;
 
 namespace Services.Implementations.Authentication;
 
@@ -13,16 +14,24 @@ public class AuthService(
 
     public async Task Register(RegisterRequestModel model)
     {
-        var checkExistingUsername = await _db.FindAsync<User>(u => u.Username == model.Username);
-        if (checkExistingUsername is not null)
-        {
-            throw new Exception("User with such username already exists"); // Use custom exception
-        }
+        // TODO: make it work when username and email are taken by different users
 
-        var checkExistingEmail = await _db.FindAsync<User>(u => u.Email == model.Email);
-        if (checkExistingEmail is not null)
+        var existingUser = await _db.FindAsync<User>(u => u.Username == model.Username || u.Email == model.Email);
+
+        if (existingUser is not null)
         {
-            throw new Exception("User with such email already exists"); // Use custom exception
+            if (existingUser.Username == model.Username && existingUser.Email == model.Email)
+            {
+                throw new EmailAndUsernameHaveBeenUsedException();
+            }
+            else if (existingUser.Email == model.Email)
+            {
+                throw new EmailHasBeenUsedException();
+            }
+            else if (existingUser.Username == model.Username)
+            {
+                throw new UsernameHasBeenUsedException();
+            }
         }
 
         _passwordService.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -49,14 +58,14 @@ public class AuthService(
 
         if (user is null)
         {
-            throw new Exception("Couldn't find the user."); // Use custom exception
+            throw new WrongUsernameOrPasswordException();
         }
 
         var passwordMatch = _passwordService.VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt);
 
         if (!passwordMatch)
         {
-            throw new Exception("Wrong password."); // Use custom exception
+            throw new WrongUsernameOrPasswordException();
         }
 
         var jwt = _accessTokenGenerator.GenerateAccessToken(user);
@@ -74,7 +83,7 @@ public class AuthService(
 
         if (user is null)
         {
-            throw new Exception("Wrong refresh token."); // Use custom exception
+            throw new InvalidRefreshTokenException();
         }
 
         var jwt = _accessTokenGenerator.GenerateAccessToken(user);
