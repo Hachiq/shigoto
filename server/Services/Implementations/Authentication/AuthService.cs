@@ -12,7 +12,7 @@ public class AuthService(
     IRefreshTokenGenerator _refreshTokenGenerator) : IAuthService
 {
 
-    public async Task Register(RegisterRequestModel model)
+    public async Task<LoginRequestModel> Register(RegisterRequestModel model)
     {
         // TODO: make it work when username and email are taken by different users
 
@@ -51,6 +51,8 @@ public class AuthService(
 
         await _db.AddAsync(user);
         await _db.SaveChangesAsync();
+
+        return new LoginRequestModel(user.Username, model.Password);
     }
     public async Task<string> Login(LoginRequestModel model)
     {

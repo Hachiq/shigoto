@@ -18,9 +18,9 @@ public class AuthController(
     {
         try
         {
-            await _authService.Register(request);
+            var response = await _authService.Register(request);
 
-            return Ok();
+            return Ok(response);
         }
         catch (Exception ex) when (ex is EmailAndUsernameHaveBeenUsedException ||
                                    ex is EmailHasBeenUsedException ||

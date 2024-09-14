@@ -7,25 +7,25 @@
       </button>
     </div>
     <div class="modal-body">
-      <form (ngSubmit)="register()" class="modal-form">
+      <form [formGroup]="registerForm" (ngSubmit)="register()" class="modal-form">
         <div class="input-group">
           <label for="username">Username</label>
-          <input type="text" id="username" placeholder="Your username" [formControl]="username">
+          <input type="text" id="username" placeholder="Your username" formControlName="username">
         </div>
         <div class="input-group">
           <label for="email">Email Address</label>
-          <input type="text" id="email" placeholder="name@email.com" [formControl]="email">
+          <input type="text" id="email" placeholder="name@email.com" formControlName="email">
         </div>
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Password" [formControl]="password">
+          <input type="password" id="password" placeholder="Password" formControlName="password">
         </div>
         <div class="input-group">
           <label for="confirmPassword">Confirm Password</label>
-          <input type="password" id="confirmPassword" placeholder="Confirm Password" [formControl]="confirmPassword">
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" formControlName="confirmPassword">
         </div>
+        <button type="submit" class="btn-empty submit-btn" [disabled]="registerForm.invalid">Register</button>
       </form>
-      <button type="submit" class="btn-empty submit-btn">Register</button>
     </div>
     <div class="modal-footer">
       Have an account?

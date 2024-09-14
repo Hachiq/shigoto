@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   public async getAuthorizationHeaders() {
-    const token = await this.getToken();
+    const token =  this.getToken();
 
     let headers;
     if (token) {
@@ -53,7 +53,7 @@ export class AuthService {
     return headers;
   }
 
-  private async getToken() {
-    return await this.storage.retrieve(COMMON_SHARED_CONFIGURATION.auth.tokenKey);
+  private  getToken() {
+    return  this.storage.retrieve(COMMON_SHARED_CONFIGURATION.auth.tokenKey);
   }
 }

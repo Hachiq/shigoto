@@ -1,7 +1,8 @@
 import { Component, ElementRef } from '@angular/core';
 import { BaseModalWindowComponent, ModalDialogService } from '../../../modules/common-shared/services/modal-dialog.service';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterComponent } from '../register/register.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,19 +13,33 @@ import { RegisterComponent } from '../register/register.component';
 })
 export class LoginComponent extends BaseModalWindowComponent {
 
-  username = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]);
-  password = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  loginForm = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)])
+  });
 
   constructor(
     protected override elementRef: ElementRef,
-    private readonly modalService: ModalDialogService
+    private readonly modalService: ModalDialogService,
+    private readonly authService: AuthService
   ) {
     super(elementRef);
   }
 
   login() {
-    this.elementRef.nativeElement.remove();
-    this.closeEvent.emit();
+    this.authService.login(
+      {
+        username: this.loginForm.controls.username.value,
+        password: this.loginForm.controls.password.value
+      }
+    ).subscribe({
+      next: (response) => {
+        console.log('login response: ', response)
+      },
+      error: (e) => {
+        console.error('error: ', e)
+      }
+    })
   }
 
   goToRegister() {

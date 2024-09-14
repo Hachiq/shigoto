@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { BaseModalWindowComponent, ModalDialogService } from '../../../modules/common-shared/services/modal-dialog.service';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,10 +13,12 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent extends BaseModalWindowComponent {
 
-  username = new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]);
-  email = new FormControl('', [Validators.required, Validators.email, Validators.maxLength(254)]);
-  password = new FormControl('', [Validators.required, Validators.minLength(6)]);
-  confirmPassword = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  registerForm = new FormGroup({
+    username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+    email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(254)]),
+    password : new FormControl('', [Validators.required, Validators.minLength(6)]),
+    confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+  });
 
   constructor(
     protected override elementRef: ElementRef,
@@ -27,15 +29,17 @@ export class RegisterComponent extends BaseModalWindowComponent {
   }
 
   register() {
+    console.log(this.registerForm)
     this.authService.register(
       {
-        username: this.username.value,
-        email: this.email.value,
-        password: this.password.value
+        username: this.registerForm.controls.username.value,
+        email: this.registerForm.controls.email.value,
+        password: this.registerForm.controls.password.value
       }
     ).subscribe({
-      next: () => {
-        console.log('success')
+      next: (response) => {
+        console.log('register respone: ', response)
+        this.authService.login(response).subscribe()
       },
       error: (e) => {
         console.error('error: ', e)
