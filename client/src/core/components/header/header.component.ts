@@ -32,7 +32,7 @@ export class HeaderComponent {
 
   openLoginModal() {
     this.modalService
-      .open(LoginComponent, { size: 'm', title: 'Foo' })
+      .open(LoginComponent, { size: 'm' })
       .subscribe((action) => {
         console.log('modalAction', action);
       }

@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, ComponentRef, ElementRef, EventEmitter, Inject, Injectable, Input, Output, Type, ViewContainerRef } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ModalOptions } from '../models/modal-options';
 
 @Component({
   selector: 'app-modal',
@@ -10,7 +11,6 @@ import { Subject } from 'rxjs';
 })
 export abstract class BaseModalWindowComponent {
   @Input() size? = 'md';
-  @Input() title? = 'Modal title';
 
   @Output() closeEvent = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
@@ -44,21 +44,22 @@ export class ModalDialogService {
     @Inject(DOCUMENT) private document: Document
   ) {}
 
-  open<T>(component: Type<T>, options?: { size?: string; title?: string }): Subject<string> {
+  open<T>(component: Type<T>, options?: ModalOptions): Subject<string> {
     const modalComponentRef: ComponentRef<any> = this.viewContainer.createComponent(component);
     
     modalComponentRef.instance.size = options?.size;
-    modalComponentRef.instance.title = options?.title;
     
     modalComponentRef.instance.closeEvent.subscribe(() => this.closeModal(modalComponentRef));
     modalComponentRef.instance.submitEvent.subscribe(() => this.submitModal(modalComponentRef));
 
+    this.document.body.classList.add('no-scroll');
     this.document.body.appendChild(modalComponentRef.location.nativeElement);
     this.modalNotifier = new Subject();
     return this.modalNotifier;
   }
 
   closeModal(modalComponentRef: ComponentRef<any>) {
+    this.document.body.classList.remove('no-scroll');
     modalComponentRef.destroy();
     this.modalNotifier?.complete();
   }

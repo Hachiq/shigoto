@@ -30,7 +30,7 @@ export class LoginComponent extends BaseModalWindowComponent {
   goToRegister() {
     this.close();
     this.modalService
-      .open(RegisterComponent, { size: 'm', title: 'Foo' })
+      .open(RegisterComponent, { size: 'm' })
       .subscribe((action) => {
         console.log('modalAction', action);
       }
