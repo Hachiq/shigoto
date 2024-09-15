@@ -6,7 +6,6 @@ import { ModalDialogService } from '../../../modules/common-shared/services/moda
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
-import { LocalStorageService } from '../../../modules/common-shared/services/storage/local-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +23,6 @@ export class HeaderComponent implements OnInit {
   bars = faBars;
 
   constructor(
-    private storageService: LocalStorageService,
     private authService: AuthService,
     public viewContainer: ViewContainerRef,
     private modalService: ModalDialogService
@@ -33,7 +31,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.storageService.isAuthenticated$.subscribe(auth => {
+    this.authService.isAuthenticated$.subscribe(auth => {
       this.isAuthenticated = auth;
     });
   }

@@ -13,13 +13,17 @@ import { LoginRequest } from '../models/login.request';
 export class AuthService {
   baseUrl = `${environment.apiUrl}/${COMMON_SHARED_CONFIGURATION.auth.url}`
 
+  isAuthenticated$: Observable<boolean>;
+
   constructor(
     private http: HttpClient,
     private storage: LocalStorageService
-  ) { }
+  ) {
+    this.isAuthenticated$ = this.storage.isAuthenticated$;
+  }
 
   public login(request: LoginRequest): Observable<string> {
-    this.storage.clear();
+    this.clearToken();
 
     const response = this.http.post(
       `${this.baseUrl}/login`,
@@ -50,13 +54,9 @@ export class AuthService {
   }
 
   public logout(): Observable<any> {
+    this.clearToken();
     const response = this.http.get(`${this.baseUrl}/logout`, { withCredentials: true });
     return response;
-  }
-
-  public async isAuthenticated() {
-    const token = await this.getToken()
-    return !!token;
   }
 
   public async getAuthorizationHeaders() {
@@ -69,8 +69,12 @@ export class AuthService {
     return headers;
   }
 
+  async clearToken() {
+    await this.storage.remove(COMMON_SHARED_CONFIGURATION.auth.tokenKey);
+  }
+
   public async setToken(token: string) {
-    await this.storage.store(COMMON_SHARED_CONFIGURATION.auth.tokenKey, token)
+    await this.storage.store(COMMON_SHARED_CONFIGURATION.auth.tokenKey, token);
   }
 
   private async getToken() {
