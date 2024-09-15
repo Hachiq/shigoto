@@ -2,6 +2,7 @@ import { Component, Renderer2, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '../core/components/header/header.component';
 import { SidebarComponent } from "../core/components/sidebar/sidebar.component";
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,16 @@ export class AppComponent {
   title = 'client';
   showBackdrop = false;
 
-  constructor(private readonly renderer: Renderer2){}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly renderer: Renderer2
+  ) {
+    authService.refreshToken().subscribe({
+      next: (jwt) => {
+        authService.setToken(jwt);
+      }
+    });
+  }
 
   toggleSidebar() {
     this.changeBackdropState();

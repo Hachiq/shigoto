@@ -38,6 +38,17 @@ export class AuthService {
     return response;
   }
 
+  public refreshToken() : Observable<string> {
+    const response = this.http.get(
+      `${this.baseUrl}/refresh-token`,
+      {
+        responseType: 'text',
+        withCredentials: true
+      }
+    );
+    return response;
+  }
+
   public async isAuthenticated() {
     const token = await this.getToken()
     return !!token;

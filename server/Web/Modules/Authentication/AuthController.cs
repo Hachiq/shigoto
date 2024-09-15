@@ -1,6 +1,7 @@
 ﻿using Core.Constants;
 using Core.Contracts;
 using Core.DTOs.Authentication;
+using Core.Entities;
 using Core.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +58,9 @@ public class AuthController(
         {
             var result = await _authService.Login(request);
 
-            return Ok(result);
+            SetCookiesRefreshToken(result.RefreshToken);
+
+            return Ok(result.JWT);
         }
         catch (Exception ex)
         {
@@ -65,10 +68,25 @@ public class AuthController(
         }
     }
 
+    [HttpGet("logout")]
+    public IActionResult Logout()
+    {
+        var refreshToken = Request.Cookies[AuthConstants.RefreshToken];
+
+        if (string.IsNullOrEmpty(refreshToken))
+        {
+            return Ok();
+        }
+
+        ExpireCookiesRefreshToken(refreshToken);
+
+        return Ok();
+    }
+
     [HttpGet("refresh-token")]
     public async Task<ActionResult> RefreshToken()
     {
-        var refreshToken = Request.Cookies["refreshToken"];
+        var refreshToken = Request.Cookies[AuthConstants.RefreshToken];
 
         if (refreshToken is null)
         {
@@ -77,5 +95,30 @@ public class AuthController(
 
         var jwt = await _authService.RefreshAccessToken(refreshToken);
         return Ok(jwt);
+    }
+
+    // TODO: Move it somewhere
+    private void SetCookiesRefreshToken(RefreshToken newRefreshToken)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = newRefreshToken.ExpiresAt,
+            SameSite = SameSiteMode.None,
+            Secure = true
+        };
+        Response.Cookies.Append(AuthConstants.RefreshToken, newRefreshToken.Token, cookieOptions);
+    }
+
+    private void ExpireCookiesRefreshToken(string refreshToken)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = DateTime.UtcNow,
+            SameSite = SameSiteMode.None,
+            Secure = true
+        };
+        Response.Cookies.Append(AuthConstants.RefreshToken, refreshToken, cookieOptions);
     }
 }

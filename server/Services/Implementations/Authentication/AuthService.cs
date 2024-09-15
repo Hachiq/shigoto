@@ -54,7 +54,7 @@ public class AuthService(
 
         return new LoginRequestModel(user.Username, model.Password);
     }
-    public async Task<string> Login(LoginRequestModel model)
+    public async Task<LoginTokens> Login(LoginRequestModel model)
     {
         var user = await _db.FindAsync<User>(u => u.Username == model.Username);
 
@@ -72,7 +72,15 @@ public class AuthService(
 
         var jwt = _accessTokenGenerator.GenerateAccessToken(user);
 
-        return jwt;
+        var refreshToken = await _db.FindAsync<RefreshToken>(rt => rt.Id == user.RefreshTokenId);
+
+        // TODO: Custom exception
+        if (refreshToken is null)
+        {
+            throw new Exception("Couldn't get the refresh token");
+        }
+
+        return new LoginTokens(jwt, refreshToken);
     }
 
     public async Task<string> RefreshAccessToken(string token)
