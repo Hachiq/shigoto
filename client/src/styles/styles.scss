@@ -209,6 +209,15 @@ a {
     
         .input-group {
           margin-bottom: 30px;
+
+          .input-error {
+            padding-top: 5px;
+
+            span {
+              font-size: 14px;
+              color: var(--danger);
+            }
+          }
         }
     
         .input-group label {

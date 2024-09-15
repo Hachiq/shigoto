@@ -4,6 +4,8 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '../../modules/common-shared/services/storage/local-storage.service';
 import { Observable } from 'rxjs';
+import { RegisterRequest } from '../models/register.request';
+import { LoginRequest } from '../models/login.request';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class AuthService {
     private storage: LocalStorageService
   ) { }
 
-  public login(request: any): Observable<string> {
+  public login(request: LoginRequest): Observable<string> {
     this.storage.clear();
 
     const response = this.http.post(
@@ -33,7 +35,7 @@ export class AuthService {
     return response;
   }
 
-  public register(request: any): Observable<any> {
+  public register(request: RegisterRequest): Observable<any> {
     const response = this.http.post(`${this.baseUrl}/register`, request);
     return response;
   }

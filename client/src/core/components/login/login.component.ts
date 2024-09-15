@@ -3,19 +3,20 @@ import { BaseModalWindowComponent, ModalDialogService } from '../../../modules/c
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RegisterComponent } from '../register/register.component';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent extends BaseModalWindowComponent {
 
   loginForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    username: new FormControl(''),
+    password: new FormControl('')
   });
 
   constructor(
