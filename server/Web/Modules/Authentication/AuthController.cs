@@ -51,6 +51,7 @@ public class AuthController(
         }
     }
 
+    // TODO: Add cookie authenticatation https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-8.0
     [HttpPost("login")]
     public async Task<ActionResult> Login(LoginRequestModel request)
     {
@@ -61,6 +62,14 @@ public class AuthController(
             SetCookiesRefreshToken(result.RefreshToken);
 
             return Ok(result.JWT);
+        }
+        catch (Exception ex) when (ex is WrongUsernameOrPasswordException)
+        {
+            return Ok(new LoginErrorResponse
+            {
+                ErrorType = AuthConstants.InvalidCredentials,
+                Message = ex.Message
+            });
         }
         catch (Exception ex)
         {

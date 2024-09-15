@@ -4,6 +4,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RegisterComponent } from '../register/register.component';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { VALIDATORS } from '../../../modules/common-shared/constants/validators';
+import { INPUT_ERRORS } from '../../../modules/common-shared/constants/input-errors';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +15,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent extends BaseModalWindowComponent {
+  VALIDATORS = VALIDATORS;
+  INPUT_ERRORS = INPUT_ERRORS;
 
   loginForm = new FormGroup({
     username: new FormControl(''),
@@ -27,6 +31,7 @@ export class LoginComponent extends BaseModalWindowComponent {
     super(elementRef);
   }
 
+  // TODO: Rethink this
   login() {
     this.authService.login(
       {
@@ -35,12 +40,28 @@ export class LoginComponent extends BaseModalWindowComponent {
       }
     ).subscribe({
       next: (response) => {
-        this.authService.setToken(response);
+        try {
+          // Response is a valid JSON when credentials are invalid
+          if (this.invalidCredentials(JSON.parse(response))) {
+            return;
+          }
+        } catch (e) {
+          // Response is a JWT string when credentials are valid
+          this.authService.setToken(response);
+        }
       },
       error: (httpError) => {
-        console.error(httpError)
+        console.error(httpError);
       }
     })
+  }
+
+  invalidCredentials(response: any) {
+    if (response.errorType === "InvalidCredentials") {
+      this.loginForm.setErrors({ invalid: true })
+      return true;
+    }
+    return false;
   }
 
   goToRegister() {

@@ -8,5 +8,6 @@ export const INPUT_ERRORS = Object.freeze({
   EmailTaken: 'Email already taken',
   PasswordRequired: 'Password is required',
   PasswordMinLength: 'Password too short',
-  PasswordMismatch: 'Password and Confirm Password must be equal'
+  PasswordMismatch: 'Password and Confirm Password must be equal',
+  InvalidCredentials: 'Wrong username or password'
 });

@@ -4,5 +4,6 @@ export const VALIDATORS = Object.freeze({
   MaxLength: 'maxlength',
   Email: 'email',
   PasswordMismatch: 'passwordMismatch',
-  Conflict: 'conflict'
+  Conflict: 'conflict',
+  InvalidCredentials: 'invalid'
 });
