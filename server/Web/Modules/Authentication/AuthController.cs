@@ -34,7 +34,7 @@ public class AuthController(
                 _ => ""
             };
 
-            return BadRequest(new ConflictResponse
+            return Ok(new ConflictResponse
             {
                 ConflictReason = conflictReason,
                 Message = ex.Message

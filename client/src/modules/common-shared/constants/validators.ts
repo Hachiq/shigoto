@@ -3,5 +3,6 @@ export const VALIDATORS = Object.freeze({
   MinLength: 'minlength',
   MaxLength: 'maxlength',
   Email: 'email',
-  PasswordMismatch: 'passwordMismatch'
+  PasswordMismatch: 'passwordMismatch',
+  Conflict: 'conflict'
 });

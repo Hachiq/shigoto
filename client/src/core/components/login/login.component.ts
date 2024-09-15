@@ -35,10 +35,10 @@ export class LoginComponent extends BaseModalWindowComponent {
       }
     ).subscribe({
       next: (response) => {
-        console.log('login response: ', response)
+        this.authService.setToken(response);
       },
-      error: (e) => {
-        console.error('error: ', e)
+      error: (httpError) => {
+        console.error(httpError)
       }
     })
   }

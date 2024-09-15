@@ -22,6 +22,9 @@
             <span *ngIf="registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.MaxLength)">
               {{ INPUT_ERRORS.UsernameMaxLength }}
             </span>
+            <span *ngIf="registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.Conflict)">
+              {{ INPUT_ERRORS.UsernameTaken }}
+            </span>
           </div>
         </div>
         <div class="input-group">
@@ -34,6 +37,9 @@
             </span>
             <span *ngIf="registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Email)">
               {{ INPUT_ERRORS.EmailNotValid }}
+            </span>
+            <span *ngIf="registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Conflict)">
+              {{ INPUT_ERRORS.EmailTaken }}
             </span>
           </div>
         </div>

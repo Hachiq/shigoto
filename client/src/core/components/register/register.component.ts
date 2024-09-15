@@ -39,8 +39,8 @@ export class RegisterComponent extends BaseModalWindowComponent {
     super(elementRef);
   }
 
+  // TODO: Rethink this
   register() {
-    console.log(this.registerForm)
     this.authService.register(
       {
         username: this.registerForm.controls.username.value,
@@ -49,13 +49,39 @@ export class RegisterComponent extends BaseModalWindowComponent {
       }
     ).subscribe({
       next: (response) => {
-        console.log('register respone: ', response)
-        this.authService.login(response).subscribe()
+        if (this.hasConflicts(response)) {
+          return;
+        }
+        this.authService.login(response).subscribe({
+          next: (response) => {
+            this.authService.setToken(response);
+          },
+          error: (httpError) => {
+            console.error(httpError)
+          }
+        })
       },
-      error: (e) => {
-        console.error('error: ', e)
+      error: (httpError) => {
+        console.error(httpError)
       }
     })
+  }
+
+  hasConflicts(response: any) {
+    if (response.hasConflict) {
+      if (response.conflictReason === 'EmailAndUsernameTaken') {
+        this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
+        this.registerForm.get(INPUTS.Username)?.setErrors({ conflict: true });
+      }
+      if (response.conflictReason === 'EmailTaken') {
+        this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
+      }
+      if (response.conflictReason === 'UsernameTaken') {
+        this.registerForm.get(INPUTS.Username)?.setErrors({ conflict: true });
+      }
+      return true;
+    }
+    return false;
   }
 
   goToLogin() {
