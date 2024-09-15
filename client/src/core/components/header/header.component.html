@@ -15,7 +15,10 @@
     </div>
   </div>
 
-  <div class="nav-item ml-auto">
+  <div *ngIf="!isAuthenticated" class="nav-item ml-auto">
     <a class="nav-link" (click)="openLoginModal()">Login</a>
+  </div>
+  <div *ngIf="isAuthenticated" class="nav-item ml-auto">
+    <a class="nav-link" (click)="logout()">Logout</a>
   </div>
 </nav>

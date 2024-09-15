@@ -15,7 +15,7 @@ export class AppComponent {
   @ViewChild(HeaderComponent) header!: HeaderComponent;
   @ViewChild(SidebarComponent) sidebar!: SidebarComponent;
 
-  title = 'client';
+  title = 'Shigoto';
   showBackdrop = false;
 
   constructor(

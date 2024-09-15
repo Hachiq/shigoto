@@ -71,15 +71,7 @@ public class AuthController(
     [HttpGet("logout")]
     public IActionResult Logout()
     {
-        var refreshToken = Request.Cookies[AuthConstants.RefreshToken];
-
-        if (string.IsNullOrEmpty(refreshToken))
-        {
-            return Ok();
-        }
-
-        ExpireCookiesRefreshToken(refreshToken);
-
+        ExpireCookiesRefreshToken();
         return Ok();
     }
 
@@ -110,15 +102,15 @@ public class AuthController(
         Response.Cookies.Append(AuthConstants.RefreshToken, newRefreshToken.Token, cookieOptions);
     }
 
-    private void ExpireCookiesRefreshToken(string refreshToken)
+    private void ExpireCookiesRefreshToken()
     {
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Expires = DateTime.UtcNow,
+            Expires = DateTime.UtcNow.AddMinutes(-1),
             SameSite = SameSiteMode.None,
             Secure = true
         };
-        Response.Cookies.Append(AuthConstants.RefreshToken, refreshToken, cookieOptions);
+        Response.Cookies.Append(AuthConstants.RefreshToken, string.Empty, cookieOptions);
     }
 }

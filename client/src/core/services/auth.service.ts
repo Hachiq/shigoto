@@ -49,6 +49,11 @@ export class AuthService {
     return response;
   }
 
+  public logout(): Observable<any> {
+    const response = this.http.get(`${this.baseUrl}/logout`, { withCredentials: true });
+    return response;
+  }
+
   public async isAuthenticated() {
     const token = await this.getToken()
     return !!token;
