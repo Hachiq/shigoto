@@ -6,6 +6,7 @@ import { ModalDialogService } from '../../../modules/common-shared/services/moda
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../../modules/common-shared/models/user';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   isAuthenticated = false;
-  // user$!: Observable<User>;
+  user?: User;
   
   @Output() toggleSidebarEvent = new EventEmitter<void>();
   
@@ -30,9 +31,11 @@ export class HeaderComponent implements OnInit {
     this.modalService.modalRef = this.viewContainer;
   }
 
+  // TODO: Get rid of isAuthenticated$ (probably)
   ngOnInit(): void {
-    this.authService.isAuthenticated$.subscribe(auth => {
+    this.authService.isAuthenticated$.subscribe(async auth => {
       this.isAuthenticated = auth;
+      this.user = await this.authService.getCurrentUser();
     });
   }
 

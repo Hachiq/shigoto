@@ -6,6 +6,8 @@ import { LocalStorageService } from '../../modules/common-shared/services/storag
 import { Observable } from 'rxjs';
 import { RegisterRequest } from '../models/register.request';
 import { LoginRequest } from '../models/login.request';
+import { Helpers } from '../../modules/common-shared/services/helpers';
+import { User } from '../../modules/common-shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +69,17 @@ export class AuthService {
       headers = { Authorization: `Bearer ${token}` }
     }
     return headers;
+  }
+
+  public async getCurrentUser(): Promise<User> {
+    const token = await this.getToken();
+    const decodedJwt = Helpers.decodeJwt(token);
+    const user = {
+      id: decodedJwt?.payload.id,
+      name: decodedJwt?.payload.name,
+      email: decodedJwt?.payload.email
+    };
+    return user;
   }
 
   async clearToken() {

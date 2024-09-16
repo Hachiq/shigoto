@@ -19,6 +19,6 @@
     <a class="nav-link" (click)="openLoginModal()">Login</a>
   </div>
   <div *ngIf="isAuthenticated" class="nav-item ml-auto">
-    <a class="nav-link" (click)="logout()">Logout</a>
+    <a class="nav-link" (click)="logout()">{{ user?.name }}</a>
   </div>
 </nav>
