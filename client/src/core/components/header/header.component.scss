@@ -1,12 +1,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
 
 .logo {
-    font-family: "Calistoga", serif;
-    font-weight: bold;
-    font-style: normal;
-    letter-spacing: 10px;
+  font-family: "Calistoga", serif;
+  font-weight: bold;
+  font-style: normal;
+  letter-spacing: 10px;
 }
 
 .highlight {
+  color: var(--secondary);
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  width: 350px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, .05);
+  background-color: rgba(32, 31, 49, .95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0;
+  margin: 0;
+  padding-bottom: 10px;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, .1);
+  transform: translate3d(-255px, 0, 0);
+  overflow: hidden;
+}
+
+.dropdown-item {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.user {
+  .name {
     color: var(--secondary);
+    margin-bottom: 0.5rem;
+  }
+}
+
+.grid-menu {
+  margin: 5px 15px;
+
+  .dropdown-item {
+    background-color: rgba(255, 255, 255, .1);
+    text-align: left;
+    clear: none;
+    border-radius: 24px;
+    padding: 10px 18px;
+    margin: 5px 0;
+    display: inline-block;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, .2);
+      color: var(--secondary);
+    }
+  }
+}
+
+.logout {
+  text-align: right;
+
+  &:hover {
+    color: var(--secondary);
+    cursor: pointer;
+  }
 }

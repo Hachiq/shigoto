@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output, ViewContainerRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser, faHistory, faHeart, faBell, faCog, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { ModalDialogService } from '../../../modules/common-shared/services/modal-dialog.service';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../login/login.component';
@@ -18,10 +18,16 @@ import { User } from '../../../modules/common-shared/models/user';
 export class HeaderComponent implements OnInit {
   isAuthenticated = false;
   user?: User;
-  
+
   @Output() toggleSidebarEvent = new EventEmitter<void>();
   
   bars = faBars;
+  iuser = faUser;
+  ihistory = faHistory;
+  iheart = faHeart;
+  ibell = faBell;
+  icog = faCog;
+  iarrowRight = faArrowRight;
 
   constructor(
     private authService: AuthService,
@@ -41,6 +47,27 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout().subscribe();
+  }
+
+  toggleDropdown($event: MouseEvent) {
+    $event.stopPropagation();
+    const dropdownMenu = document.querySelector('.dropdown-menu') as HTMLElement;
+  
+    if (dropdownMenu?.classList.contains('show')) {
+      dropdownMenu.classList.remove('show');
+    } else {
+      dropdownMenu?.classList.add('show');
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const dropdownMenu = document.querySelector('.dropdown-menu') as HTMLElement;
+
+    if (dropdownMenu && !dropdownMenu.contains(target)) {
+      dropdownMenu.classList.remove('show');
+    }
   }
 
   toggleSidebar() {

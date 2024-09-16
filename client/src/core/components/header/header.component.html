@@ -15,10 +15,24 @@
     </div>
   </div>
 
-  <div *ngIf="!isAuthenticated" class="nav-item ml-auto">
+  <div *ngIf="!isAuthenticated" class="nav-item ml-auto mr-1">
     <a class="nav-link" (click)="openLoginModal()">Login</a>
   </div>
-  <div *ngIf="isAuthenticated" class="nav-item ml-auto">
-    <a class="nav-link" (click)="logout()">{{ user?.name }}</a>
+  <div *ngIf="isAuthenticated" class="nav-item ml-auto mr-1 dropdown"> 
+    <a class="nav-link" (click)="toggleDropdown($event)">{{ user?.name }}</a>
+    <div class="dropdown-menu">
+      <div class="dropdown-item user">
+        <div class="name">{{ user?.name }}</div>
+        <div class="email">{{ user?.email }}</div>
+      </div>
+      <div class="grid-menu">
+        <a href="#" class="dropdown-item"><fa-icon class="pr-07" [icon]="iuser"></fa-icon> Profile</a>
+        <a href="#" class="dropdown-item"><fa-icon class="pr-07" [icon]="ihistory"></fa-icon> Continue Watching</a>
+        <a href="#" class="dropdown-item"><fa-icon class="pr-07" [icon]="iheart"></fa-icon> Watch List</a>
+        <a href="#" class="dropdown-item"><fa-icon class="pr-07" [icon]="ibell"></fa-icon> Notification</a>
+        <a href="#" class="dropdown-item"><fa-icon class="pr-07" [icon]="icog"></fa-icon> Settings</a>
+      </div>
+      <a class="dropdown-item logout" (click)="logout()">Logout <fa-icon class="pl-03" [icon]="iarrowRight"></fa-icon></a>
+    </div>
   </div>
 </nav>

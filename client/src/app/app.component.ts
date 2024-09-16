@@ -29,6 +29,8 @@ export class AppComponent {
     });
   }
 
+  // TODO: Move all sidebar logic into header
+
   toggleSidebar() {
     this.changeBackdropState();
     this.sidebar.toggleSidebar();
