@@ -1,0 +1,27 @@
+.profile-header {
+  padding: 40px 0 0;
+  margin-bottom: 40px;
+  background: rgba(255, 255, 255, .1);
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  clear: both;
+}
+
+.title {
+  font-size: 30px;
+  line-height: 1.4em;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.profile-tabs {
+  text-align: center;
+  display: block;
+  width: 100%;
+
+  .nav-item {
+    display: inline-block;
+    margin: 0 15px;
+  }
+}
