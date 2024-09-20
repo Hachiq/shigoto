@@ -2,16 +2,39 @@
   <div class="profile-header">
     <div class="profile-header-cover"></div>
     <div class="pl-1 pr-1">
-      <div class="title">Hi, Hachiq</div>
-      <div class="tabs">
-        <ul class="list-unstyled profile-tabs">
-          <li class="nav-item"><a class="nav-link" routerLink="profile">Profile</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="continue-watching">Continue Watching</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="watch-list">Watch List</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="notification">Notifications</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="settings">Settings</a></li>
-        </ul>
-      </div>
+      <div class="title" *ngIf="isAuthenticated">Hi, {{ user?.name }}</div>
+      <ul class="list-unstyled nav-menu">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="profile">
+            <fa-icon class="pr-07" [icon]="iuser"></fa-icon>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="continue-watching">
+            <fa-icon class="pr-07" [icon]="ihistory"></fa-icon>
+            <span>Continue Watching</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="watch-list">
+            <fa-icon class="pr-07" [icon]="iheart"></fa-icon>
+            <span>Watch List</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="notification">
+            <fa-icon class="pr-07" [icon]="ibell"></fa-icon>
+            <span>Notification</span>
+          </a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="settings">
+            <fa-icon class="pr-07" [icon]="icog"></fa-icon>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="profile-content">
