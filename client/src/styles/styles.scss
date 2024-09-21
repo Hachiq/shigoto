@@ -67,14 +67,25 @@ a {
   left: 0;
   right: 0;
   width: 100%;
-  background: 0 0;
-  backdrop-filter: blur(10px);
+  background: transparent;
   align-items: center;
   height: 90px;
 
   .nav-item {
     padding: 1rem;
   }
+}
+
+.main-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: -1;
 }
 
 .nav-link {
