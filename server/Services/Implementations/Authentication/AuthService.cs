@@ -14,24 +14,11 @@ public class AuthService(
 
     public async Task<LoginRequestModel> Register(RegisterRequestModel model)
     {
-        // TODO: make it work when username and email are taken by different users
-
-        var existingUser = await _db.FindAsync<User>(u => u.Username == model.Username || u.Email == model.Email);
+        var existingUser = await _db.FindAsync<User>(u => u.Email == model.Email);
 
         if (existingUser is not null)
         {
-            if (existingUser.Username == model.Username && existingUser.Email == model.Email)
-            {
-                throw new EmailAndUsernameHaveBeenUsedException();
-            }
-            else if (existingUser.Email == model.Email)
-            {
-                throw new EmailHasBeenUsedException();
-            }
-            else if (existingUser.Username == model.Username)
-            {
-                throw new UsernameHasBeenUsedException();
-            }
+            throw new EmailHasBeenUsedException();
         }
 
         _passwordService.CreatePasswordHash(model.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -52,22 +39,17 @@ public class AuthService(
         await _db.AddAsync(user);
         await _db.SaveChangesAsync();
 
-        return new LoginRequestModel(user.Username, model.Password);
+        return new LoginRequestModel(user.Email, model.Password);
     }
     public async Task<LoginTokens> Login(LoginRequestModel model)
     {
-        var user = await _db.FindAsync<User>(u => u.Username == model.Username);
-
-        if (user is null)
-        {
-            throw new WrongUsernameOrPasswordException();
-        }
+        var user = await _db.FindAsync<User>(u => u.Email == model.Email) ?? throw new InvalidEmailException();
 
         var passwordMatch = _passwordService.VerifyPasswordHash(model.Password, user.PasswordHash, user.PasswordSalt);
 
         if (!passwordMatch)
         {
-            throw new WrongUsernameOrPasswordException();
+            throw new WrongPasswordException();
         }
 
         var jwt = _accessTokenGenerator.GenerateAccessToken(user);

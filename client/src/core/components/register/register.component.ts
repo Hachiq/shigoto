@@ -49,7 +49,7 @@ export class RegisterComponent extends BaseModalWindowComponent {
       }
     ).subscribe({
       next: (response) => {
-        if (this.hasConflicts(response)) {
+        if (this.hasConflict(response)) {
           return;
         }
         this.authService.login(response).subscribe({
@@ -67,18 +67,9 @@ export class RegisterComponent extends BaseModalWindowComponent {
     })
   }
 
-  hasConflicts(response: any) {
+  hasConflict(response: any) {
     if (response.hasConflict) {
-      if (response.conflictReason === 'EmailAndUsernameTaken') {
-        this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
-        this.registerForm.get(INPUTS.Username)?.setErrors({ conflict: true });
-      }
-      if (response.conflictReason === 'EmailTaken') {
-        this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
-      }
-      if (response.conflictReason === 'UsernameTaken') {
-        this.registerForm.get(INPUTS.Username)?.setErrors({ conflict: true });
-      }
+      this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
       return true;
     }
     return false;

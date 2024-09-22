@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { VALIDATORS } from '../../../modules/common-shared/constants/validators';
 import { INPUT_ERRORS } from '../../../modules/common-shared/constants/input-errors';
+import { INPUTS } from '../../../modules/common-shared/constants/inputs';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,10 @@ import { INPUT_ERRORS } from '../../../modules/common-shared/constants/input-err
 export class LoginComponent extends BaseModalWindowComponent {
   VALIDATORS = VALIDATORS;
   INPUT_ERRORS = INPUT_ERRORS;
+  INPUTS = INPUTS;
 
   loginForm = new FormGroup({
-    username: new FormControl(''),
+    email: new FormControl(''),
     password: new FormControl('')
   });
 
@@ -35,7 +37,7 @@ export class LoginComponent extends BaseModalWindowComponent {
   login() {
     this.authService.login(
       {
-        username: this.loginForm.controls.username.value,
+        email: this.loginForm.controls.email.value,
         password: this.loginForm.controls.password.value
       }
     ).subscribe({

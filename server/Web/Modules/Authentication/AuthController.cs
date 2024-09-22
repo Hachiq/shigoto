@@ -23,23 +23,9 @@ public class AuthController(
 
             return Ok(response);
         }
-        catch (Exception ex) when (ex is EmailAndUsernameHaveBeenUsedException ||
-                                   ex is EmailHasBeenUsedException ||
-                                   ex is UsernameHasBeenUsedException)
+        catch (EmailHasBeenUsedException)
         {
-            string conflictReason = ex switch
-            {
-                EmailAndUsernameHaveBeenUsedException => UserConflicts.EmailAndUsernameTaken,
-                EmailHasBeenUsedException => UserConflicts.EmailTaken,
-                UsernameHasBeenUsedException => UserConflicts.UsernameTaken,
-                _ => ""
-            };
-
-            return Ok(new ConflictResponse
-            {
-                ConflictReason = conflictReason,
-                Message = ex.Message
-            });
+            return Ok(new ConflictResponse());
         }
         catch (Exception ex)
         {
@@ -63,12 +49,11 @@ public class AuthController(
 
             return Ok(result.JWT);
         }
-        catch (Exception ex) when (ex is WrongUsernameOrPasswordException)
+        catch (Exception ex) when (ex is InvalidEmailException || ex is WrongPasswordException)
         {
             return Ok(new LoginErrorResponse
             {
-                ErrorType = AuthConstants.InvalidCredentials,
-                Message = ex.Message
+                ErrorType = AuthConstants.InvalidCredentials
             });
         }
         catch (Exception ex)
