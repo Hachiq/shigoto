@@ -11,21 +11,22 @@ import { UserComponent } from '../modules/user/user.component';
 import { UserProfileGuard } from '../core/services/auth.guard';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'login', component: LoginComponent },
-    {
-        path: 'user',
-        component: UserComponent,
-        canActivateChild: [UserProfileGuard],
-        children: [
-          { path: 'profile', component: ProfileComponent },
-          { path: 'continue-watching', component: ContinueWatchingComponent },
-          { path: 'watch-list', component: WatchListComponent },
-          { path: 'notification', component: NotificationComponent },
-          { path: 'settings', component: SettingsComponent },
-          { path: '', redirectTo: 'profile', pathMatch: 'full' },
-        ]
-      },
+  { path: 'home', component: HomeComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'user',
+    component: UserComponent,
+    canActivateChild: [UserProfileGuard],
+    children: [
+      { path: 'profile', component: ProfileComponent },
+      { path: 'continue-watching', component: ContinueWatchingComponent },
+      { path: 'watch-list', component: WatchListComponent },
+      { path: 'notification', component: NotificationComponent },
+      { path: 'settings', component: SettingsComponent },
+      { path: '', redirectTo: 'profile', pathMatch: 'full' },
+    ]
+  },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home' }
 ];

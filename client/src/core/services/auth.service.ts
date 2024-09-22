@@ -3,11 +3,12 @@ import { COMMON_SHARED_CONFIGURATION } from '../../modules/common-shared/configu
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '../../modules/common-shared/services/storage/local-storage.service';
-import { Observable } from 'rxjs';
+import { map, mergeMap, Observable, of, tap, throwError } from 'rxjs';
 import { RegisterRequest } from '../models/register.request';
 import { LoginRequest } from '../models/login.request';
 import { Helpers } from '../../modules/common-shared/services/helpers';
 import { User } from '../../modules/common-shared/models/user';
+import { VALIDATORS } from '../../modules/common-shared/constants/validators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,24 +25,44 @@ export class AuthService {
     this.isAuthenticated$ = this.storage.isAuthenticated$;
   }
 
-  public login(request: LoginRequest): Observable<string> {
-    this.clearToken();
-
-    const response = this.http.post(
+  login(request: LoginRequest) {
+    return this.http.post(
       `${this.baseUrl}/login`,
       request,
       {
         responseType: 'text',
         withCredentials: true
       }
+    ).pipe(
+      mergeMap((response: any) => {
+        try {
+          const parsedResponse = JSON.parse(response);
+          if (parsedResponse.errorType === "InvalidCredentials") {
+            return throwError(() => new Error(VALIDATORS.InvalidCredentials));
+          }
+          return throwError(() => new Error('Error during logging in'))
+        } catch {
+          return of(response);
+        }
+      }),
+      tap((loginResponse) => {
+        this.setToken(loginResponse);
+      })
     );
-
-    return response;
   }
 
-  public register(request: RegisterRequest): Observable<any> {
-    const response = this.http.post(`${this.baseUrl}/register`, request);
-    return response;
+  register(request: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.baseUrl}/register`, request).pipe(
+      mergeMap((registerResponse: any) => {
+        if (registerResponse.hasConflict) {
+          return throwError(() => new Error(VALIDATORS.Conflict));
+        }
+        return this.login(registerResponse);
+      }),
+      tap((loginResponse) => {
+        this.setToken(loginResponse);
+      })
+    );
   }
 
   public refreshToken() : Observable<string> {

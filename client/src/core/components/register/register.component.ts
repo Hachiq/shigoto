@@ -39,40 +39,22 @@ export class RegisterComponent extends BaseModalWindowComponent {
     super(elementRef);
   }
 
-  // TODO: Rethink this
   register() {
-    this.authService.register(
-      {
-        username: this.registerForm.controls.username.value,
-        email: this.registerForm.controls.email.value,
-        password: this.registerForm.controls.password.value
-      }
-    ).subscribe({
-      next: (response) => {
-        if (this.hasConflict(response)) {
-          return;
+    const data = {
+      username: this.registerForm.controls.username.value,
+      email: this.registerForm.controls.email.value,
+      password: this.registerForm.controls.password.value,
+    }
+
+    this.authService.register(data).subscribe({
+      error: (error) => {
+        if (error.message === VALIDATORS.Conflict) {
+          this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
+        } else {
+          console.log(error);
         }
-        this.authService.login(response).subscribe({
-          next: (response) => {
-            this.authService.setToken(response);
-          },
-          error: (httpError) => {
-            console.error(httpError)
-          }
-        })
-      },
-      error: (httpError) => {
-        console.error(httpError)
       }
     })
-  }
-
-  hasConflict(response: any) {
-    if (response.hasConflict) {
-      this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
-      return true;
-    }
-    return false;
   }
 
   goToLogin() {

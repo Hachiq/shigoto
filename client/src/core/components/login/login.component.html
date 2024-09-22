@@ -21,12 +21,6 @@
         <div class="input-group">
           <label for="password">Password</label>
           <input type="password" id="password" placeholder="Password" formControlName="password">
-          <div class="input-error"
-                *ngIf="loginForm.invalid && loginForm.touched">
-            <span *ngIf="loginForm.hasError(VALIDATORS.InvalidCredentials)">
-              {{ INPUT_ERRORS.InvalidCredentials }}
-            </span>
-          </div>
         </div>
         <div class="options">
           <div class="custom-checkbox">

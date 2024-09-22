@@ -33,37 +33,21 @@ export class LoginComponent extends BaseModalWindowComponent {
     super(elementRef);
   }
 
-  // TODO: Rethink this
   login() {
-    this.authService.login(
-      {
-        email: this.loginForm.controls.email.value,
-        password: this.loginForm.controls.password.value
-      }
-    ).subscribe({
-      next: (response) => {
-        try {
-          // Response is a valid JSON when credentials are invalid
-          if (this.invalidCredentials(JSON.parse(response))) {
-            return;
-          }
-        } catch (e) {
-          // Response is a JWT string when credentials are valid
-          this.authService.setToken(response);
+    const data = {
+      email: this.loginForm.controls.email.value,
+      password: this.loginForm.controls.password.value
+    };
+  
+    this.authService.login(data).subscribe({
+      error: (error) => {
+        if (error.message === VALIDATORS.InvalidCredentials) {
+          this.loginForm.setErrors({ invalid: true });
+        } else {
+          console.log(error);
         }
-      },
-      error: (httpError) => {
-        console.error(httpError);
       }
-    })
-  }
-
-  invalidCredentials(response: any) {
-    if (response.errorType === "InvalidCredentials") {
-      this.loginForm.setErrors({ invalid: true })
-      return true;
-    }
-    return false;
+    });
   }
 
   goToRegister() {
