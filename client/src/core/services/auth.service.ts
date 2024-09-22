@@ -15,7 +15,7 @@ import { User } from '../../modules/common-shared/models/user';
 export class AuthService {
   baseUrl = `${environment.apiUrl}/${COMMON_SHARED_CONFIGURATION.auth.url}`
 
-  isAuthenticated$: Observable<boolean>;
+  isAuthenticated$: Observable<boolean | undefined>;
 
   constructor(
     private http: HttpClient,
@@ -92,5 +92,9 @@ export class AuthService {
 
   private async getToken() {
     return await this.storage.retrieve(COMMON_SHARED_CONFIGURATION.auth.tokenKey);
+  }
+
+  public setAuthState(state: boolean) {
+    this.storage.authState.next(state)
   }
 }

@@ -13,7 +13,7 @@ export class LocalStorageService implements IStorageService {
 
   private storage: Storage = {};
 
-  private authState = new BehaviorSubject<boolean>(false);
+  public authState = new BehaviorSubject<boolean | undefined>(undefined);
   isAuthenticated$ = this.authState.asObservable();
 
   reinitialize(): void {

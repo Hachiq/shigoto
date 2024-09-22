@@ -27,6 +27,7 @@ export class AppComponent {
         authService.setToken(jwt);
       },
       error: (errorResponse) => {
+        authService.setAuthState(false);
         let error;
         try {
           error = JSON.parse(errorResponse.error);

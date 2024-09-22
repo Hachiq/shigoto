@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, OnInit, Output, ViewContainerRef } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faUser, faHistory, faHeart, faBell, faCog, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { ModalDialogService } from '../../../modules/common-shared/services/modal-dialog.service';
@@ -16,7 +16,7 @@ import { User } from '../../../modules/common-shared/models/user';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit {
-  isAuthenticated = false;
+  isAuthenticated: boolean | undefined;
   user?: User;
 
   @Output() toggleSidebarEvent = new EventEmitter<void>();
@@ -32,7 +32,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     public viewContainer: ViewContainerRef,
-    private modalService: ModalDialogService
+    private modalService: ModalDialogService,
+    private router: Router
   ) {
     this.modalService.modalRef = this.viewContainer;
   }
@@ -46,7 +47,11 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout().subscribe();
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate([''])
+      }
+    });
   }
 
   toggleDropdown($event: MouseEvent) {

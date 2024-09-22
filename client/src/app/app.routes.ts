@@ -8,6 +8,7 @@ import { WatchListComponent } from '../modules/user/pages/watch-list/watch-list.
 import { SettingsComponent } from '../modules/user/pages/settings/settings.component';
 import { NotificationComponent } from '../modules/user/pages/notification/notification.component';
 import { UserComponent } from '../modules/user/user.component';
+import { UserProfileGuard } from '../core/services/auth.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -17,6 +18,7 @@ export const routes: Routes = [
     {
         path: 'user',
         component: UserComponent,
+        canActivateChild: [UserProfileGuard],
         children: [
           { path: 'profile', component: ProfileComponent },
           { path: 'continue-watching', component: ContinueWatchingComponent },

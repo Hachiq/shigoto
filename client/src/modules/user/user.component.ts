@@ -21,7 +21,7 @@ export class UserComponent implements OnInit {
   icog = faCog;
   iarrowRight = faArrowRight;
 
-  isAuthenticated: boolean = false;
+  isAuthenticated: boolean | undefined;
   user?: User;
 
   constructor(private authService: AuthService) {}
