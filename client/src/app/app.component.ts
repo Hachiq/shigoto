@@ -23,20 +23,8 @@ export class AppComponent {
     private readonly renderer: Renderer2
   ) {
     authService.refreshToken().subscribe({
-      next: (jwt) => {
-        authService.setToken(jwt);
-      },
-      error: (errorResponse) => {
-        authService.setAuthState(false);
-        let error;
-        try {
-          error = JSON.parse(errorResponse.error);
-        } catch {
-          return;
-        }
-        if (error.status === 401) {
-          console.log('Cannot refresh token because user is not authorized');
-        }
+      error: () => {
+        console.log('Error while refreshing the token');
       }
     });
   }

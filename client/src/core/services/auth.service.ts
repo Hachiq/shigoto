@@ -3,7 +3,7 @@ import { COMMON_SHARED_CONFIGURATION } from '../../modules/common-shared/configu
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '../../modules/common-shared/services/storage/local-storage.service';
-import { map, mergeMap, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, map, mergeMap, Observable, of, tap, throwError } from 'rxjs';
 import { RegisterRequest } from '../models/register.request';
 import { LoginRequest } from '../models/login.request';
 import { Helpers } from '../../modules/common-shared/services/helpers';
@@ -65,15 +65,19 @@ export class AuthService {
     );
   }
 
-  public refreshToken() : Observable<string> {
-    const response = this.http.get(
-      `${this.baseUrl}/refresh-token`,
-      {
-        responseType: 'text',
-        withCredentials: true
-      }
+  refreshToken(): Observable<string> {
+    return this.http.get(`${this.baseUrl}/refresh-token`, {
+      responseType: 'text',
+      withCredentials: true
+    }).pipe(
+      tap((jwt: string) => {
+        this.setToken(jwt);
+      }),
+      catchError((errorResponse) => {
+        this.setAuthState(false);
+        return throwError(() => errorResponse);
+      })
     );
-    return response;
   }
 
   public logout(): Observable<any> {
@@ -115,7 +119,7 @@ export class AuthService {
     return await this.storage.retrieve(COMMON_SHARED_CONFIGURATION.auth.tokenKey);
   }
 
-  public setAuthState(state: boolean) {
-    this.storage.authState.next(state)
+  private setAuthState(state: boolean) {
+    this.storage.authState.next(state);
   }
 }
