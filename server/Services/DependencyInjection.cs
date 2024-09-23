@@ -7,6 +7,7 @@ using Services.Implementations.Security;
 using Services.Implementations.Authentication;
 using Services.Implementations.Repository;
 using Services.Implementations.Password;
+using Core.Constants;
 
 namespace Services;
 
@@ -15,6 +16,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAuthentication(configuration);
+        services.AddEmailSender(configuration);
         services.AddRepository();
         services.AddPasswordService();
         services.AddRefreshTokenGenerator();
@@ -33,6 +35,15 @@ public static class DependencyInjection
         services.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
             .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer();
+
+        return services;
+    }
+
+    private static IServiceCollection AddEmailSender(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<EmailSettings>(configuration.GetSection(AuthConstants.EmailSettings));
+
+        services.AddTransient<IEmailSender, EmailSender>();
 
         return services;
     }
