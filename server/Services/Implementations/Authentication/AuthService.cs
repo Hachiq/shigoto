@@ -1,4 +1,5 @@
-﻿using Core.Contracts;
+﻿using Core.Constants;
+using Core.Contracts;
 using Core.DTOs.Authentication;
 using Core.Entities;
 using Core.Exceptions;
@@ -9,7 +10,8 @@ public class AuthService(
     IRepository _db,
     IPasswordService _passwordService,
     IAccessTokenGenerator _accessTokenGenerator,
-    IRefreshTokenGenerator _refreshTokenGenerator) : IAuthService
+    IRefreshTokenGenerator _refreshTokenGenerator,
+    IEmailSender _emailSender) : IAuthService
 {
 
     public async Task<LoginRequestModel> Register(RegisterRequestModel model)
@@ -28,6 +30,7 @@ public class AuthService(
             Id = Guid.NewGuid(),
             Username = model.Username,
             Email = model.Email,
+            EmailConfirmationToken = Guid.NewGuid(),
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt
         };
@@ -38,6 +41,10 @@ public class AuthService(
 
         await _db.AddAsync(user);
         await _db.SaveChangesAsync();
+
+        var confirmationLink = $"{Links.EmailConfirmation}/{user.EmailConfirmationToken}";
+        var message = AuthConstants.EmailConfirmationMessage + confirmationLink;
+        await _emailSender.SendEmailAsync(user.Email, AuthConstants.EmailConfirmationTitle, message);
 
         return new LoginRequestModel(user.Email, model.Password);
     }

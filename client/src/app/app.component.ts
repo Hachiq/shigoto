@@ -23,9 +23,7 @@ export class AppComponent {
     private readonly renderer: Renderer2
   ) {
     authService.refreshToken().subscribe({
-      error: () => {
-        console.log('Error while refreshing the token');
-      }
+      error: () => {}
     });
   }
 
