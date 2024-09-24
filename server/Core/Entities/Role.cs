@@ -5,6 +5,6 @@ namespace Core.Entities;
 
 public class Role : BaseEntity
 {
-    public RoleEnum Key { get; set; }
-    public List<UserRole> UserRoles { get; set; }
+    public required RoleEnum Key { get; set; }
+    public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
 }
