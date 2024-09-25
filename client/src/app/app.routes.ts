@@ -9,11 +9,13 @@ import { SettingsComponent } from '../modules/user/pages/settings/settings.compo
 import { NotificationComponent } from '../modules/user/pages/notification/notification.component';
 import { UserComponent } from '../modules/user/user.component';
 import { UserProfileGuard } from '../core/services/auth.guard';
+import { ConfirmEmailComponent } from '../core/components/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'confirm-email', component: ConfirmEmailComponent },
   {
     path: 'user',
     component: UserComponent,

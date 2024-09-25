@@ -42,7 +42,7 @@ public class AuthService(
         await _db.AddAsync(user);
         await _db.SaveChangesAsync();
 
-        var confirmationLink = $"{Links.EmailConfirmation}/{user.EmailConfirmationToken}";
+        var confirmationLink = $"{Links.EmailConfirmation}?userId={user.Id}&token={user.EmailConfirmationToken}";
         var message = AuthConstants.EmailConfirmationMessage + confirmationLink;
         await _emailSender.SendEmailAsync(user.Email, AuthConstants.EmailConfirmationTitle, message);
 
@@ -70,6 +70,20 @@ public class AuthService(
         }
 
         return new LoginTokens(jwt, refreshToken);
+    }
+
+    public async Task ConfirmEmail(ConfirmEmailModel model)
+    {
+        var user = await _db.FindAsync<User>(u => u.Id == model.UserId) ?? throw new UserNotFoundException();
+
+        if (user.EmailConfirmationToken != model.EmailConfirmationToken)
+        {
+            throw new InvalidEmailConfirmationTokenException();
+        }
+
+        user.EmailConfirmed = true;
+        await _db.UpdateAsync(user);
+        await _db.SaveChangesAsync();
     }
 
     public async Task<string> RefreshAccessToken(string token)

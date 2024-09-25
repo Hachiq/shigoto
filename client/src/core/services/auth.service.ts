@@ -65,6 +65,10 @@ export class AuthService {
     );
   }
 
+  confirmEmail(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/confirm-email`, {})
+  }
+
   refreshToken(): Observable<string> {
     return this.http.get(`${this.baseUrl}/refresh-token`, {
       responseType: 'text',
