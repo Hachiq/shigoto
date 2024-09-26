@@ -82,6 +82,7 @@ public class AuthService(
         }
 
         user.EmailConfirmed = true;
+        user.EmailConfirmationToken = Guid.NewGuid();
         await _db.UpdateAsync(user);
         await _db.SaveChangesAsync();
     }
