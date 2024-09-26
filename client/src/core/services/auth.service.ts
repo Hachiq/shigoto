@@ -9,6 +9,7 @@ import { LoginRequest } from '../models/login.request';
 import { Helpers } from '../../modules/common-shared/services/helpers';
 import { User } from '../../modules/common-shared/models/user';
 import { VALIDATORS } from '../../modules/common-shared/constants/validators';
+import { ConfirmEmailRequest } from '../models/confirm-email.request';
 
 @Injectable({
   providedIn: 'root'
@@ -65,8 +66,8 @@ export class AuthService {
     );
   }
 
-  confirmEmail(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/confirm-email`, {})
+  confirmEmail(request: ConfirmEmailRequest): Observable<any> {
+    return this.http.post(`${this.baseUrl}/confirm-email`, request)
   }
 
   refreshToken(): Observable<string> {
