@@ -1,6 +1,6 @@
-<div [class.active]="isSidebarOpen" class="sidebar fw-6" id="sidebar">
+<div [class.active]="isSidebarOpen" class="sidebar fw-6" id="sidebar" [attr.aria-expanded]="isSidebarOpen">
   <div class="sidebar-header">
-    <button class="close-btn fs-5" (click)="toggleSidebar(); toggleBackdrop()">
+    <button class="close-btn fs-5" (click)="toggleSidebar()">
       <fa-icon [icon]="angleLeft"></fa-icon> Close menu
     </button>
   </div>
@@ -17,3 +17,5 @@
     <li><a href="https://hianime.to/community/board" class="btn btn-community"><fa-icon class="pr-05" [icon]="comment"></fa-icon>Community</a></li>
   </ul>
 </div>
+
+<div [class.show]="isSidebarOpen" class="sidebar-backdrop" (click)="close()" [attr.aria-hidden]="!isSidebarOpen"></div>

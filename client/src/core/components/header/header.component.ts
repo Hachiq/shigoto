@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output, ViewContainerRef } from '@angular/core';
+import { Component, HostListener, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faUser, faHistory, faHeart, faBell, faCog, faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../login/login.component';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../../modules/common-shared/models/user';
+import { SidebarComponent } from "../sidebar/sidebar.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, FontAwesomeModule, CommonModule],
+  imports: [RouterModule, FontAwesomeModule, CommonModule, SidebarComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -19,7 +20,9 @@ export class HeaderComponent implements OnInit {
   isAuthenticated: boolean | undefined;
   user?: User;
 
-  @Output() toggleSidebarEvent = new EventEmitter<void>();
+  dropdownVisible = false;
+
+  @ViewChild(SidebarComponent) sidebar!: SidebarComponent;
   
   bars = faBars;
   iuser = faUser;
@@ -33,7 +36,8 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     public viewContainer: ViewContainerRef,
     private modalService: ModalDialogService,
-    private router: Router
+    private router: Router,
+    private renderer: Renderer2
   ) {
     this.modalService.modalRef = this.viewContainer;
   }
@@ -42,7 +46,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.authService.isAuthenticated$.subscribe(async auth => {
       this.isAuthenticated = auth;
-      this.user = await this.authService.getCurrentUser();
+      this.user = auth ? await this.authService.getCurrentUser() : undefined;
     });
   }
 
@@ -56,27 +60,19 @@ export class HeaderComponent implements OnInit {
 
   toggleDropdown($event: MouseEvent) {
     $event.stopPropagation();
-    const dropdownMenu = document.querySelector('.dropdown-menu') as HTMLElement;
-  
-    if (dropdownMenu?.classList.contains('show')) {
-      dropdownMenu.classList.remove('show');
-    } else {
-      dropdownMenu?.classList.add('show');
-    }
+    this.dropdownVisible = !this.dropdownVisible;
   }
 
   @HostListener('document:click', ['$event'])
-  handleClickOutside(event: MouseEvent): void {
+  handleClickOutsideDropdown(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    const dropdownMenu = document.querySelector('.dropdown-menu') as HTMLElement;
-
-    if (dropdownMenu && !dropdownMenu.contains(target)) {
-      dropdownMenu.classList.remove('show');
+    if (this.dropdownVisible && !target.closest('.dropdown-menu')) {
+      this.dropdownVisible = false;
     }
   }
 
   toggleSidebar() {
-    this.toggleSidebarEvent.emit();
+    this.sidebar.toggleSidebar();
   }
 
   openLoginModal() {
