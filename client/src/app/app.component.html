@@ -1,9 +1,4 @@
-<app-header (toggleSidebarEvent)="toggleSidebar()"></app-header>
-<div [class.sidebar-open]="showBackdrop" class="main-content">
-  <div class="wrapper">
-    <router-outlet></router-outlet>
-  </div>
+<app-header></app-header>
+<div class="wrapper">
+  <router-outlet></router-outlet>
 </div>
-<app-sidebar (toggleBackdropEvent)="changeBackdropState()"></app-sidebar>
-
-<div [class.active]="showBackdrop" class="backdrop" (click)="toggleSidebar()"></div>
