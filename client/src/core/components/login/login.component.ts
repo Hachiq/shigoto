@@ -40,6 +40,9 @@ export class LoginComponent extends BaseModalWindowComponent {
     };
   
     this.authService.login(data).subscribe({
+      next: () => {
+        this.close();
+      },
       error: (error) => {
         if (error.message === VALIDATORS.InvalidCredentials) {
           this.loginForm.setErrors({ invalid: true });

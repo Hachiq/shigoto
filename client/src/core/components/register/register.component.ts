@@ -47,6 +47,9 @@ export class RegisterComponent extends BaseModalWindowComponent {
     }
 
     this.authService.register(data).subscribe({
+      next: () => {
+        this.close();
+      },
       error: (error) => {
         if (error.message === VALIDATORS.Conflict) {
           this.registerForm.get(INPUTS.Email)?.setErrors({ conflict: true });
