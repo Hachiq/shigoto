@@ -10,12 +10,21 @@ import { NotificationComponent } from '../modules/user/pages/notification/notifi
 import { UserComponent } from '../modules/user/user.component';
 import { UserProfileGuard } from '../core/services/auth.guard';
 import { ConfirmEmailComponent } from '../core/components/confirm-email/confirm-email.component';
+import { MainListComponent } from '../modules/main-list/main-list.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'subbed-anime', component: MainListComponent },
+  { path: 'dubbed-anime', component: MainListComponent },
+  { path: 'most-popular', component: MainListComponent },
+  { path: 'movie', component: MainListComponent },
+  { path: 'tv', component: MainListComponent },
+  { path: 'ova', component: MainListComponent },
+  { path: 'ona', component: MainListComponent },
+  { path: 'special', component: MainListComponent },
   {
     path: 'user',
     component: UserComponent,

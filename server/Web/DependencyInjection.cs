@@ -1,4 +1,6 @@
-﻿namespace Web;
+﻿using JikanDotNet;
+
+namespace Web;
 
 public static class DependencyInjection
 {
@@ -7,6 +9,8 @@ public static class DependencyInjection
         services.AddControllers();
 
         services.AddCors();
+
+        services.AddJikan();
 
         return services;
     }
@@ -26,6 +30,13 @@ public static class DependencyInjection
             )
         );
 
+        return services;
+    }
+
+    // TODO: Maybe move it to the service layer
+    private static IServiceCollection AddJikan(this IServiceCollection services)
+    {
+        services.AddSingleton<IJikan, Jikan>();
         return services;
     }
 }
