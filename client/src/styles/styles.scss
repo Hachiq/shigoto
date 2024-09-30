@@ -3,6 +3,7 @@
 
 
 :root {
+  // color
   --primary: #007bff;
   --secondary: #FFBADE;
   --success: #28a745;
@@ -16,9 +17,18 @@
   --light-grey-transparent: rgba(55, 54, 70, 0.7);
   --background: #201F31;
   --text: #fff;
-}
 
-// TODO: Move all the z-index's here
+  // z-index
+  // TODO: Shuffle them from time to time
+  --sidebar: 7;
+  --sidebar-backdrop: 6;
+  --modal: 5;
+  --modal-backdrop: 4;
+  --header-items: 3;
+  --header: 2;
+  --header-background: 1;
+  --base: 0;
+}
 
 html,
 body {
@@ -69,12 +79,14 @@ a {
   left: 0;
   right: 0;
   width: 100%;
-  background: transparent;
+  background: rgba(32, 31, 49, .8);
   align-items: center;
   height: 90px;
+  z-index: var(--header);
 
   .nav-item {
     padding: 1rem;
+    z-index: var(--header-items);
   }
 }
 
@@ -87,7 +99,7 @@ a {
   bottom: 0;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  z-index: -1;
+  z-index: var(--header-background);
 }
 
 .nav-link {
@@ -154,14 +166,14 @@ a {
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: var(--modal-backdrop);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal {
-  z-index: 3;
+  z-index: var(--modal);
   position: fixed;
   left: 50%;
   top: 50%;
@@ -201,7 +213,7 @@ a {
         height: 40px;
         border-radius: 50%;
         background: #fff;
-        z-index: 3;
+        z-index: var(--modal);
         text-align: center;
         line-height: 30px;
         display: inline-block;
