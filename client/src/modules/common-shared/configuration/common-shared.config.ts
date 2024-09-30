@@ -4,6 +4,16 @@ export const COMMON_SHARED_CONFIGURATION = {
     url: 'api/auth',
   },
   jikan: {
-    url: 'api/jikan'
+    anime: 'anime',
+    characters: 'characters',
+    genres: 'genres',
+    seasons: 'seasons',
+    reviews: 'reviews',
+    top: 'top',
+    people: 'people',
+    producers: 'producers',
+    manga: 'manga',
+    random: 'random',
+    recommendations: 'recommendations',
   }
 };

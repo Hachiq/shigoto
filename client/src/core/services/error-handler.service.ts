@@ -5,7 +5,7 @@ export class ErrorHandlerService implements ErrorHandler {
   
   handleError(error: any): void {
     if (error.error && error.error.cause && error.error.cause.code === 'DEPTH_ZERO_SELF_SIGNED_CERT') {
-      console.log('SSL complaining again');
+      console.log('SSL complaining over', error.url);
       return;
     }
 

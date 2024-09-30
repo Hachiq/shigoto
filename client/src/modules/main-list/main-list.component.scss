@@ -32,3 +32,24 @@
   float: right;
   width: 25%;
 }
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+
+  .content-item {
+    margin: .7rem .5rem;
+    width: calc(20% - 1rem);
+
+    .poster {
+      width: 100%;
+      height: 100%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

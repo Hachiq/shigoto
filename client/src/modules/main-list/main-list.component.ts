@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CATEGORY_TITLES } from './constants/category-titles';
-import { AnimeListService } from './services/anime-list.service';
+import { Jikan } from './services/jikan';
+import { ANIME_TYPES } from './constants/anime-types';
 
 @Component({
   selector: 'app-main-list',
@@ -14,13 +15,14 @@ export class MainListComponent implements OnInit {
   title!: string;
   animeList: any;
 
-  constructor(private route: ActivatedRoute, private animeListService: AnimeListService) {}
+  constructor(private route: ActivatedRoute, private jikan: Jikan) {}
 
   ngOnInit(): void {
     this.route.url.subscribe(url => {
       const category = url[0].path;
       this.title = this.getTitle(category);
-      this.fetchAnimeList(category);
+      const type = this.getType(category);
+      this.fetchAnimeList(type, 1);
     });
   }
 
@@ -28,8 +30,12 @@ export class MainListComponent implements OnInit {
     return Object.keys(CATEGORY_TITLES).find(key => CATEGORY_TITLES[key] === category);
   }
 
-  fetchAnimeList(category: string) {
-    this.animeListService.getListByCategory(category, 1).subscribe({
+  getType(category: string): any {
+    return Object.keys(ANIME_TYPES).find(key => ANIME_TYPES[key] === category) ?? '';
+  }
+
+  fetchAnimeList(type: string, page: number) {
+    this.jikan.getListByCategory(type, page).subscribe({
       next: (list) => {
         this.animeList = list;
       }
