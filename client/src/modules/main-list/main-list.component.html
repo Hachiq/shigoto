@@ -6,17 +6,15 @@
         <div class="category-header">
           <h2>{{ title }}</h2>
         </div>
-        <div class="content">
-          @for (item of animeList?.data; track $index) {
-            <div class="content-item">
-              <div class="poster">
-                <img src="{{item.images.jpg.image_url}}" alt="{{item.title}}">
-              </div>
-            </div>
-          }
-        </div>
+        @if (animeList) {
+          <div class="content">
+            @for (item of animeList.data; track $index) {
+              <app-anime-list-item [item]="item"></app-anime-list-item>
+            }
+          </div>
+        }
       </section>
     </div>
-    <div id="main-sidebar">25% content</div>
+    <app-main-sidebar></app-main-sidebar>
   </div>
 </div>

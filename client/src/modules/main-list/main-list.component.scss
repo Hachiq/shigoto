@@ -1,6 +1,5 @@
 #main-wrapper {
   margin-bottom: 70px;
-  min-height: calc(100vh - 350px);
   z-index: var(--base);
 }
 
@@ -29,34 +28,12 @@
   }
 }
 
-#main-sidebar {
-  float: right;
-  width: 25%;
-}
-
 .content {
   display: flex;
   flex-wrap: wrap;
 
-  .content-item {
+  app-anime-list-item {
     margin: .7rem .5rem;
-    width: calc(20% - 1rem);
-
-    .poster {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: all .3s ease 0s;
-
-        &:hover {
-          filter: blur(10px);
-        }
-      }
-    }
+  width: calc(20% - 1rem);
   }
 }
