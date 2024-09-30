@@ -1,9 +1,10 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { authInterceptor } from '../core/services/auth.interceptor';
+import { ErrorHandlerService } from '../core/services/error-handler.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,5 +16,9 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     provideClientHydration(),
+    {
+      provide: ErrorHandler,
+      useClass: ErrorHandlerService
+    }
   ]
 };

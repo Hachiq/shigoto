@@ -15,8 +15,6 @@ export class AppComponent {
   constructor(
     private readonly authService: AuthService
   ) {
-    authService.refreshToken().subscribe({
-      error: () => {}
-    });
+    authService.refreshToken().subscribe();
   }
 }

@@ -32,9 +32,6 @@ export class MainListComponent implements OnInit {
     this.animeListService.getListByCategory(category, 1).subscribe({
       next: (list) => {
         this.animeList = list;
-      },
-      error: (error) => {
-        console.log(error);
       }
     })
   }
