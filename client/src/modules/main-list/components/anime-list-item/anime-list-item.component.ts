@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { TextBuilderService } from '../../services/text-builder.service';
 
 @Component({
   selector: 'app-anime-list-item',
@@ -7,12 +8,10 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './anime-list-item.component.html',
   styleUrl: './anime-list-item.component.scss'
 })
-export class AnimeListItemComponent implements OnInit {
+export class AnimeListItemComponent {
   @Input() item: any;
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.item)
-  }
+  textBuilder = inject(TextBuilderService);
 }
