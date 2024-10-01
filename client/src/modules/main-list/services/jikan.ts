@@ -11,7 +11,7 @@ export class Jikan {
 
   constructor(private http: HttpClient) { }
 
-  getListByCategory(type: string, page: number) {
-    return this.http.get(`${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}?page=${page}&type=${type}&order_by=popularity`);
+  getListByType(type: string, page: number) {
+    return this.http.get(`${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}?page=${page}&type=${type}&order_by=popularity&min_score=1`);
   }
 }

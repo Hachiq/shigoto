@@ -37,7 +37,7 @@ export class MainListComponent implements OnInit {
   }
 
   fetchAnimeList(type: string, page: number) {
-    this.jikan.getListByCategory(type, page).subscribe({
+    this.jikan.getListByType(type, page).subscribe({
       next: (list) => {
         this.animeList = list;
       }

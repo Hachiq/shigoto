@@ -1,4 +1,14 @@
 <div class="poster">
+  <div class="rating">{{ item.rating }}</div>
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
 </div>
-<div class="details"></div>
+<div class="details">
+  <h3 class="name">
+    <a [href]="item.url">{{ item.title }}</a>
+  </h3>
+  <div class="info">
+    <span class="type">{{ item.type }}</span>
+    <span class="dot"></span>
+    <span class="duration">{{ item.duration }}</span>
+  </div>
+</div>
