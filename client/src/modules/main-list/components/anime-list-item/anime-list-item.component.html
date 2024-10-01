@@ -3,6 +3,9 @@
     <div class="rating">17+</div>
   }
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
+  <a [href]="item.url">
+    <fa-icon [icon]="play"></fa-icon>
+  </a>
 </div>
 <div class="details" [ngClass]="{'min-height-150': bigItem}">
   <h3 class="name">
