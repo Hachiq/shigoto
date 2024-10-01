@@ -1,11 +1,14 @@
-<div class="poster">
+<div class="poster" [ngClass]="{'height-75': bigItem}">
   <div class="rating">{{ item.rating }}</div>
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
 </div>
-<div class="details">
+<div class="details" [ngClass]="{'min-height-150': bigItem}">
   <h3 class="name">
     <a [href]="item.url">{{ item.title }}</a>
   </h3>
+  @if (index < 4) {
+    <div class="description">{{ item.synopsis }}</div>
+  }
   <div class="info">
     <span class="type">{{ item.type }}</span>
     <span class="dot"></span>

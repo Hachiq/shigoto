@@ -40,7 +40,7 @@
   font-size: .9em;
 
   .name {
-    font-size: 1em;
+    font-size: 1.1em;
     line-height: 1.3em;
     margin: 0;
     font-weight: 500;
@@ -54,6 +54,17 @@
     a {
       color: var(--text);
     }
+  }
+
+  .description {
+    display: block;
+    line-height: 1.4em;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .info {
@@ -72,4 +83,12 @@
       margin: 3px 10px;
     }
   }
+}
+
+.min-height-150 {
+  min-height: 150px;
+}
+
+.height-75 {
+  height: 75%;
 }
