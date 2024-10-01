@@ -11,12 +11,13 @@
         <div class="input-group">
           <label for="email">Email Address</label>
           <input type="text" id="email" placeholder="name@gmail.com" formControlName="email">
-          <div class="input-error"
-                *ngIf="loginForm.invalid && loginForm.touched">
-            <span *ngIf="loginForm.hasError(VALIDATORS.InvalidCredentials)">
-              {{ INPUT_ERRORS.InvalidCredentials }}
-            </span>
-          </div>
+          @if (loginForm.invalid && loginForm.touched) {
+            <div class="input-error">
+              @if (loginForm.hasError(VALIDATORS.InvalidCredentials)) {
+                <span>{{ INPUT_ERRORS.InvalidCredentials }}</span>
+              }
+            </div>
+          }
         </div>
         <div class="input-group">
           <label for="password">Password</label>

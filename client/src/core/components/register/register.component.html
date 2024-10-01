@@ -11,57 +11,56 @@
         <div class="input-group">
           <label for="username">Username</label>
           <input type="text" id="username" placeholder="Your username" formControlName="username">
-          <div class="input-error"
-                *ngIf="registerForm.get(INPUTS.Username)?.invalid && registerForm.get(INPUTS.Username)?.touched">
-            <span *ngIf="registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.Required)">
-              {{ INPUT_ERRORS.UsernameRequired }}
-            </span>
-            <span *ngIf="registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.MinLength)">
-              {{ INPUT_ERRORS.UsernameMinLength }}
-            </span>
-            <span *ngIf="registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.MaxLength)">
-              {{ INPUT_ERRORS.UsernameMaxLength }}
-            </span>
-          </div>
+          @if (registerForm.get(INPUTS.Username)?.invalid && registerForm.get(INPUTS.Username)?.touched) {
+            <div class="input-error">
+              @if (registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.Required)) {
+                <span>{{ INPUT_ERRORS.UsernameRequired }}</span>
+              } @else if (registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.MinLength)) {
+                <span>{{ INPUT_ERRORS.UsernameMinLength }}</span>
+              } @else if (registerForm.get(INPUTS.Username)?.hasError(VALIDATORS.MaxLength)) {
+                <span>{{ INPUT_ERRORS.UsernameMaxLength }}</span>
+              }
+            </div>
+          }
         </div>
         <div class="input-group">
           <label for="email">Email Address</label>
           <input type="text" id="email" placeholder="name@email.com" formControlName="email">
-          <div class="input-error"
-                *ngIf="registerForm.get(INPUTS.Email)?.invalid && registerForm.get(INPUTS.Email)?.touched">
-            <span *ngIf="registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Required)">
-              {{ INPUT_ERRORS.EmailRequired }}
-            </span>
-            <span *ngIf="registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Email)">
-              {{ INPUT_ERRORS.EmailNotValid }}
-            </span>
-            <span *ngIf="registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Conflict)">
-              {{ INPUT_ERRORS.EmailTaken }}
-            </span>
-          </div>
+          @if (registerForm.get(INPUTS.Email)?.invalid && registerForm.get(INPUTS.Email)?.touched) {
+            <div class="input-error">
+              @if (registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Required)) {
+                <span>{{ INPUT_ERRORS.EmailRequired }}</span>
+              } @else if (registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Email)) {
+                <span>{{ INPUT_ERRORS.EmailNotValid }}</span>
+              } @else if (registerForm.get(INPUTS.Email)?.hasError(VALIDATORS.Conflict)) {
+                <span>{{ INPUT_ERRORS.EmailTaken }}</span>
+              }
+            </div>
+          }
         </div>
         <div class="input-group">
           <label for="password">Password</label>
           <input type="password" id="password" placeholder="Password" formControlName="password">
-          <div class="input-error"
-                *ngIf="registerForm.get(INPUTS.Password)?.invalid && registerForm.get(INPUTS.Password)?.touched">
-            <span *ngIf="registerForm.get(INPUTS.Password)?.hasError(VALIDATORS.Required)">
-              {{ INPUT_ERRORS.PasswordRequired }}
-            </span>
-            <span *ngIf="registerForm.get(INPUTS.Password)?.hasError(VALIDATORS.MinLength)">
-              {{ INPUT_ERRORS.PasswordMinLength }}
-            </span>
-          </div>
+          @if (registerForm.get(INPUTS.Password)?.invalid && registerForm.get(INPUTS.Password)?.touched) {
+            <div class="input-error">
+              @if (registerForm.get(INPUTS.Password)?.hasError(VALIDATORS.Required)) {
+                <span>{{ INPUT_ERRORS.PasswordRequired }}</span>
+              } @else if (registerForm.get(INPUTS.Password)?.hasError(VALIDATORS.MinLength)) {
+                <span>{{ INPUT_ERRORS.PasswordMinLength }}</span>
+              }
+            </div>
+          }
         </div>
         <div class="input-group">
           <label for="confirmPassword">Confirm Password</label>
           <input type="password" id="confirmPassword" placeholder="Confirm Password" formControlName="confirmPassword">
-          <div class="input-error"
-                *ngIf="registerForm.invalid && registerForm.get(INPUTS.ConfirmPassword)?.touched">
-            <span *ngIf="registerForm.hasError(VALIDATORS.PasswordMismatch)">
-              {{ INPUT_ERRORS.PasswordMismatch }}
-            </span>
-          </div>
+          @if (registerForm.invalid && registerForm.get(INPUTS.ConfirmPassword)?.touched) {
+            <div class="input-error">
+              @if (registerForm.hasError(VALIDATORS.PasswordMismatch)) {
+                <span>{{ INPUT_ERRORS.PasswordMismatch }}</span>
+              }
+            </div>
+          }
         </div>
         <button type="submit" class="btn-empty submit-btn" [disabled]="registerForm.invalid">Register</button>
       </form>

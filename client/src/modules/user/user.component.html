@@ -2,7 +2,9 @@
   <div class="profile-header">
     <div class="profile-header-cover"></div>
     <div class="pl-1 pr-1">
-      <div class="title" *ngIf="isAuthenticated">Hi, {{ user?.name }}</div>
+      @if (user) {
+        <div class="title">Hi, {{ user.name }}</div>
+      }
       <ul class="list-unstyled nav-menu">
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="profile">
