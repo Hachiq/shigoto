@@ -24,8 +24,11 @@
     li {
       display: flex;
       align-items: center;
-      padding: 15px 20px;
       border-bottom: 2px solid transparent;
+
+      a {
+        padding: 15px 20px;
+      }
     }
 
     li.active {
