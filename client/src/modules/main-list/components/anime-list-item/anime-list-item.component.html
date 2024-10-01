@@ -1,5 +1,7 @@
 <div class="poster" [ngClass]="{'height-75': bigItem}">
-  <div class="rating">{{ item.rating }}</div>
+  @if (textBuilder.isForAdults(item.rating)) {
+    <div class="rating">17+</div>
+  }
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
 </div>
 <div class="details" [ngClass]="{'min-height-150': bigItem}">

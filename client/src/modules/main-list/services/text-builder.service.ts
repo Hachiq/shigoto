@@ -27,4 +27,14 @@ export class TextBuilderService {
   
     return `${totalMinutes}m`;
   }
+
+  getRatingIdentifier(rating: string): string {
+    const match = rating.match(/^[A-Za-z0-9+-]+/);
+    return match ? match[0] : '';
+  }
+
+  isForAdults(rating: string): boolean {
+    const identifier = this.getRatingIdentifier(rating);
+    return ['R', 'R+', 'Rx'].includes(identifier);
+  }
 }
