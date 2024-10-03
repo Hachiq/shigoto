@@ -1,4 +1,8 @@
-<div class="poster" [ngClass]="{'height-75': bigItem}">
+<div class="poster"
+     [ngClass]="{'height-75': bigItem}"
+     (mouseenter)="showPopover()"
+     (mouseleave)="hidePopover()"
+     #poster>
   @if (textBuilder.isForAdults(item.rating)) {
     <div class="rating">17+</div>
   }
@@ -19,4 +23,13 @@
     <span class="dot"></span>
     <span class="duration">{{ textBuilder.getDurationInMinutes(item.duration) }}</span>
   </div>
+</div>
+
+<div class="popover"
+     [ngClass]="{'visible': popoverVisible}"
+     [ngStyle]="{ left: popoverLeft + 'px', top: popoverTop + 'px' }"
+     (mouseenter)="showPopover()"
+     (mouseleave)="hidePopover()">
+  <h3>Naruto: Shippuden</h3>
+  <p>Some information about the anime...</p>
 </div>
