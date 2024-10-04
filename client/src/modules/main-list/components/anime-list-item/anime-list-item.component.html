@@ -4,7 +4,9 @@
      (mouseleave)="hidePopover()"
      #poster>
   @if (textBuilder.isForAdults(item.rating)) {
-    <div class="rating">17+</div>
+    <div class="rating"
+         (mouseenter)="hidePopover()"
+         (mouseleave)="showPopover()">17+</div>
   }
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
   <a [href]="item.url">
@@ -29,7 +31,8 @@
      [ngClass]="{'visible': popoverVisible}"
      [ngStyle]="{ left: popoverLeft + 'px', top: popoverTop + 'px' }"
      (mouseenter)="holdPopover()"
-     (mouseleave)="hidePopover()">
+     (mouseleave)="hidePopover()"
+     #popover>
   <div class="content">
     <div class="title">
       {{ item.title }}
