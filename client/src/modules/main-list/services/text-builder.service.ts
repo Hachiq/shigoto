@@ -37,4 +37,27 @@ export class TextBuilderService {
     const identifier = this.getRatingIdentifier(rating);
     return ['R', 'R+', 'Rx'].includes(identifier);
   }
+
+  shortenDescription(text: string): string {
+    const maxLength = 120
+    if (text.length <= maxLength) {
+      return text;
+    }
+    
+    const trimmedText = text.slice(0, maxLength); 
+    const lastSpaceIndex = trimmedText.lastIndexOf(' '); 
+  
+    const finalText = trimmedText.slice(0, lastSpaceIndex);
+  
+    return finalText + '...';
+  }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  }  
 }

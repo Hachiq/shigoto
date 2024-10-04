@@ -41,6 +41,7 @@ export class AnimeListItemComponent implements OnInit {
     this.popoverVisible = false;
   }
 
+  // TODO: Improve positioning
   setPopoverPositioning() {
     const cardRect = this.poster.nativeElement.getBoundingClientRect();
     const cardCenterX = cardRect.left + cardRect.width / 2;

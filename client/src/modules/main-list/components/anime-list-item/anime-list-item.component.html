@@ -30,6 +30,52 @@
      [ngStyle]="{ left: popoverLeft + 'px', top: popoverTop + 'px' }"
      (mouseenter)="showPopover()"
      (mouseleave)="hidePopover()">
-  <h3>Naruto: Shippuden</h3>
-  <p>Some information about the anime...</p>
+  <div class="content">
+    <div class="title">
+      {{ item.title }}
+    </div>
+    <div class="detail"></div>
+    @if (item.synopsis) {
+      <div class="description">
+        {{ textBuilder.shortenDescription(item.synopsis) }}
+      </div>
+    }
+    <div class="line">
+      <span class="stick">Japanese:</span>
+      <span class="stick-text">{{ item.title_japanese }}</span>
+    </div>
+    @if (item.title_synonyms.length !== 0) {
+      <div class="line">
+        <span class="stick">Synonyms:</span>
+        @for (item of item.title_synonyms; track $index) {
+          @if ($last) {
+            <span class="stick-text">{{ item }}</span>
+          } @else {
+            <span class="stick-text">{{ item }}</span>, 
+          }
+        }
+      </div>
+    }
+    <div class="line">
+      <span class="stick">Aired:</span>
+      <span class="stick-text">{{ textBuilder.formatDate(item.aired.from) }}</span>
+    </div>
+    <div class="line">
+      <span class="stick">Status:</span>
+      <span class="stick-text">{{ item.status }}</span>
+    </div>
+    @if (item.genres.length !== 0) {
+      <div class="line">
+        <span class="stick">Genres:</span>
+        @for (item of item.genres; track $index) {
+          @if ($last) {
+            <a class="nav-link" href="">{{ item.name }}</a>
+          } @else {
+          <a class="nav-link" href="">{{ item.name }}</a>, 
+          }
+        }
+      </div>
+    }
+    <div class="button"></div>
+  </div>
 </div>
