@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { TextBuilderService } from '../../services/text-builder.service';
 import { CommonModule } from '@angular/common';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +30,14 @@ export class AnimeListItemComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    
+
+  }
+
+  @HostListener("wheel", ["$event"])
+  onScroll(event: WheelEvent) {
+    if (this.popoverVisible) {
+      this.setPopoverPositioning();
+    }
   }
 
   showPopover(){
@@ -48,7 +55,7 @@ export class AnimeListItemComponent implements OnInit {
 
   setPopoverPositioning() {
     const cardRect = this.poster.nativeElement.getBoundingClientRect();
-    const popoverRect = this.popover?.nativeElement.getBoundingClientRect();
+    const popoverRect = this.popover.nativeElement.getBoundingClientRect();
 
     const cardCenterX = cardRect.left + cardRect.width / 2 + window.scrollX;
     const cardCenterY = cardRect.top + cardRect.height / 2 + window.scrollY - popoverRect.height;
