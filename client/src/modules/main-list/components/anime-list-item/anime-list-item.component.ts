@@ -37,6 +37,10 @@ export class AnimeListItemComponent implements OnInit {
     this.setPopoverPositioning();
   }
 
+  holdPopover() {
+    this.popoverVisible = true;
+  }
+
   hidePopover() {
     this.popoverVisible = false;
   }
@@ -64,5 +68,7 @@ export class AnimeListItemComponent implements OnInit {
     if (this.popoverTop + popoverRect?.height > window.innerHeight) {
       this.popoverTop = cardRect.bottom - popoverRect.height;
     }
+
+    console.log("Calculated")
   }
 }
