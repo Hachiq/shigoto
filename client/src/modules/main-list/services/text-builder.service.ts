@@ -39,7 +39,7 @@ export class TextBuilderService {
   }
 
   shortenDescription(text: string): string {
-    const maxLength = 120
+    const maxLength = 130
     if (text.length <= maxLength) {
       return text;
     }

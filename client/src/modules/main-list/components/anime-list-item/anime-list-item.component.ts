@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { TextBuilderService } from '../../services/text-builder.service';
 import { CommonModule } from '@angular/common';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faPlay, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
@@ -12,7 +12,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrl: './anime-list-item.component.scss'
 })
 export class AnimeListItemComponent implements OnInit {
-  play = faPlay
+  iplay = faPlay;
+  istar = faStar;
 
   @Input() item: any;
   @Input() index!: number;

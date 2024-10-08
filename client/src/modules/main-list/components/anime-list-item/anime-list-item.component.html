@@ -10,7 +10,7 @@
   }
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
   <a [href]="item.url">
-    <fa-icon [icon]="play"></fa-icon>
+    <fa-icon [icon]="iplay"></fa-icon>
   </a>
 </div>
 <div class="details" [ngClass]="{'min-height-150': bigItem}">
@@ -27,6 +27,7 @@
   </div>
 </div>
 
+<!-- TODO: Try to use ng-template and ng-container -->
 <div class="popover"
      [ngClass]="{'visible': popoverVisible}"
      [ngStyle]="{ left: popoverLeft + 'px', top: popoverTop + 'px' }"
@@ -37,7 +38,15 @@
     <div class="title">
       {{ item.title }}
     </div>
-    <div class="detail"></div>
+    <div class="detail">
+      <span class="score">
+        <fa-icon [icon]="istar"></fa-icon>
+        {{ item.score }}
+      </span>
+      <span class="type">
+        {{ item.type }}
+      </span>
+    </div>
     @if (item.synopsis) {
       <div class="description">
         {{ textBuilder.shortenDescription(item.synopsis) }}
@@ -81,7 +90,7 @@
     }
     <div class="button">
       <a [href]="item.url">
-        <fa-icon class="pr-03" [icon]="play"></fa-icon> Watch now
+        <fa-icon class="pr-03" [icon]="iplay"></fa-icon> Watch now
       </a>
     </div>
   </div>

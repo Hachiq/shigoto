@@ -64,7 +64,7 @@
 
 .popover {
   position: absolute;
-  width: 300px;
+  width: 350px;
   border: none;
   border-radius: 7px;
   box-shadow: 0 20px 20px rgba(0, 0, 0, .05);
@@ -91,11 +91,32 @@
       margin-bottom: 15px;
       color: var(--text);
     }
+
+    .detail {
+      display: flex;
+      margin-bottom: 1rem;
+      font-size: 16px;
+
+      .score {
+        fa-icon {
+          color: goldenrod;
+        }
+      }
+
+      .type {
+        margin-left: auto;
+        background: var(--secondary);
+        color: #000;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: .1em .4em;
+      }
+    }
   
     .description {
       font-size: 14px;
       line-height: 1.4em;
-      margin-bottom: 15px;
+      margin-bottom: 1rem;
     }
   
     .line {
@@ -111,7 +132,7 @@
     }
 
     .button {
-      margin-top: 20px;
+      margin-top: 1.2rem;
       display: inline-block;
       width: 100%;
 
@@ -121,7 +142,7 @@
         text-align: center;
         padding: 0 10px;
         line-height: 38px;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
         margin: 0;
         border-radius: 26px;
