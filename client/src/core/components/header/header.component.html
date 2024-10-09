@@ -16,9 +16,11 @@
   </div>
 
   @if (!isAuthenticated) {
-    <div class="nav-item ml-auto mr-1">
-      <a class="nav-link" (click)="openLoginModal()">Login</a>
-    </div>
+    @defer (on timer(200)) {
+      <div class="nav-item ml-auto mr-1">
+        <a class="nav-link" (click)="openLoginModal()">Login</a>
+      </div>
+    }
   } @else if (isAuthenticated && user) {
     <div class="nav-item ml-auto mr-1 dropdown"> 
       <a class="nav-link" (click)="toggleDropdown($event)">{{ user.name }}</a>
