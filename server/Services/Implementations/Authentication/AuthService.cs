@@ -3,13 +3,18 @@ using Core.Contracts;
 using Core.DTOs.Authentication;
 using Core.Entities;
 using Core.Exceptions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Services.Implementations.Authentication;
 
 public class AuthService(
     IRepository _db,
     IPasswordService _passwordService,
-    IAccessTokenGenerator _accessTokenGenerator,
+    //IAccessTokenGenerator _accessTokenGenerator,
     IRefreshTokenGenerator _refreshTokenGenerator,
     IEmailSender _emailSender) : IAuthService
 {
@@ -48,7 +53,7 @@ public class AuthService(
 
         return new LoginRequestModel(user.Email, model.Password);
     }
-    public async Task<LoginTokens> Login(LoginRequestModel model)
+    public async Task<ClaimsIdentity> Login(LoginRequestModel model)
     {
         var user = await _db.FindAsync<User>(u => u.Email == model.Email) ?? throw new InvalidEmailException();
 
@@ -59,17 +64,24 @@ public class AuthService(
             throw new WrongPasswordException();
         }
 
-        var jwt = _accessTokenGenerator.GenerateAccessToken(user);
-
-        var refreshToken = await _db.FindAsync<RefreshToken>(rt => rt.Id == user.RefreshTokenId);
-
-        // TODO: Custom exception
-        if (refreshToken is null)
+        var claims = new List<Claim>
         {
-            throw new Exception("Couldn't get the refresh token");
-        }
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Name, user.Username)
+        };
 
-        return new LoginTokens(jwt, refreshToken);
+        var claimsIdentity = new ClaimsIdentity(
+            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+        //var refreshToken = await _db.FindAsync<RefreshToken>(rt => rt.Id == user.RefreshTokenId);
+
+        //// TODO: Custom exception
+        //if (refreshToken is null)
+        //{
+        //    throw new Exception("Couldn't get the refresh token");
+        //}
+
+        return claimsIdentity;
     }
 
     public async Task ConfirmEmail(ConfirmEmailModel model)
@@ -100,7 +112,8 @@ public class AuthService(
             throw new InvalidRefreshTokenException();
         }
 
-        var jwt = _accessTokenGenerator.GenerateAccessToken(user);
+        //var jwt = _accessTokenGenerator.GenerateAccessToken(user);
+        var jwt = "";
 
         return jwt;
     }

@@ -29,40 +29,14 @@ export class AuthService {
   login(request: LoginRequest) {
     return this.http.post(
       `${this.baseUrl}/login`,
-      request,
-      {
-        responseType: 'text',
-        withCredentials: true
-      }
-    ).pipe(
-      mergeMap((response: any) => {
-        try {
-          const parsedResponse = JSON.parse(response);
-          if (parsedResponse.errorType === "InvalidCredentials") {
-            return throwError(() => new Error(VALIDATORS.InvalidCredentials));
-          }
-          return throwError(() => new Error('Error during logging in'))
-        } catch {
-          return of(response);
-        }
-      }),
-      tap((loginResponse) => {
-        this.setToken(loginResponse);
-      })
+      request
     );
   }
 
   register(request: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, request).pipe(
-      mergeMap((registerResponse: any) => {
-        if (registerResponse.hasConflict) {
-          return throwError(() => new Error(VALIDATORS.Conflict));
-        }
-        return this.login(registerResponse);
-      }),
-      tap((loginResponse) => {
-        this.setToken(loginResponse);
-      })
+    return this.http.post(
+      `${this.baseUrl}/register`,
+      request
     );
   }
 
@@ -70,25 +44,8 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/confirm-email`, request)
   }
 
-  refreshToken(): Observable<string> {
-    return this.http.get(`${this.baseUrl}/refresh-token`, {
-      responseType: 'text',
-      withCredentials: true
-    }).pipe(
-      tap((jwt: string) => {
-        this.setToken(jwt);
-      }),
-      catchError((errorResponse) => {
-        this.setAuthState(false);
-        return throwError(() => errorResponse);
-      })
-    );
-  }
-
   public logout(): Observable<any> {
-    this.clearToken();
-    const response = this.http.get(`${this.baseUrl}/logout`, { withCredentials: true });
-    return response;
+    return this.http.get(`${this.baseUrl}/logout`);
   }
 
   public async getAuthorizationHeaders() {

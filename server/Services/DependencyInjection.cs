@@ -8,6 +8,9 @@ using Services.Implementations.Authentication;
 using Services.Implementations.Repository;
 using Services.Implementations.Password;
 using Core.Constants;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace Services;
 
@@ -26,15 +29,19 @@ public static class DependencyInjection
 
     private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.Section));
-
-        services.AddSingleton<IAccessTokenGenerator, AccessTokenGenerator>();
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+           .AddCookie(options =>
+           {
+               options.Cookie.SameSite = SameSiteMode.None;
+               options.SlidingExpiration = true;
+               options.Events.OnRedirectToLogin = (context) =>
+               {
+                   context.Response.StatusCode = 401;
+                   return Task.CompletedTask;
+               };
+           });
 
         services.AddScoped<IAuthService, AuthService>();
-
-        services.ConfigureOptions<JwtBearerTokenValidationConfiguration>()
-            .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer();
 
         return services;
     }

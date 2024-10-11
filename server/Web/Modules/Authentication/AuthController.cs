@@ -3,8 +3,11 @@ using Core.Contracts;
 using Core.DTOs.Authentication;
 using Core.Entities;
 using Core.Exceptions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Web.Modules.Authentication;
 
@@ -37,7 +40,6 @@ public class AuthController(
         }
     }
 
-    // TODO: Add cookie authenticatation https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-8.0
     [HttpPost("login")]
     public async Task<ActionResult> Login(LoginRequestModel request)
     {
@@ -45,9 +47,20 @@ public class AuthController(
         {
             var result = await _authService.Login(request);
 
-            SetCookiesRefreshToken(result.RefreshToken);
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                IsPersistent = true,
+                IssuedUtc = DateTimeOffset.UtcNow
+            };
 
-            return Ok(result.JWT);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(result),
+                authProperties);
+
+            return Ok();
         }
         catch (Exception ex) when (ex is InvalidEmailException || ex is WrongPasswordException)
         {
@@ -70,48 +83,9 @@ public class AuthController(
     }
 
     [HttpGet("logout")]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        ExpireCookiesRefreshToken();
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok();
-    }
-
-    [HttpGet("refresh-token")]
-    public async Task<ActionResult> RefreshToken()
-    {
-        var refreshToken = Request.Cookies[AuthConstants.RefreshToken];
-
-        if (refreshToken is null)
-        {
-            return Unauthorized();
-        }
-
-        var jwt = await _authService.RefreshAccessToken(refreshToken);
-        return Ok(jwt);
-    }
-
-    // TODO: Move it somewhere
-    private void SetCookiesRefreshToken(RefreshToken newRefreshToken)
-    {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = newRefreshToken.ExpiresAt,
-            SameSite = SameSiteMode.None,
-            Secure = true
-        };
-        Response.Cookies.Append(AuthConstants.RefreshToken, newRefreshToken.Token, cookieOptions);
-    }
-
-    private void ExpireCookiesRefreshToken()
-    {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = DateTime.UtcNow.AddMinutes(-1),
-            SameSite = SameSiteMode.None,
-            Secure = true
-        };
-        Response.Cookies.Append(AuthConstants.RefreshToken, string.Empty, cookieOptions);
     }
 }
