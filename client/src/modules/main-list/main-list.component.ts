@@ -5,6 +5,7 @@ import { Jikan } from './services/jikan';
 import { ANIME_TYPES } from './constants/anime-types';
 import { MainSidebarComponent } from "./components/main-sidebar/main-sidebar.component";
 import { AnimeListItemComponent } from './components/anime-list-item/anime-list-item.component';
+import { AnimeSearch } from '../common-shared/models/jikan/anime-search';
 
 @Component({
   selector: 'app-main-list',
@@ -15,7 +16,7 @@ import { AnimeListItemComponent } from './components/anime-list-item/anime-list-
 })
 export class MainListComponent implements OnInit {
   title!: string;
-  animeList: any;
+  animeList?: AnimeSearch;
 
   constructor(private route: ActivatedRoute, private jikan: Jikan) {}
 

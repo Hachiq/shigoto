@@ -1,8 +1,9 @@
-import { Component, ElementRef, HostListener, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input, ViewChild } from '@angular/core';
 import { TextBuilderService } from '../../services/text-builder.service';
 import { CommonModule } from '@angular/common';
 import { faPlay, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Anime } from '../../../common-shared/models/jikan/anime';
 
 @Component({
   selector: 'app-anime-list-item',
@@ -11,11 +12,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   templateUrl: './anime-list-item.component.html',
   styleUrl: './anime-list-item.component.scss'
 })
-export class AnimeListItemComponent implements OnInit {
+export class AnimeListItemComponent {
   iplay = faPlay;
   istar = faStar;
 
-  @Input() item: any;
+  @Input() item!: Anime;
   @Input() index!: number;
   @Input() bigItem: boolean = false;
 
@@ -27,12 +28,6 @@ export class AnimeListItemComponent implements OnInit {
   popoverLeft: number = 0;
 
   textBuilder = inject(TextBuilderService);
-
-  constructor() {}
-
-  ngOnInit(): void {
-
-  }
 
   @HostListener("wheel", ["$event"])
   onScroll(event: WheelEvent) {
