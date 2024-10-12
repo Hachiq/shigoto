@@ -28,7 +28,6 @@ export class AuthService {
     return this.http.get<Response>(`${this.baseUrl}/user`).pipe(
       tap(response => {
           this.userSignal.set(response.payload)
-          console.log(response.payload)
         }
       )
     );

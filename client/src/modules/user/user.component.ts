@@ -1,5 +1,5 @@
-import { Component, effect, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, effect, inject, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser, faHistory, faHeart, faBell, faCog, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../core/services/auth.service';
@@ -22,8 +22,14 @@ export class UserComponent {
 
   user: User | null | undefined;
 
-  constructor(private authService: AuthService) {
+  authService = inject(AuthService);
+  router = inject(Router);
+
+  constructor() {
     effect(() => {
+      if (this.authService.user() === null) {
+        this.router.navigate(['']);
+      }
       this.user = this.authService.user();
     });
   }
