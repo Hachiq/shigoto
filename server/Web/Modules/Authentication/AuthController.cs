@@ -17,6 +17,36 @@ public class AuthController(
     ILogger<AuthController> _logger,
     IAuthService _authService) : ControllerBase
 {
+    [HttpGet("user")]
+    public IActionResult GetUser()
+    {
+        if (User?.Identity?.IsAuthenticated == false)
+        {
+            return Ok(new Response<UserResponse>
+            {
+                Success = false
+            });
+        }
+
+        var id = User?.FindFirst("id")?.Value;
+        var name = User?.Identity?.Name;
+        var email = User?.FindFirst(ClaimTypes.Email)?.Value;
+
+        if (id is null || name is null || email is null)
+        {
+            return Ok(new Response<UserResponse>
+            {
+                Success = false
+            });
+        }
+        var user = new UserResponse(Id: id, Name: name, Email: email);
+        return Ok(new Response<UserResponse>
+        {
+            Success = true,
+            Payload = user
+        });
+    }
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequestModel request)
     {

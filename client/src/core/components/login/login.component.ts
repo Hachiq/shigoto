@@ -45,6 +45,7 @@ export class LoginComponent extends BaseModalWindowComponent {
           this.loginForm.setErrors({ invalid: true });
           return;
         }
+        this.authService.fetchUser().subscribe();
         this.close();
       }
     });

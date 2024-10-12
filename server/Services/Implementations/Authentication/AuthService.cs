@@ -60,6 +60,7 @@ public class AuthService(
 
         var claims = new List<Claim>
         {
+            new("id", user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, user.Username)
         };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faUser, faHistory, faHeart, faBell, faCog, faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,7 @@ import { User } from '../common-shared/models/user';
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
   iuser = faUser;
   ihistory = faHistory;
   iheart = faHeart;
@@ -20,14 +20,11 @@ export class UserComponent implements OnInit {
   icog = faCog;
   iarrowRight = faArrowRight;
 
-  user?: User;
+  user: User | null | undefined;
 
-  constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
-    this.authService.isAuthenticated$.subscribe(async auth => {
-      this.user = await this.authService.getCurrentUser();
+  constructor(private authService: AuthService) {
+    effect(() => {
+      this.user = this.authService.user();
     });
   }
-
 }
