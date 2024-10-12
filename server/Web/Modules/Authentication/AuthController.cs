@@ -1,7 +1,7 @@
 ﻿using Core.Constants;
 using Core.Contracts;
+using Core.DTOs;
 using Core.DTOs.Authentication;
-using Core.Entities;
 using Core.Exceptions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -18,17 +18,25 @@ public class AuthController(
     IAuthService _authService) : ControllerBase
 {
     [HttpPost("register")]
-    public async Task<ActionResult> Register(RegisterRequestModel request)
+    public async Task<IActionResult> Register(RegisterRequestModel request)
     {
         try
         {
             var response = await _authService.Register(request);
 
-            return Ok(response);
+            return Ok(new Response<LoginRequestModel>
+            {
+                Success = true,
+                Payload = response
+            });
         }
         catch (EmailHasBeenUsedException)
         {
-            return Ok(new ConflictResponse());
+            return Ok(new Response
+            {
+                Success = false,
+                ErrorType = AuthConstants.Conflict
+            });
         }
         catch (Exception ex)
         {
@@ -41,7 +49,7 @@ public class AuthController(
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult> Login(LoginRequestModel request)
+    public async Task<IActionResult> Login(LoginRequestModel request)
     {
         try
         {
@@ -60,12 +68,16 @@ public class AuthController(
                 new ClaimsPrincipal(result),
                 authProperties);
 
-            return Ok();
+            return Ok(new Response
+            {
+                Success = true
+            });
         }
         catch (Exception ex) when (ex is InvalidEmailException || ex is WrongPasswordException)
         {
-            return Ok(new LoginErrorResponse
+            return Ok(new Response
             {
+                Success = false,
                 ErrorType = AuthConstants.InvalidCredentials
             });
         }
@@ -76,7 +88,7 @@ public class AuthController(
     }
 
     [HttpPost("confirm-email")]
-    public async Task<ActionResult> ConfirmEmail(ConfirmEmailModel request)
+    public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel request)
     {
         await _authService.ConfirmEmail(request);
         return Ok();

@@ -3,13 +3,13 @@ import { COMMON_SHARED_CONFIGURATION } from '../../modules/common-shared/configu
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from '../../modules/common-shared/services/storage/local-storage.service';
-import { catchError, map, mergeMap, Observable, of, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { RegisterRequest } from '../models/register.request';
 import { LoginRequest } from '../models/login.request';
 import { Helpers } from '../../modules/common-shared/services/helpers';
 import { User } from '../../modules/common-shared/models/user';
-import { VALIDATORS } from '../../modules/common-shared/constants/validators';
 import { ConfirmEmailRequest } from '../models/confirm-email.request';
+import { Response } from '../../modules/common-shared/models/response';
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +26,15 @@ export class AuthService {
     this.isAuthenticated$ = this.storage.isAuthenticated$;
   }
 
-  login(request: LoginRequest) {
-    return this.http.post(
+  login(request: LoginRequest): Observable<Response> {
+    return this.http.post<Response>(
       `${this.baseUrl}/login`,
       request
     );
   }
 
-  register(request: RegisterRequest): Observable<any> {
-    return this.http.post(
+  register(request: RegisterRequest): Observable<Response> {
+    return this.http.post<Response>(
       `${this.baseUrl}/register`,
       request
     );
