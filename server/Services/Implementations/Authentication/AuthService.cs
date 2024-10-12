@@ -3,10 +3,7 @@ using Core.Contracts;
 using Core.DTOs.Authentication;
 using Core.Entities;
 using Core.Exceptions;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 namespace Services.Implementations.Authentication;
@@ -82,7 +79,7 @@ public class AuthService(
 
         user.EmailConfirmed = true;
         user.EmailConfirmationToken = Guid.NewGuid();
-        await _db.UpdateAsync(user);
+        _db.Update(user);
         await _db.SaveChangesAsync();
     }
 }

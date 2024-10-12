@@ -1,49 +1,47 @@
 ﻿using Core.Contracts;
+using Core.Shared;
 using Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Services.Implementations.Repository;
 
 public class Repository(AppDbContext _context) : IRepository
 {
 
-    public async Task<IEnumerable<T>> GetAllAsync<T>() where T : class
+    public async Task<IEnumerable<T>> GetAllAsync<T>() where T : BaseEntity
     {
         return await _context.Set<T>().ToListAsync();
     }
 
-    public async Task<T?> GetByIdAsync<T>(Guid id) where T : class
+    public async Task<T?> GetByIdAsync<T>(Guid id) where T : BaseEntity
     {
         return await _context.Set<T>().FindAsync(id);
     }
 
-    public async Task<T?> FindAsync<T>(Expression<Func<T, bool>> predicate) where T : class
+    public async Task<T?> FindAsync<T>(Expression<Func<T, bool>> predicate) where T : BaseEntity
     {
         return await _context.Set<T>().FirstOrDefaultAsync(predicate);
     }
 
-    public async Task AddAsync<T>(T entity) where T : class
+    public async Task AddAsync<T>(T entity) where T : BaseEntity
     {
         await _context.Set<T>().AddAsync(entity);
     }
 
-    public async Task UpdateAsync<T>(T entity) where T : class
+    public void Update<T>(T entity) where T : BaseEntity
     {
         _context.Set<T>().Attach(entity);
         _context.Entry(entity).State = EntityState.Modified;
-        await Task.CompletedTask; // Do something about it. Consider turning it back to synchronous method
     }
 
-    public async Task DeleteAsync<T>(T entity) where T : class
+    public void Delete<T>(T entity) where T : BaseEntity
     {
         if (_context.Entry(entity).State == EntityState.Detached)
         {
             _context.Set<T>().Attach(entity);
         }
         _context.Set<T>().Remove(entity);
-        await Task.CompletedTask; // Do something about it. Consider turning it back to synchronous method
     }
 
     public async Task SaveChangesAsync()
