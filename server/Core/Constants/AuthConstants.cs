@@ -1,7 +1,6 @@
 ﻿namespace Core.Constants;
 public static class AuthConstants
 {
-    public const string RefreshToken = "refreshToken";
     public const string InvalidCredentials = "InvalidCredentials";
     public const string Conflict = "Conflict";
     public const string EmailSettings = "EmailSettings";

@@ -1,16 +1,13 @@
 ﻿using Core.Contracts;
 using Core.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Services.Implementations.Security;
 using Services.Implementations.Authentication;
 using Services.Implementations.Repository;
 using Services.Implementations.Password;
 using Core.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 
 namespace Services;
 
@@ -22,7 +19,6 @@ public static class DependencyInjection
         services.AddEmailSender(configuration);
         services.AddRepository();
         services.AddPasswordService();
-        services.AddRefreshTokenGenerator();
 
         return services;
     }
@@ -64,12 +60,6 @@ public static class DependencyInjection
     private static IServiceCollection AddPasswordService(this IServiceCollection services)
     {
         services.AddScoped<IPasswordService, PasswordService>();
-        return services;
-    }
-
-    private static IServiceCollection AddRefreshTokenGenerator(this IServiceCollection services)
-    {
-        services.AddScoped<IRefreshTokenGenerator, RefreshTokenGenerator>();
         return services;
     }
 }

@@ -14,8 +14,6 @@ namespace Services.Implementations.Authentication;
 public class AuthService(
     IRepository _db,
     IPasswordService _passwordService,
-    //IAccessTokenGenerator _accessTokenGenerator,
-    IRefreshTokenGenerator _refreshTokenGenerator,
     IEmailSender _emailSender) : IAuthService
 {
 
@@ -39,10 +37,6 @@ public class AuthService(
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt
         };
-
-        var refreshToken = _refreshTokenGenerator.GenerateRefreshToken();
-
-        user.RefreshToken = refreshToken;
 
         await _db.AddAsync(user);
         await _db.SaveChangesAsync();
@@ -73,14 +67,6 @@ public class AuthService(
         var claimsIdentity = new ClaimsIdentity(
             claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-        //var refreshToken = await _db.FindAsync<RefreshToken>(rt => rt.Id == user.RefreshTokenId);
-
-        //// TODO: Custom exception
-        //if (refreshToken is null)
-        //{
-        //    throw new Exception("Couldn't get the refresh token");
-        //}
-
         return claimsIdentity;
     }
 
@@ -97,24 +83,5 @@ public class AuthService(
         user.EmailConfirmationToken = Guid.NewGuid();
         await _db.UpdateAsync(user);
         await _db.SaveChangesAsync();
-    }
-
-    public async Task<string> RefreshAccessToken(string token)
-    {
-        // Consider using this line
-        //var user = await _db.FindAsync<User>(u => u.RefreshToken.Token == token);
-
-        var refreshToken = await _db.FindAsync<RefreshToken>(rt => rt.Token == token);
-        var user = await _db.FindAsync<User>(u => u.RefreshToken == refreshToken);
-
-        if (user is null)
-        {
-            throw new InvalidRefreshTokenException();
-        }
-
-        //var jwt = _accessTokenGenerator.GenerateAccessToken(user);
-        var jwt = "";
-
-        return jwt;
     }
 }
