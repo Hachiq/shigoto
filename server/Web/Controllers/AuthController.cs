@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Web.Modules.Authentication;
+namespace Web.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -88,7 +88,7 @@ public class AuthController(
             var authProperties = new AuthenticationProperties
             {
                 AllowRefresh = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(AuthConstants.CookieExpirationTimeInMinutes),
                 IsPersistent = true,
                 IssuedUtc = DateTimeOffset.UtcNow
             };
