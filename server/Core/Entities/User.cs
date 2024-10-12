@@ -12,7 +12,5 @@ public class User : BaseEntity
     public required Guid EmailConfirmationToken { get; set; }
     public required byte[] PasswordHash { get; set; }
     public required byte[] PasswordSalt { get; set; }
-    public Guid RefreshTokenId { get; set; }
-    public RefreshToken RefreshToken { get; set; }
     public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
 }

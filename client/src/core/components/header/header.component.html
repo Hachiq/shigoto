@@ -15,11 +15,11 @@
     </div>
   </div>
 
-  @if (!isAuthenticated) {
+  @if (user === null) {
     <div class="nav-item ml-auto mr-1">
       <a class="nav-link" (click)="openLoginModal()">Login</a>
     </div>
-  } @else if (isAuthenticated && user) {
+  } @else if (user) {
     <div class="nav-item ml-auto mr-1 dropdown"> 
       <a class="nav-link" (click)="toggleDropdown($event)">{{ user.name }}</a>
       <div [class.show]="dropdownVisible" class="dropdown-menu">
@@ -28,13 +28,31 @@
           <div class="email">{{ user.email }}</div>
         </div>
         <div class="grid-menu">
-          <a href="user/profile" class="dropdown-item"><fa-icon class="pr-07" [icon]="iuser"></fa-icon> Profile</a>
-          <a href="user/continue-watching" class="dropdown-item"><fa-icon class="pr-07" [icon]="ihistory"></fa-icon> Continue Watching</a>
-          <a href="user/watch-list" class="dropdown-item"><fa-icon class="pr-07" [icon]="iheart"></fa-icon> Watch List</a>
-          <a href="user/notification" class="dropdown-item"><fa-icon class="pr-07" [icon]="ibell"></fa-icon> Notification</a>
-          <a href="user/settings" class="dropdown-item"><fa-icon class="pr-07" [icon]="icog"></fa-icon> Settings</a>
+          <a href="user/profile" class="dropdown-item">
+            <fa-icon class="pr-07" [icon]="iuser"></fa-icon>
+            Profile
+          </a>
+          <a href="user/continue-watching" class="dropdown-item">
+            <fa-icon class="pr-07" [icon]="ihistory"></fa-icon>
+            Continue Watching
+          </a>
+          <a href="user/watch-list" class="dropdown-item">
+            <fa-icon class="pr-07" [icon]="iheart"></fa-icon>
+             Watch List
+          </a>
+          <a href="user/notification" class="dropdown-item">
+            <fa-icon class="pr-07" [icon]="ibell"></fa-icon>
+            Notification
+          </a>
+          <a href="user/settings" class="dropdown-item">
+            <fa-icon class="pr-07" [icon]="icog"></fa-icon>
+            Settings
+          </a>
         </div>
-        <a class="dropdown-item logout" (click)="logout()">Logout <fa-icon class="pl-03" [icon]="iarrowRight"></fa-icon></a>
+        <a class="dropdown-item logout" (click)="logout()">
+          Logout
+          <fa-icon class="pl-03" [icon]="iarrowRight"></fa-icon>
+        </a>
       </div>
     </div>
   }

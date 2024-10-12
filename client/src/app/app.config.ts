@@ -3,15 +3,17 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
-import { authInterceptor } from '../core/services/auth.interceptor';
 import { ErrorHandlerService } from '../core/services/error-handler.service';
+import { withCredentialsInterceptor } from '../core/interceptors/with-credentials.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([authInterceptor]),
+      withInterceptors([
+        withCredentialsInterceptor
+      ]),
       withFetch(),
       withInterceptorsFromDi()
     ),

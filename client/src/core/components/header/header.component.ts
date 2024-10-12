@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, effect, HostListener, OnInit, Renderer2, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faBars, faUser, faHistory, faHeart, faBell, faCog, faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -16,9 +16,8 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnInit {
-  isAuthenticated: boolean | undefined;
-  user?: User;
+export class HeaderComponent {
+  user: User | null | undefined;
 
   dropdownVisible = false;
 
@@ -40,20 +39,16 @@ export class HeaderComponent implements OnInit {
     private renderer: Renderer2
   ) {
     this.modalService.modalRef = this.viewContainer;
-  }
-
-  // TODO: Get rid of isAuthenticated$ (probably)
-  ngOnInit(): void {
-    this.authService.isAuthenticated$.subscribe(async auth => {
-      this.isAuthenticated = auth;
-      this.user = auth ? await this.authService.getCurrentUser() : undefined;
+    effect(() => {
+      this.user = this.authService.user();
     });
   }
 
   logout() {
     this.authService.logout().subscribe({
       next: () => {
-        this.router.navigate([''])
+        this.authService.clearUser();
+        this.router.navigate(['']);
       }
     });
   }

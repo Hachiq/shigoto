@@ -40,15 +40,13 @@ export class LoginComponent extends BaseModalWindowComponent {
     };
   
     this.authService.login(data).subscribe({
-      next: () => {
-        this.close();
-      },
-      error: (error) => {
-        if (error.message === VALIDATORS.InvalidCredentials) {
+      next: (response) => {
+        if (!response.success) {
           this.loginForm.setErrors({ invalid: true });
-        } else {
-          console.log(error);
+          return;
         }
+        this.authService.fetchUser().subscribe();
+        this.close();
       }
     });
   }

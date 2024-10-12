@@ -1,10 +1,13 @@
 ﻿using Core.Constants;
 using Core.Contracts;
+using Core.DTOs;
 using Core.DTOs.Authentication;
-using Core.Entities;
 using Core.Exceptions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Web.Modules.Authentication;
 
@@ -14,18 +17,56 @@ public class AuthController(
     ILogger<AuthController> _logger,
     IAuthService _authService) : ControllerBase
 {
+    [HttpGet("user")]
+    public IActionResult GetUser()
+    {
+        if (User?.Identity?.IsAuthenticated == false)
+        {
+            return Ok(new Response<UserResponse>
+            {
+                Success = false
+            });
+        }
+
+        var id = User?.FindFirst("id")?.Value;
+        var name = User?.Identity?.Name;
+        var email = User?.FindFirst(ClaimTypes.Email)?.Value;
+
+        if (id is null || name is null || email is null)
+        {
+            return Ok(new Response<UserResponse>
+            {
+                Success = false
+            });
+        }
+        var user = new UserResponse(Id: id, Name: name, Email: email);
+        return Ok(new Response<UserResponse>
+        {
+            Success = true,
+            Payload = user
+        });
+    }
+
     [HttpPost("register")]
-    public async Task<ActionResult> Register(RegisterRequestModel request)
+    public async Task<IActionResult> Register(RegisterRequestModel request)
     {
         try
         {
             var response = await _authService.Register(request);
 
-            return Ok(response);
+            return Ok(new Response<LoginRequestModel>
+            {
+                Success = true,
+                Payload = response
+            });
         }
         catch (EmailHasBeenUsedException)
         {
-            return Ok(new ConflictResponse());
+            return Ok(new Response
+            {
+                Success = false,
+                ErrorType = AuthConstants.Conflict
+            });
         }
         catch (Exception ex)
         {
@@ -37,22 +78,36 @@ public class AuthController(
         }
     }
 
-    // TODO: Add cookie authenticatation https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-8.0
     [HttpPost("login")]
-    public async Task<ActionResult> Login(LoginRequestModel request)
+    public async Task<IActionResult> Login(LoginRequestModel request)
     {
         try
         {
             var result = await _authService.Login(request);
 
-            SetCookiesRefreshToken(result.RefreshToken);
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                IsPersistent = true,
+                IssuedUtc = DateTimeOffset.UtcNow
+            };
 
-            return Ok(result.JWT);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(result),
+                authProperties);
+
+            return Ok(new Response
+            {
+                Success = true
+            });
         }
         catch (Exception ex) when (ex is InvalidEmailException || ex is WrongPasswordException)
         {
-            return Ok(new LoginErrorResponse
+            return Ok(new Response
             {
+                Success = false,
                 ErrorType = AuthConstants.InvalidCredentials
             });
         }
@@ -63,55 +118,16 @@ public class AuthController(
     }
 
     [HttpPost("confirm-email")]
-    public async Task<ActionResult> ConfirmEmail(ConfirmEmailModel request)
+    public async Task<IActionResult> ConfirmEmail(ConfirmEmailModel request)
     {
         await _authService.ConfirmEmail(request);
         return Ok();
     }
 
     [HttpGet("logout")]
-    public IActionResult Logout()
+    public async Task<IActionResult> Logout()
     {
-        ExpireCookiesRefreshToken();
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return Ok();
-    }
-
-    [HttpGet("refresh-token")]
-    public async Task<ActionResult> RefreshToken()
-    {
-        var refreshToken = Request.Cookies[AuthConstants.RefreshToken];
-
-        if (refreshToken is null)
-        {
-            return Unauthorized();
-        }
-
-        var jwt = await _authService.RefreshAccessToken(refreshToken);
-        return Ok(jwt);
-    }
-
-    // TODO: Move it somewhere
-    private void SetCookiesRefreshToken(RefreshToken newRefreshToken)
-    {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = newRefreshToken.ExpiresAt,
-            SameSite = SameSiteMode.None,
-            Secure = true
-        };
-        Response.Cookies.Append(AuthConstants.RefreshToken, newRefreshToken.Token, cookieOptions);
-    }
-
-    private void ExpireCookiesRefreshToken()
-    {
-        var cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Expires = DateTime.UtcNow.AddMinutes(-1),
-            SameSite = SameSiteMode.None,
-            Secure = true
-        };
-        Response.Cookies.Append(AuthConstants.RefreshToken, string.Empty, cookieOptions);
     }
 }

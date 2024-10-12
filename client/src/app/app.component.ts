@@ -12,9 +12,7 @@ import { AuthService } from '../core/services/auth.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  constructor(
-    private readonly authService: AuthService
-  ) {
-    authService.refreshToken().subscribe();
+  constructor(authService: AuthService) {
+    authService.fetchUser().subscribe();
   }
 }
