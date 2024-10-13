@@ -10,7 +10,9 @@
     }
     @for (item of pagesToDisplay; track $index) {
       <li class="page-item" [ngClass]="{'active': current === item}">
-        <a [href]="textBuilder.buildPageUrl(route, item)" class="page-link">{{ item }}</a>
+        <a [attr.href]="current === item ? null : textBuilder.buildPageUrl(route, item)" class="page-link">
+          {{ item }}
+        </a>
       </li>
     }
     @if (current < last) {
