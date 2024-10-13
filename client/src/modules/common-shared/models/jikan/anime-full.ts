@@ -1,17 +1,20 @@
 import { Title } from "@angular/platform-browser";
 import { Aired } from "./aired";
+import { AnimeRelations } from "./anime-relations";
 import { Broadcast } from "./broadcast";
+import { ExternalLink } from "./external-link";
 import { Genre } from "./genre";
 import { Images } from "./images";
 import { Producer } from "./producer";
+import { StreamingLink } from "./streaming-link";
+import { Theme } from "./theme";
 import { Trailer } from "./trailer";
+import { Demographic } from "./demographic";
+import { ExplicitGenre } from "./explicit-genre";
 import { Licensor } from "./licensor";
 import { Studio } from "./studio";
-import { ExplicitGenre } from "./explicit-genre";
-import { Theme } from "./theme";
-import { Demographic } from "./demographic";
 
-export interface Anime {
+export interface AnimeFull {
   mal_id: number;
   url: string;
   images: Images;
@@ -48,4 +51,8 @@ export interface Anime {
   explicit_genres: ExplicitGenre[];
   themes: Theme[];
   demographics: Demographic[];
+  relations: AnimeRelations[];
+  theme: Theme;
+  external: ExternalLink[];
+  streaming: StreamingLink[];
 }
