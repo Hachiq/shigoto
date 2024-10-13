@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CATEGORY_TITLES } from './constants/category-titles';
 import { Jikan } from './services/jikan';
@@ -8,22 +8,22 @@ import { AnimeListItemComponent } from './components/anime-list-item/anime-list-
 import { AnimeSearch } from '../common-shared/models/jikan/anime-search';
 import { CommonModule } from '@angular/common';
 import { TextBuilderService } from './services/text-builder.service';
+import { PaginationComponent } from '../common-shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-main-list',
   standalone: true,
-  imports: [CommonModule, MainSidebarComponent, AnimeListItemComponent],
+  imports: [CommonModule, MainSidebarComponent, AnimeListItemComponent, PaginationComponent],
   templateUrl: './main-list.component.html',
   styleUrl: './main-list.component.scss'
 })
-export class MainListComponent implements OnInit {
+export class MainListComponent {
   title!: string;
   originalRoute!: string;
 
   animeList?: AnimeSearch;
 
   currentPage!: number;
-  pagesToDisplay: number[] = [];
 
   route = inject(ActivatedRoute);
   jikan = inject(Jikan);
@@ -44,28 +44,6 @@ export class MainListComponent implements OnInit {
         this.fetchAnimeList(type, this.currentPage);
       });
     });
-  }
-
-  ngOnInit() {
-    this.getPagesToDisplay();
-  }
-
-  getPagesToDisplay(): void {
-    if(!this.animeList) {
-      return;
-    }
-
-    const range = 2; // Number of pages before and after the current page
-    
-    // Calculate the start and end pages for the display
-    const startPage = Math.max(1, this.currentPage - range);
-    const endPage = Math.min(this.animeList?.pagination?.last_visible_page, this.currentPage + range);
-    
-    // Clear and populate the pagesToDisplay array
-    this.pagesToDisplay = [];
-    for (let i = startPage; i <= endPage; i++) {
-      this.pagesToDisplay.push(i);
-    }
   }
 
   getTitle(category: string): any {

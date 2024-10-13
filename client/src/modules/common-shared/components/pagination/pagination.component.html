@@ -1,0 +1,25 @@
+<div class="pagination">
+  <ul class="pages">
+    @if (current > 1) {
+      <li class="page-item">
+        <a [href]="textBuilder.buildPageUrl(route, 1)" class="page-link">«</a>
+      </li>
+      <li class="page-item">
+        <a [href]="textBuilder.buildPageUrl(route, current - 1)" class="page-link">‹</a>
+      </li>
+    }
+    @for (item of pagesToDisplay; track $index) {
+      <li class="page-item" [ngClass]="{'active': current === item}">
+        <a [href]="textBuilder.buildPageUrl(route, item)" class="page-link">{{ item }}</a>
+      </li>
+    }
+    @if (current < last) {
+      <li class="page-item">
+        <a [href]="textBuilder.buildPageUrl(route, current + 1)" class="page-link">›</a>
+      </li>
+      <li class="page-item">
+        <a [href]="textBuilder.buildPageUrl(route, last)" class="page-link">»</a>
+      </li>
+    }
+  </ul>
+</div>

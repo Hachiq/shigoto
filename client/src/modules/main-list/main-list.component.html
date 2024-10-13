@@ -15,31 +15,10 @@
               </app-anime-list-item>
             }
           </div>
-          <div class="pagination">
-            <ul class="pages">
-              @if (currentPage > 1) {
-                <li class="page-item">
-                  <a [href]="textBuilder.buildPageUrl(originalRoute, 1)" class="page-link">«</a>
-                </li>
-                <li class="page-item">
-                  <a [href]="textBuilder.buildPageUrl(originalRoute, currentPage - 1)" class="page-link">‹</a>
-                </li>
-              }
-              @for (item of pagesToDisplay; track $index) {
-                <li class="page-item" [ngClass]="{'active': currentPage === item}">
-                  <a [href]="textBuilder.buildPageUrl(originalRoute, item)" class="page-link">{{ item }}</a>
-                </li>
-              }
-              @if (currentPage < animeList.pagination.last_visible_page) {
-                <li class="page-item">
-                  <a [href]="textBuilder.buildPageUrl(originalRoute, currentPage + 1)" class="page-link">›</a>
-                </li>
-                <li class="page-item">
-                  <a [href]="textBuilder.buildPageUrl(originalRoute, animeList.pagination.last_visible_page)" class="page-link">»</a>
-                </li>
-              }
-            </ul>
-          </div>
+          <app-pagination [current]="currentPage"
+                          [route]="originalRoute"
+                          [last]="animeList.pagination.last_visible_page">
+          </app-pagination>
         }
       </section>
     </div>
