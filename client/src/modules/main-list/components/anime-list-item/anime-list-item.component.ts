@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { faPlay, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Anime } from '../../../common-shared/models/jikan/anime';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-anime-list-item',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, RouterModule],
   templateUrl: './anime-list-item.component.html',
   styleUrl: './anime-list-item.component.scss'
 })

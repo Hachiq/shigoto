@@ -10,7 +10,9 @@ import { NotificationComponent } from '../modules/user/pages/notification/notifi
 import { UserComponent } from '../modules/user/user.component';
 import { ConfirmEmailComponent } from '../core/components/confirm-email/confirm-email.component';
 import { MainListComponent } from '../modules/main-list/main-list.component';
+import { AnimeDetailsComponent } from '../modules/anime-details/anime-details.component';
 
+// TODO: Split them into different files
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
@@ -36,6 +38,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'profile', pathMatch: 'full' },
     ]
   },
+  { path: ':slugId', component: AnimeDetailsComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' }
 ];

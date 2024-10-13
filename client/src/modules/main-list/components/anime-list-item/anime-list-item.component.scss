@@ -179,6 +179,10 @@
 
     a {
       color: var(--text);
+
+      &:hover {
+        color: var(--secondary);
+      }
     }
   }
 

@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { COMMON_SHARED_CONFIGURATION } from '../../common-shared/configuration/common-shared.config';
 import { Observable } from 'rxjs';
 import { AnimeSearch } from '../../common-shared/models/jikan/anime-search';
+import { AnimeFullData } from '../../common-shared/models/jikan/anime-full-data';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,10 @@ export class Jikan {
       .set('min_score', this.defaultParams.min_score);
 
     return this.http.get<AnimeSearch>(url, { params });
+  }
+
+  getAnimeFullById(id: number): Observable<AnimeFullData> {
+    const url = `${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}/${id}/full`;
+    return this.http.get<AnimeFullData>(url);
   }
 }

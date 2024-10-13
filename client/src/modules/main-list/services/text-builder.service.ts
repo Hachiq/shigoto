@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Anime } from '../../common-shared/models/jikan/anime';
+import { AnimeFull } from '../../common-shared/models/jikan/anime-full';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +61,14 @@ export class TextBuilderService {
       month: 'short',
       day: 'numeric'
     });
-  }  
+  }
+  
+  getAnimeDetailsRoute(anime: Anime | AnimeFull): string {
+    const cleanedTitle = anime.title
+      .replace(/[;:().]/g, '')
+      .replace(/\s+/g, '-')
+      .toLowerCase();
+
+    return `/${cleanedTitle}-${anime.mal_id}`;
+  }
 }
