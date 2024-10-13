@@ -71,4 +71,8 @@ export class TextBuilderService {
 
     return `/${cleanedTitle}-${anime.mal_id}`;
   }
+
+  buildPageUrl(route: string, page: number): string {
+    return `${route}?page=${page}`;
+  }
 }
