@@ -1,1 +1,48 @@
-<p>anime-details works!</p>
+<div id="main-wrapper" class="layout-page">
+  @if (anime) {
+    <div class="container">
+      <div class="cover-wrap">
+        <div class="cover" [ngStyle]="{ 'background-image': 'url(' + anime.images.jpg.large_image_url + ')' }"></div>
+      </div>
+      <div class="content">   
+        <div class="poster"></div> <!-- position: absolute -->
+        <div class="details">
+          <div class="prebreadcrumb">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="home">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="tv">{{ anime.type }}</a>
+                </li>
+                <li class="breadcrumb-item">
+                  {{ anime.title }}
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <h2 class="film-name">{{ anime.title }}</h2>
+          <div class="stats">
+            <div class="tick">
+              <div class="tick-item tick-pg">
+                {{ textBuilder.getRatingIdentifier(anime.rating) }}
+              </div>
+              <div class="tick-item tick-eps">
+                {{ anime.episodes }}
+              </div>
+              <span class="dot"></span>
+              <span class="item">{{ anime.type }}</span>
+              <span class="dot"></span>
+              <span class="item">{{ textBuilder.getDurationInMinutes(anime.duration) }}</span>
+            </div>
+          </div>
+          <div class="buttons">
+            <a [href]="anime.url">Watch now</a>
+          </div>
+        </div>
+        <div class="info"></div> <!-- position: absolute -->
+      </div>
+    </div>
+  }
+</div>

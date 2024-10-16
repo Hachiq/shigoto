@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Jikan } from '../main-list/services/jikan';
 import { AnimeFull } from '../common-shared/models/jikan/anime-full';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-anime-details',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './anime-details.component.html',
   styleUrl: './anime-details.component.scss'
 })
@@ -19,7 +20,7 @@ export class AnimeDetailsComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private jikan = inject(Jikan);
-  private textBuilder = inject(TextBuilderService);
+  public textBuilder = inject(TextBuilderService);
 
   constructor() {
     this.route.paramMap.subscribe(params => {

@@ -1,0 +1,32 @@
+.container {
+  position: relative;
+  max-width: 100%;
+  padding-left: 15px;
+}
+
+.cover-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  filter: grayscale(1);
+}
+
+.cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center center;
+  filter: blur(20px);
+  opacity: .35;
+  transform: scale(1.2);
+}
+
+.details {
+  position: relative;
+}
