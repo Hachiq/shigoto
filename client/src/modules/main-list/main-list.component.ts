@@ -7,7 +7,7 @@ import { MainSidebarComponent } from "./components/main-sidebar/main-sidebar.com
 import { AnimeListItemComponent } from './components/anime-list-item/anime-list-item.component';
 import { AnimeSearch } from '../common-shared/models/jikan/anime-search';
 import { CommonModule } from '@angular/common';
-import { TextBuilderService } from './services/text-builder.service';
+import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { PaginationComponent } from '../common-shared/components/pagination/pagination.component';
 
 @Component({

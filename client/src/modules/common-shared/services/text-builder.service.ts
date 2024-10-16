@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Anime } from '../../common-shared/models/jikan/anime';
-import { AnimeFull } from '../../common-shared/models/jikan/anime-full';
+import { Anime } from '../models/jikan/anime';
+import { AnimeFull } from '../models/jikan/anime-full';
 
 @Injectable({
   providedIn: 'root'

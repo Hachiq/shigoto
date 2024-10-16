@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { TextBuilderService } from '../../../main-list/services/text-builder.service';
+import { TextBuilderService } from '../../services/text-builder.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Jikan } from '../main-list/services/jikan';
 import { AnimeFull } from '../common-shared/models/jikan/anime-full';
-import { TextBuilderService } from '../main-list/services/text-builder.service';
+import { TextBuilderService } from '../common-shared/services/text-builder.service';
 
 @Component({
   selector: 'app-anime-details',

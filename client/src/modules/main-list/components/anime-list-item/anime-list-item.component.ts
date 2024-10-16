@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, inject, Input, ViewChild } from '@angular/core';
-import { TextBuilderService } from '../../services/text-builder.service';
+import { TextBuilderService } from '../../../common-shared/services/text-builder.service';
 import { CommonModule } from '@angular/common';
 import { faPlay, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
