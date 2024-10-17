@@ -11,12 +11,12 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                  <a href="home">Home</a>
+                  <a class="nav-link" href="home">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="tv">{{ anime.type }}</a>
+                  <a class="nav-link" href="tv">{{ anime.type }}</a>
                 </li>
-                <li class="breadcrumb-item">
+                <li class="breadcrumb-item title">
                   {{ anime.title }}
                 </li>
               </ol>
@@ -38,7 +38,15 @@
             </div>
           </div>
           <div class="buttons">
-            <a [href]="anime.url">Watch now</a>
+            <a [href]="anime.url">
+              <fa-icon class="pr-03" [icon]="iplay"></fa-icon> Watch now
+            </a>
+          </div>
+          <div class="description">
+            <div class="text">
+              {{ anime.synopsis }}
+              <span class="btn-more">+ More</span>
+            </div>
           </div>
         </div>
         <div class="info"></div> <!-- position: absolute -->

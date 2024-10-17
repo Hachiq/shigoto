@@ -4,15 +4,19 @@ import { Jikan } from '../main-list/services/jikan';
 import { AnimeFull } from '../common-shared/models/jikan/anime-full';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { CommonModule } from '@angular/common';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-anime-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FontAwesomeModule],
   templateUrl: './anime-details.component.html',
   styleUrl: './anime-details.component.scss'
 })
 export class AnimeDetailsComponent {
+  iplay = faPlay;
+
   animeId!: number;
   correctSlug?: string;
   anime?: AnimeFull;

@@ -27,6 +27,112 @@
   transform: scale(1.2);
 }
 
-.details {
+.content {
   position: relative;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  padding-right: 25%;
+
+  .details {
+    padding-left: 25%;
+  
+    .prebreadcrumb {
+      margin: 0;
+      font-size: 16px;
+      color: #ddd;
+  
+      .breadcrumb {
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        padding: 0;
+        margin-bottom: 1rem;
+        list-style: none;
+  
+        .breadcrumb-item+.breadcrumb-item {
+          padding-left: .5rem;
+  
+          &::before {
+            display: inline-block;
+            content: "•";
+            color: #AAA;
+            padding-right: .5rem;
+          }
+        }
+  
+        .breadcrumb-item.title {
+          color: #AAA;
+        }
+  
+        .breadcrumb-item {
+          line-height: 1.4em;
+          margin-bottom: 3px;
+        }
+      }
+    }
+  
+    .film-name {
+      font-size: 44px;
+      font-weight: 500;
+      line-height: 1.1em;
+    }
+  
+    .stats {
+      margin-bottom: 30px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+  
+      .tick {
+        display: flex;
+        align-items: center;
+  
+        .tick-item {
+          font-size: 15px;
+          font-family: arial;
+          line-height: 1;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          padding: 0 6px;
+          height: 23px;
+          border-radius: 0;
+          background: #fff;
+          color: #111;
+        }
+  
+        .tick-item+.tick-item {
+          margin-left: 4px;
+        }
+  
+        .tick-item:first-of-type {
+          border-bottom-left-radius: 4px;
+          border-top-left-radius: 4px;
+        }
+  
+        .tick-item.tick-eps {
+          background: rgba(238, 238, 238, .2);
+          color: #fff;
+        }
+      }
+    }
+  
+    .buttons {
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+  
+      a {
+        margin-right: 10px;
+        background: var(--secondary);
+        color: #000;
+        border-color: var(--secondary);
+        border-radius: 40px;
+        font-weight: 500;
+        font-size: 18px;
+        padding: .7rem 1.4rem;
+      }
+    }
+  }
 }
