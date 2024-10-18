@@ -21,6 +21,8 @@ export class AnimeDetailsComponent {
   correctSlug?: string;
   anime?: AnimeFull;
 
+  shortDescription = true;
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private jikan = inject(Jikan);
@@ -71,6 +73,10 @@ export class AnimeDetailsComponent {
     if (currentSlug !== this.correctSlug) {
       this.router.navigate([`${this.correctSlug}`], { replaceUrl: true });
     }
+  }
+
+  toggleDescription() {
+    this.shortDescription = !this.shortDescription;
   }
 
   private navigateToHome(): void {

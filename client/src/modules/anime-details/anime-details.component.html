@@ -5,7 +5,7 @@
         <div class="cover" [ngStyle]="{ 'background-image': 'url(' + anime.images.jpg.large_image_url + ')' }"></div>
       </div>
       <div class="content">   
-        <div class="poster"></div> <!-- position: absolute -->
+        <img [src]="anime.images.jpg.image_url" [alt]="anime.title" class="poster">
         <div class="details">
           <div class="prebreadcrumb">
             <nav aria-label="breadcrumb">
@@ -44,12 +44,78 @@
           </div>
           <div class="description">
             <div class="text">
-              {{ anime.synopsis }}
-              <span class="btn-more">+ More</span>
+              @if (shortDescription) {
+                {{ textBuilder.shortenDescription(anime.synopsis, 300) }}
+                <span class="btn-more" (click)="toggleDescription()">+ More</span>
+              } @else {
+                {{ anime.synopsis }}
+                <span class="btn-more" (click)="toggleDescription()">- Less</span>
+              }
             </div>
           </div>
         </div>
-        <div class="info"></div> <!-- position: absolute -->
+        <div class="info-wrap">
+          <div class="info">
+            <div class="item">
+              <span class="label">Japanese: </span>
+              <span class="value">{{ anime.title_japanese }}</span>
+            </div>
+            @if (anime.title_synonyms.length !== 0) {
+              <div class="item">
+                <span class="label">Synonyms: </span>
+                <span class="value">{{ anime.title_synonyms[0] }}</span>
+              </div>
+            }
+            <div class="item">
+              <span class="label">Aired: </span>
+              <span class="value">
+                {{ textBuilder.formatDate(anime.aired.from) + ' to ' + textBuilder.formatDate(anime.aired.to) }}
+              </span>
+            </div>
+            <div class="item">
+              <span class="label">Premiered: </span>
+              <span class="value">{{ anime.season | titlecase }} {{ anime.year }}</span>
+            </div>
+            <div class="item">
+              <span class="label">Duration: </span>
+              <span class="value">{{ textBuilder.getDurationInMinutes(anime.duration) }}</span>
+            </div>
+            <div class="item">
+              <span class="label">Status: </span>
+              <span class="value">{{ anime.status }}</span>
+            </div>
+            <div class="item">
+              <span class="label">MAL Score: </span>
+              <span class="value">{{ anime.score }}</span>
+            </div>
+            <div class="item item-bordered">
+              <span class="label">Genres: </span>
+              @for (item of anime.genres; track $index) {
+                <a class="nav-link" href="#" [title]="item.name">{{ item.name }}</a>
+              }
+            </div>
+            <div class="item">
+              <span class="label">Studios: </span>
+              @for (item of anime.studios; track $index) {
+                @if ($last) {
+                  <a class="nav-link" href="#">{{ item.name }}</a>
+                } @else {
+                  <a class="nav-link" href="#">{{ item.name }}</a>,
+                }
+              }
+            </div>
+            <div class="item">
+              <span class="label">Producers: </span>
+              @for (item of anime.producers; track $index) {
+                @if ($last) {
+                  <a class="nav-link" href="#">{{ item.name }}</a>
+                } @else {
+                  <a class="nav-link" href="#">{{ item.name }}</a>,
+                }
+              }
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   }

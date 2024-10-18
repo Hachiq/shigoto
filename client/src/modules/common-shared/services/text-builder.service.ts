@@ -40,8 +40,7 @@ export class TextBuilderService {
     return ['R', 'R+', 'Rx'].includes(identifier);
   }
 
-  shortenDescription(text: string): string {
-    const maxLength = 130
+  shortenDescription(text: string, maxLength: number = 130): string {
     if (text.length <= maxLength) {
       return text;
     }

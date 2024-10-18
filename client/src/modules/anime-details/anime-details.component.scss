@@ -2,6 +2,7 @@
   position: relative;
   max-width: 100%;
   padding-left: 15px;
+  padding-right: 15px;
 }
 
 .cover-wrap {
@@ -32,6 +33,13 @@
   padding-top: 80px;
   padding-bottom: 80px;
   padding-right: 25%;
+
+  .poster {
+    width: 200px;
+    position: absolute;
+    left: 5%;
+    object-fit: cover;
+  }
 
   .details {
     padding-left: 25%;
@@ -132,6 +140,78 @@
         font-weight: 500;
         font-size: 18px;
         padding: .7rem 1.4rem;
+      }
+    }
+
+    .description {
+      margin: 0;
+
+      .text {
+        font-weight: 300;
+        line-height: 1.5em;
+        font-size: 16px;
+
+        .btn-more {
+          margin-left: 2px;
+          cursor: pointer;
+          font-weight: 500;
+          font-size: 16px;
+          display: inline-block;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  .info-wrap {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: calc(25% - 30px);
+    background: rgba(255, 255, 255, .1);
+    overflow: hidden;
+
+    .info {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      max-height: 90%;
+      overflow: auto;
+      left: 30px;
+      bottom: auto;
+      right: 30px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .item {
+        margin-bottom: 10px;
+        line-height: 1.5em;
+        font-size: 16px;
+        font-weight: 300;
+
+        .label {
+          font-weight: 600;
+          margin-right: 5px;
+        }
+      }
+
+      .item.item-bordered {
+        padding: 10px 0 5px;
+        border-top: 1px solid rgba(255, 255, 255, .2);
+        border-bottom: 1px solid rgba(255, 255, 255, .2);
+
+        a {
+          display: inline-block;
+          font-size: 14px;
+          line-height: 1.2em;
+          padding: 6px 12px;
+          border: 1px solid rgba(255, 255, 255, .4);
+          border-radius: 20px;
+          margin: 0 4px 6px 0;
+        }
       }
     }
   }
