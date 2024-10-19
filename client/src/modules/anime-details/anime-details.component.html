@@ -14,7 +14,7 @@
                   <a class="nav-link" href="home">Home</a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a class="nav-link" href="tv">{{ anime.type }}</a>
+                  <a class="nav-link" [href]="anime.type | lowercase">{{ anime.type }}</a>
                 </li>
                 <li class="breadcrumb-item title">
                   {{ anime.title }}
