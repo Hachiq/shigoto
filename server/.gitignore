@@ -68,6 +68,9 @@ ScaffoldingReadMe.txt
 # StyleCop
 StyleCopReport.xml
 
+Web/wwwroot/videos/*
+!Web/wwwroot/videos/
+
 # Files built by Visual Studio
 *_i.c
 *_p.c
