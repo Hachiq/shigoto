@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="buttons">
-            <a [href]="anime.url">
+            <a [href]="'watch' + textBuilder.getSlugRoute(anime)">
               <fa-icon class="pr-03" [icon]="iplay"></fa-icon> Watch now
             </a>
           </div>

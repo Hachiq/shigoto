@@ -62,7 +62,7 @@ export class TextBuilderService {
     });
   }
   
-  getAnimeDetailsRoute(anime: Anime | AnimeFull): string {
+  getSlugRoute(anime: Anime | AnimeFull): string {
     const cleanedTitle = anime.title
       .replace(/[;:().]/g, '')
       .replace(/\s+/g, '-')

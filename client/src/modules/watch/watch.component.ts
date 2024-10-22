@@ -1,27 +1,23 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Jikan } from '../main-list/services/jikan';
-import { AnimeFull } from '../common-shared/models/jikan/anime-full';
+import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
-import { CommonModule } from '@angular/common';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Anime } from '../common-shared/models/jikan/anime';
 
 @Component({
-  selector: 'app-anime-details',
+  selector: 'app-watch',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
-  templateUrl: './anime-details.component.html',
-  styleUrl: './anime-details.component.scss'
+  imports: [],
+  templateUrl: './watch.component.html',
+  styleUrl: './watch.component.scss'
 })
-export class AnimeDetailsComponent {
-  iplay = faPlay;
+export class WatchComponent {
 
   animeId!: number;
   correctSlug?: string;
-  anime?: AnimeFull;
-
-  shortDescription = true;
+  episode?: Episode;
+  anime?: Anime;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -46,7 +42,8 @@ export class AnimeDetailsComponent {
       const id = Number(parts[2]);
       if (!isNaN(id)) {
         this.animeId = id;
-        this.fetchAnimeDetails(this.animeId);
+        this.fetchAnime(this.animeId);
+        this.fetchEpisode(this.animeId, 1); // Do not fetch episode if type === movie
       } else {
         this.navigateToHome();
       }
@@ -55,15 +52,20 @@ export class AnimeDetailsComponent {
     }
   }
 
-  private fetchAnimeDetails(id: number): void {
-    this.jikan.getAnimeFullById(id).subscribe({
+  fetchEpisode(animeId: number, episode: number) {
+    this.jikan.getAnimeEpisodeById(animeId, episode).subscribe({
+      next: (response) => {
+        this.episode = response.data;
+      }
+    });
+  }
+
+  fetchAnime(animeId: number) {
+    this.jikan.getAnimeById(animeId).subscribe({
       next: (response) => {
         this.anime = response.data;
         this.correctSlug = this.textBuilder.getSlugRoute(response.data).replace('/', '');
         this.updateUrlWithCorrectSlug();
-      },
-      error: () => {
-        this.navigateToHome();
       }
     });
   }
@@ -71,12 +73,8 @@ export class AnimeDetailsComponent {
   private updateUrlWithCorrectSlug(): void {
     const currentSlug = this.route.snapshot.paramMap.get('slugId');
     if (currentSlug !== this.correctSlug) {
-      this.router.navigate([`${this.correctSlug}`], { replaceUrl: true });
+      this.router.navigate([`watch/${this.correctSlug}`], { replaceUrl: true });
     }
-  }
-
-  toggleDescription() {
-    this.shortDescription = !this.shortDescription;
   }
 
   private navigateToHome(): void {

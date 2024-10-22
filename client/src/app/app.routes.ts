@@ -11,6 +11,7 @@ import { UserComponent } from '../modules/user/user.component';
 import { ConfirmEmailComponent } from '../core/components/confirm-email/confirm-email.component';
 import { MainListComponent } from '../modules/main-list/main-list.component';
 import { AnimeDetailsComponent } from '../modules/anime-details/anime-details.component';
+import { WatchComponent } from '../modules/watch/watch.component';
 
 // TODO: Split them into different files
 export const routes: Routes = [
@@ -39,6 +40,7 @@ export const routes: Routes = [
     ]
   },
   { path: ':slugId', component: AnimeDetailsComponent },
+  { path: 'watch/:slugId', component: WatchComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' }
 ];

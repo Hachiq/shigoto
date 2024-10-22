@@ -9,13 +9,13 @@
          (mouseleave)="showPopover()">17+</div>
   }
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
-  <a [href]="textBuilder.getAnimeDetailsRoute(item)">
+  <a [href]="textBuilder.getSlugRoute(item)">
     <fa-icon [icon]="iplay"></fa-icon>
   </a>
 </div>
 <div class="details" [ngClass]="{'min-height-150': bigItem}">
   <h3 class="name">
-    <a [href]="textBuilder.getAnimeDetailsRoute(item)">{{ item.title }}</a>
+    <a [href]="textBuilder.getSlugRoute(item)">{{ item.title }}</a>
   </h3>
   @if (index < 4) {
     <div class="description">{{ item.synopsis }}</div>
@@ -89,7 +89,7 @@
       </div>
     }
     <div class="button">
-      <a [routerLink]="textBuilder.getAnimeDetailsRoute(item)">
+      <a [href]="'watch' + textBuilder.getSlugRoute(item)">
         <fa-icon class="pr-03" [icon]="iplay"></fa-icon> Watch now
       </a>
     </div>

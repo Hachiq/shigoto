@@ -5,6 +5,8 @@ import { COMMON_SHARED_CONFIGURATION } from '../../common-shared/configuration/c
 import { Observable } from 'rxjs';
 import { AnimeSearch } from '../../common-shared/models/jikan/anime-search';
 import { AnimeFullData } from '../../common-shared/models/jikan/anime-full-data';
+import { EpisodeData } from '../../common-shared/models/jikan/episode-data';
+import { AnimeData } from '../../common-shared/models/jikan/anime-data';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +34,18 @@ export class Jikan {
     return this.http.get<AnimeSearch>(url, { params });
   }
 
+  getAnimeById(id: number): Observable<AnimeData> {
+    const url = `${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}/${id}`;
+    return this.http.get<AnimeData>(url);
+  }
+
   getAnimeFullById(id: number): Observable<AnimeFullData> {
     const url = `${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}/${id}/full`;
     return this.http.get<AnimeFullData>(url);
+  }
+
+  getAnimeEpisodeById(id: number, episode: number): Observable<EpisodeData> {
+    const url = `${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}/${id}/episodes/${episode}`;
+    return this.http.get<EpisodeData>(url);
   }
 }
