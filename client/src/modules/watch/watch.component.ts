@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Jikan } from '../main-list/services/jikan';
 import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
+import { ANIME_TYPES } from '../main-list/constants/anime-types';
 
 @Component({
   selector: 'app-watch',
@@ -12,12 +13,12 @@ import { Anime } from '../common-shared/models/jikan/anime';
   templateUrl: './watch.component.html',
   styleUrl: './watch.component.scss'
 })
-export class WatchComponent {
+export class WatchComponent implements OnInit {
 
   animeId!: number;
   correctSlug?: string;
-  episode?: Episode;
   anime?: Anime;
+  episode?: Episode;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -27,37 +28,15 @@ export class WatchComponent {
   constructor() {
     this.route.paramMap.subscribe(params => {
       const slugId = params.get('slugId');
-      if (slugId) {
-        this.processSlugId(slugId);
-      } else {
+      if (!slugId) {
         this.navigateToHome();
       }
+      this.animeId = this.textBuilder.getIdFromSlug(slugId);
     });
   }
 
-  private processSlugId(slugId: string): void {
-    const parts = slugId.match(/(.+)-(\d+)$/);
-
-    if (parts && parts.length === 3) {
-      const id = Number(parts[2]);
-      if (!isNaN(id)) {
-        this.animeId = id;
-        this.fetchAnime(this.animeId);
-        this.fetchEpisode(this.animeId, 1); // Do not fetch episode if type === movie
-      } else {
-        this.navigateToHome();
-      }
-    } else {
-      this.navigateToHome();
-    }
-  }
-
-  fetchEpisode(animeId: number, episode: number) {
-    this.jikan.getAnimeEpisodeById(animeId, episode).subscribe({
-      next: (response) => {
-        this.episode = response.data;
-      }
-    });
+  ngOnInit(): void {
+    this.fetchAnime(this.animeId);
   }
 
   fetchAnime(animeId: number) {
@@ -66,6 +45,17 @@ export class WatchComponent {
         this.anime = response.data;
         this.correctSlug = this.textBuilder.getSlugRoute(response.data).replace('/', '');
         this.updateUrlWithCorrectSlug();
+        if (response.data && response.data.type.toLowerCase() !== ANIME_TYPES.movie) {
+          this.fetchEpisode(animeId, 1);
+        }
+      }
+    });
+  }
+
+  fetchEpisode(animeId: number, episode: number) {
+    this.jikan.getAnimeEpisodeById(animeId, episode).subscribe({
+      next: (response) => {
+        this.episode = response.data;
       }
     });
   }
