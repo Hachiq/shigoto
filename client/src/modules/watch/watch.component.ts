@@ -4,7 +4,6 @@ import { Jikan } from '../main-list/services/jikan';
 import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
-import { ANIME_TYPES } from '../main-list/constants/anime-types';
 
 @Component({
   selector: 'app-watch',
@@ -36,17 +35,26 @@ export class WatchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchAnime(this.animeId);
+    this.route.queryParamMap.subscribe(queryParams => {
+      const episodeParam = queryParams.get('ep');
+      this.fetchAnime(this.animeId, episodeParam);
+    });
   }
 
-  fetchAnime(animeId: number) {
+  fetchAnime(animeId: number, episodeParam: string | null) {
     this.jikan.getAnimeById(animeId).subscribe({
       next: (response) => {
         this.anime = response.data;
         this.correctSlug = this.textBuilder.getSlugRoute(response.data).replace('/', '');
         this.updateUrlWithCorrectSlug();
-        if (response.data && response.data.type.toLowerCase() !== ANIME_TYPES.movie) {
-          this.fetchEpisode(animeId, 1);
+        if (response.data && response.data.episodes > 1) {
+          const episode = episodeParam ? +episodeParam : 1;
+          this.fetchEpisode(animeId, episode);
+        } else {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParamsHandling: ''
+          });
         }
       }
     });
