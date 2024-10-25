@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, UrlSegment } from '@angular/router';
 import { CATEGORY_TITLES } from './constants/category-titles';
 import { Jikan } from '../common-shared/services/jikan';
 import { ANIME_TYPES } from './constants/anime-types';
@@ -9,6 +9,9 @@ import { AnimeSearch } from '../common-shared/models/jikan/anime-search';
 import { CommonModule } from '@angular/common';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { PaginationComponent } from '../common-shared/components/pagination/pagination.component';
+import { switchMap } from 'rxjs/operators';
+import { QueryParams } from '../common-shared/constants/query-params';
+import { ANIME_LIST_ROUTES } from './constants/anime-list-routes';
 
 @Component({
   selector: 'app-main-list',
@@ -20,45 +23,39 @@ import { PaginationComponent } from '../common-shared/components/pagination/pagi
 export class MainListComponent {
   title!: string;
   originalRoute!: string;
-
   animeList?: AnimeSearch;
-
   currentPage!: number;
 
-  route = inject(ActivatedRoute);
-  jikan = inject(Jikan);
-  textBuilder = inject(TextBuilderService);
+  private route = inject(ActivatedRoute);
+  private jikan = inject(Jikan);
 
-  // TODO: Maybe dont use 2 subscriptions?
   constructor() {
-    this.route.queryParams.subscribe(params => {
-      this.currentPage = params['page'] ? +params['page'] : 1;
+    this.route.url.pipe(
+      switchMap((url: UrlSegment[]) => {
+        const route = url[0]?.path || '';
+        this.originalRoute = route;
+        this.title = this.getTitle(route);
+        const type = this.getType(route);
 
-      this.route.url.subscribe(url => {
-        const category = url[0]?.path || '';
-        this.originalRoute = category;
-
-        this.title = this.getTitle(category);
-        const type = this.getType(category);
-        
-        this.fetchAnimeList(type, this.currentPage);
-      });
+        return this.route.queryParams.pipe(
+          switchMap((params: Params) => {
+            this.currentPage = params[QueryParams.page] ? +params[QueryParams.page] : 1;
+            return route === ANIME_LIST_ROUTES.most_popular
+              ? this.jikan.getTopAnime(type, this.currentPage)
+              : this.jikan.getListByType(type, this.currentPage);
+          })
+        );
+      })
+    ).subscribe({
+      next: (response) => this.animeList = response
     });
   }
 
-  getTitle(category: string): any {
-    return Object.keys(CATEGORY_TITLES).find(key => CATEGORY_TITLES[key] === category);
+  private getTitle(route: string): string {
+    return Object.keys(CATEGORY_TITLES).find(key => CATEGORY_TITLES[key] === route) ?? '';
   }
 
-  getType(category: string): any {
-    return Object.keys(ANIME_TYPES).find(key => ANIME_TYPES[key] === category) ?? '';
-  }
-
-  fetchAnimeList(type: string, page: number) {
-    this.jikan.getListByType(type, page).subscribe({
-      next: (list) => {
-        this.animeList = list;
-      }
-    })
+  private getType(route: string): string {
+    return Object.keys(ANIME_TYPES).find(key => ANIME_TYPES[key] === route) ?? '';
   }
 }
