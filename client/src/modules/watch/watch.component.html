@@ -1,1 +1,32 @@
-<p>watch works!</p>
+<div id="main-wrapper" class="layout-page">
+  @if (anime) {
+    <div class="container">
+      <div class="cover-wrap">
+        <div class="cover" [ngStyle]="{ 'background-image': 'url(' + anime.images.jpg.large_image_url + ')' }"></div>
+      </div>
+      <div class="content">
+        <div class="prebreadcrumb">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a class="nav-link" href="home">Home</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a class="nav-link" [href]="anime.type | lowercase">{{ anime.type }}</a>
+              </li>
+              <li class="breadcrumb-item title">
+                Watching {{ anime.title }}
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="main">
+          <app-episode-pagination></app-episode-pagination>
+          <app-player></app-player>
+          <app-episode-details></app-episode-details>
+        </div>
+      </div>
+    </div>
+  }
+</div>

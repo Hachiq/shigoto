@@ -5,11 +5,18 @@ import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
 import { QueryParams } from '../common-shared/constants/query-params';
+import { AnimeEpisodeData } from '../common-shared/models/jikan/anime-episode-data';
+import { CommonModule } from '@angular/common';
+import { EpisodePaginationComponent } from './episode-pagination/episode-pagination.component';
+import { PlayerComponent } from './player/player.component';
+import { EpisodeDetailsComponent } from './episode-details/episode-details.component';
+import { PaginationComponent } from "../common-shared/components/pagination/pagination.component";
 
+// TODO: Split into different components.
 @Component({
   selector: 'app-watch',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, EpisodePaginationComponent, PlayerComponent, EpisodeDetailsComponent, PaginationComponent],
   templateUrl: './watch.component.html',
   styleUrl: './watch.component.scss'
 })
@@ -18,8 +25,10 @@ export class WatchComponent implements OnInit {
   animeId!: number;
   correctSlug?: string;
   anime?: Anime;
-  // animeEpisodes
+  animeEpisodes?: AnimeEpisodeData;
   episode?: Episode;
+
+  currentPage: number = 1;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -52,6 +61,7 @@ export class WatchComponent implements OnInit {
         if (response.data && response.data.episodes > 1) {
           const episode = episodeParam ? +episodeParam : 1;
           this.fetchEpisode(animeId, episode);
+          this.fetchAnimeEpisodes(animeId, this.currentPage);
         } else {
           this.router.navigate([], {
             relativeTo: this.route,
@@ -66,6 +76,14 @@ export class WatchComponent implements OnInit {
     this.jikan.getAnimeEpisodeById(animeId, episode).subscribe({
       next: (response) => {
         this.episode = response.data;
+      }
+    });
+  }
+
+  fetchAnimeEpisodes(animeId: number, page: number) {
+    this.jikan.getAnimeEpisodes(animeId, page).subscribe({
+      next: (response) => {
+        this.animeEpisodes = response;
       }
     });
   }
