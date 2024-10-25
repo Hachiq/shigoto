@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CATEGORY_TITLES } from './constants/category-titles';
-import { Jikan } from './services/jikan';
+import { Jikan } from '../common-shared/services/jikan';
 import { ANIME_TYPES } from './constants/anime-types';
 import { MainSidebarComponent } from "./components/main-sidebar/main-sidebar.component";
 import { AnimeListItemComponent } from './components/anime-list-item/anime-list-item.component';

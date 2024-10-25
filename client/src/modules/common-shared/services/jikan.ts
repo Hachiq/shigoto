@@ -1,12 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { COMMON_SHARED_CONFIGURATION } from '../../common-shared/configuration/common-shared.config';
+import { COMMON_SHARED_CONFIGURATION } from '../configuration/common-shared.config';
 import { Observable } from 'rxjs';
-import { AnimeSearch } from '../../common-shared/models/jikan/anime-search';
-import { AnimeFullData } from '../../common-shared/models/jikan/anime-full-data';
-import { EpisodeData } from '../../common-shared/models/jikan/episode-data';
-import { AnimeData } from '../../common-shared/models/jikan/anime-data';
+import { AnimeSearch } from '../models/jikan/anime-search';
+import { AnimeFullData } from '../models/jikan/anime-full-data';
+import { EpisodeData } from '../models/jikan/episode-data';
+import { AnimeData } from '../models/jikan/anime-data';
 
 @Injectable({
   providedIn: 'root'
@@ -49,4 +49,6 @@ export class Jikan {
     const url = `${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}/${id}/episodes/${episode}`;
     return this.http.get<EpisodeData>(url);
   }
+
+  // getAnimeEpisodes
 }

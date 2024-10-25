@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Jikan } from '../main-list/services/jikan';
+import { Jikan } from '../common-shared/services/jikan';
 import { AnimeFull } from '../common-shared/models/jikan/anime-full';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { CommonModule } from '@angular/common';

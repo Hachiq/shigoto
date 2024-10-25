@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Jikan } from '../main-list/services/jikan';
+import { Jikan } from '../common-shared/services/jikan';
 import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
@@ -17,6 +17,7 @@ export class WatchComponent implements OnInit {
   animeId!: number;
   correctSlug?: string;
   anime?: Anime;
+  // animeEpisodes
   episode?: Episode;
 
   private route = inject(ActivatedRoute);
