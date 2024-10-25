@@ -4,6 +4,7 @@ import { Jikan } from '../common-shared/services/jikan';
 import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
+import { QueryParams } from '../common-shared/constants/query-params';
 
 @Component({
   selector: 'app-watch',
@@ -37,7 +38,7 @@ export class WatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(queryParams => {
-      const episodeParam = queryParams.get('ep');
+      const episodeParam = queryParams.get(QueryParams.episode);
       this.fetchAnime(this.animeId, episodeParam);
     });
   }

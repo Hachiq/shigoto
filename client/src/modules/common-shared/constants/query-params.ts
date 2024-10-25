@@ -22,5 +22,7 @@ export const QueryParams = {
   start_date: 'start_date',
   end_date: 'end_date',
   category: 'category',
-  continuing: 'continuing'
+  continuing: 'continuing',
+
+  episode: 'ep'
 }
