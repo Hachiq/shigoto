@@ -71,5 +71,26 @@
   .main {
     display: flex;
     height: 100vh;
+
+    .pagination {
+      width: 20%;
+      // background-color: #2a2a2a; // temporary
+      overflow: hidden;
+      // border-right: 1px solid #444;
+    }
+    
+    .player {
+      width: 55%;
+      // background-color: #333; // temporary
+      display: flex;
+      justify-content: center;
+    }
+    
+    .details {
+      width: 25%;
+      // background-color: #2a2a2a; // temporary
+      overflow-y: auto;
+      // border-left: 1px solid #444;
+    }
   }
 }

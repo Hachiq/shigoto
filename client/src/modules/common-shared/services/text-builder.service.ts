@@ -30,6 +30,11 @@ export class TextBuilderService {
     return `${totalMinutes}m`;
   }
 
+  getDurationInMinutesFromSeconds(duration: number): string {
+    let totalMinutes = Math.floor(duration / 60);
+    return `${totalMinutes}m`
+  }
+
   getRatingIdentifier(rating: string): string {
     const match = rating.match(/^[A-Za-z0-9+-]+/);
     return match ? match[0] : '';

@@ -1,1 +1,41 @@
-<p>episode-details works!</p>
+<div class="details-container">
+  <div class="poster">
+    <img [src]="poster_url">
+    @if (textBuilder.isForAdults(rating)) {
+      <div class="rating">17+</div>
+    }
+  </div>
+  <h2 class="title">{{ title }}</h2>
+  <div class="stats">
+    <div class="tick">
+      <div class="tick-item tick-pg">
+        {{ textBuilder.getRatingIdentifier(rating) }}
+      </div>
+      <div class="tick-item tick-eps">
+        {{ episodes }}
+      </div>
+      <span class="dot"></span>
+      <span class="item">{{ type }}</span>
+      <span class="dot"></span>
+      @if (durationInSeconds) {
+        <span class="item">{{ textBuilder.getDurationInMinutesFromSeconds(durationInSeconds) }}</span>
+      }
+      @else {
+        <span class="item">{{ textBuilder.getDurationInMinutes(duration) }}</span>
+      }
+    </div>
+  </div>
+  <div class="description">
+    <div class="text">
+      @if (shortDescription) {
+        {{ textBuilder.shortenDescription(synopsis, 300) }}
+        @if (synopsis.length > 300) {
+          <span class="btn-more" (click)="toggleDescription()">+ More</span>
+        }
+      } @else {
+        {{ synopsis }}
+        <span class="btn-more" (click)="toggleDescription()">- Less</span>
+      }
+    </div>
+  </div>
+</div>

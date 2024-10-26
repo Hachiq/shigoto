@@ -23,7 +23,7 @@ import { PaginationComponent } from "../common-shared/components/pagination/pagi
 export class WatchComponent implements OnInit {
 
   animeId!: number;
-  correctSlug?: string;
+  correctSlug!: string;
   anime?: Anime;
   animeEpisodes?: AnimeEpisodeData;
   episode?: Episode;

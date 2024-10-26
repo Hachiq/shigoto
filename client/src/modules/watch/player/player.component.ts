@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { VIDEO } from '../../common-shared/constants/video';
 
 @Component({
   selector: 'app-player',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './player.component.scss'
 })
 export class PlayerComponent {
-
+  VIDEO = VIDEO;
 }

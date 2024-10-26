@@ -1,1 +1,23 @@
-<p>episode-pagination works!</p>
+<div class="pagination-container">
+  <div class="header">List of episodes:</div>
+  @if (episodes) {
+    <div class="episodes" #scrollContainer>
+      @for (item of episodes.data; track $index) {
+        <a class="episode-item"
+           #episodeItem
+           [ngClass]="{'even' : $even }"
+           [ngClass]="{'current': currentEpisode === item.mal_id}"
+           [routerLink]="'/watch/'+ route"
+           [queryParams]="{'ep': item.mal_id}">
+          <div class="number">{{ item.mal_id }}</div>
+          <div class="title">{{ item.title }}</div>
+          @if (currentEpisode === item.mal_id) {
+            <div class="play-icon">
+              <fa-icon [icon]="iplay"></fa-icon>
+            </div>
+          }
+        </a>
+      }
+    </div>
+  }
+</div>

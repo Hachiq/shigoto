@@ -5,6 +5,7 @@
         <div class="cover" [ngStyle]="{ 'background-image': 'url(' + anime.images.jpg.large_image_url + ')' }"></div>
       </div>
       <div class="content">
+
         <div class="prebreadcrumb">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -22,9 +23,27 @@
         </div>
 
         <div class="main">
-          <app-episode-pagination></app-episode-pagination>
-          <app-player></app-player>
-          <app-episode-details></app-episode-details>
+          <section class="pagination">
+            <app-episode-pagination [episodes]="animeEpisodes"
+                                    [route]="correctSlug"
+                                    [currentEpisode]="episode?.mal_id">
+            </app-episode-pagination>
+          </section>
+          <section class="player">
+            <app-player></app-player>
+          </section>
+          <section class="details">
+              <app-episode-details [poster_url]="anime.images.jpg.image_url"
+                                   [title]="anime.title"
+                                   [rating]="anime.rating"
+                                   [episodes]="anime.episodes"
+                                   [type]="anime.type"
+                                   [duration]="anime.duration"
+                                   [durationInSeconds]="episode?.duration"
+                                   [synopsis]="episode?.synopsis || anime.synopsis"
+                                   [score]="anime.score">
+              </app-episode-details>   
+          </section>
         </div>
       </div>
     </div>
