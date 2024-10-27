@@ -25,10 +25,7 @@ export class WatchComponent implements OnInit {
   animeId!: number;
   correctSlug!: string;
   anime?: Anime;
-  animeEpisodes?: AnimeEpisodeData;
   episode?: Episode;
-
-  currentPage: number = 1;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -61,7 +58,6 @@ export class WatchComponent implements OnInit {
         if (response.data && response.data.episodes > 1) {
           const episode = episodeParam ? +episodeParam : 1;
           this.fetchEpisode(animeId, episode);
-          this.fetchAnimeEpisodes(animeId, this.currentPage);
         } else {
           this.router.navigate([], {
             relativeTo: this.route,
@@ -76,14 +72,6 @@ export class WatchComponent implements OnInit {
     this.jikan.getAnimeEpisodeById(animeId, episode).subscribe({
       next: (response) => {
         this.episode = response.data;
-      }
-    });
-  }
-
-  fetchAnimeEpisodes(animeId: number, page: number) {
-    this.jikan.getAnimeEpisodes(animeId, page).subscribe({
-      next: (response) => {
-        this.animeEpisodes = response;
       }
     });
   }
