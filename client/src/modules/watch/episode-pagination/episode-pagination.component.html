@@ -5,8 +5,7 @@
       @for (item of episodes.data; track $index) {
         <a class="episode-item"
            #episodeItem
-           [ngClass]="{'even' : $even }"
-           [ngClass]="{'current': currentEpisode === item.mal_id}"
+           [ngClass]="{'current': currentEpisode === item.mal_id, 'even' : $even }"
            [routerLink]="'/watch/'+ route"
            [queryParams]="{'ep': item.mal_id}">
           <div class="number">{{ item.mal_id }}</div>
