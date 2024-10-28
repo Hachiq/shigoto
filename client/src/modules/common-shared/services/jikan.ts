@@ -24,7 +24,6 @@ export class Jikan {
 
   private http = inject(HttpClient);
 
-  // TODO: A constant for query parameters
   getListByType(type: string, page: number): Observable<AnimeSearch> {
     const url = `${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}`;
     const params = new HttpParams()
