@@ -1,7 +1,7 @@
 import { AnimeEpisode } from "./anime-episode";
 import { PaginationMinimal } from "./pagination-minimal";
 
-export interface AnimeEpisodeData {
+export interface AnimeEpisodes {
   data: AnimeEpisode[];
   pagination: PaginationMinimal;
 }

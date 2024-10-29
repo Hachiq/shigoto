@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { AnimeEpisodeData } from '../../common-shared/models/jikan/anime-episode-data';
+import { AnimeEpisodes } from '../../common-shared/models/jikan/anime-episodes';
 import { CommonModule } from '@angular/common';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -20,7 +20,7 @@ export class EpisodePaginationComponent implements OnInit {
   @Input() route!: string;
   @Input() currentEpisode?: number;
 
-  episodes?: AnimeEpisodeData;
+  episodes?: AnimeEpisodes;
   currentPage: number = 1;
 
   private jikan = inject(Jikan);

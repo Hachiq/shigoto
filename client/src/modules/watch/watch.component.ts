@@ -5,7 +5,7 @@ import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
 import { QueryParams } from '../common-shared/constants/query-params';
-import { AnimeEpisodeData } from '../common-shared/models/jikan/anime-episode-data';
+import { AnimeEpisodes } from '../common-shared/models/jikan/anime-episodes';
 import { CommonModule } from '@angular/common';
 import { EpisodePaginationComponent } from './episode-pagination/episode-pagination.component';
 import { PlayerComponent } from './player/player.component';
