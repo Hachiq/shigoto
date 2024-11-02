@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { VIDEO } from '../../common-shared/constants/video';
+import { VIDEO } from '../../../common-shared/constants/video';
 
 @Component({
   selector: 'app-player',

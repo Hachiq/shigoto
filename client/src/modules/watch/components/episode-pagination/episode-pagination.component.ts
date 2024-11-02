@@ -1,10 +1,10 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { AnimeEpisodes } from '../../common-shared/models/jikan/anime-episodes';
+import { AnimeEpisodes } from '../../../common-shared/models/jikan/anime-episodes';
 import { CommonModule } from '@angular/common';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
-import { Jikan } from '../../common-shared/services/jikan';
+import { Jikan } from '../../../common-shared/services/jikan';
 
 @Component({
   selector: 'app-episode-pagination',

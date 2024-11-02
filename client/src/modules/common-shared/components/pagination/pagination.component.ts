@@ -1,6 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { TextBuilderService } from '../../services/text-builder.service';
 import { CommonModule } from '@angular/common';
+import { RouteHelperService } from '../../services/route-helper.service';
 
 @Component({
   selector: 'app-pagination',
@@ -16,7 +17,7 @@ export class PaginationComponent implements OnInit {
 
   pagesToDisplay!: number[];
 
-  textBuilder = inject(TextBuilderService);
+  routeHelper = inject(RouteHelperService);
 
   ngOnInit(): void {
     this.getPagesToDisplay();

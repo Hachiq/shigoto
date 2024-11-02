@@ -6,6 +6,7 @@ import { TextBuilderService } from '../common-shared/services/text-builder.servi
 import { CommonModule } from '@angular/common';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RouteHelperService } from '../common-shared/services/route-helper.service';
 
 @Component({
   selector: 'app-anime-details',
@@ -26,6 +27,7 @@ export class AnimeDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private jikan = inject(Jikan);
+  public routeHelper = inject(RouteHelperService);
   public textBuilder = inject(TextBuilderService);
 
   constructor() {
@@ -34,7 +36,7 @@ export class AnimeDetailsComponent implements OnInit {
       if (!slugId) {
         this.navigateToHome();
       }
-      this.animeId = this.textBuilder.getIdFromSlug(slugId);
+      this.animeId = this.routeHelper.getIdFromSlug(slugId);
     });
   }
 
@@ -46,7 +48,7 @@ export class AnimeDetailsComponent implements OnInit {
     this.jikan.getAnimeFullById(id).subscribe({
       next: (response) => {
         this.anime = response.data;
-        this.correctSlug = this.textBuilder.getSlugRoute(response.data).replace('/', '');
+        this.correctSlug = this.routeHelper.getSlugRoute(response.data).replace('/', '');
         this.updateUrlWithCorrectSlug();
       },
       error: () => {

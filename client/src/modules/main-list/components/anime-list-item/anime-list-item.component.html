@@ -9,13 +9,13 @@
          (mouseleave)="showPopover()">17+</div>
   }
   <img [src]="item.images.jpg.image_url" [alt]="item.title">
-  <a [href]="textBuilder.getSlugRoute(item)">
+  <a [href]="routeHelper.getSlugRoute(item)">
     <fa-icon [icon]="iplay"></fa-icon>
   </a>
 </div>
 <div class="details" [ngClass]="{'min-height-150': bigItem}">
   <h3 class="name">
-    <a [href]="textBuilder.getSlugRoute(item)">{{ item.title }}</a>
+    <a [href]="routeHelper.getSlugRoute(item)">{{ item.title }}</a>
   </h3>
   @if (index < 4) {
     <div class="description">{{ item.synopsis }}</div>
@@ -83,13 +83,13 @@
           @if ($last) {
             <a class="nav-link" href="">{{ item.name }}</a>
           } @else {
-          <a class="nav-link" href="">{{ item.name }}</a>, 
+            <a class="nav-link" href="">{{ item.name }}</a>, 
           }
         }
       </div>
     }
     <div class="button">
-      <a [href]="'watch' + textBuilder.getSlugRoute(item)">
+      <a [href]="'watch' + routeHelper.getSlugRoute(item)">
         <fa-icon class="pr-03" [icon]="iplay"></fa-icon> Watch now
       </a>
     </div>

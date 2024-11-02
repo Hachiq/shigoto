@@ -5,6 +5,7 @@ import { faPlay, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Anime } from '../../../common-shared/models/jikan/anime';
 import { RouterModule } from '@angular/router';
+import { RouteHelperService } from '../../../common-shared/services/route-helper.service';
 
 @Component({
   selector: 'app-anime-list-item',
@@ -29,6 +30,7 @@ export class AnimeListItemComponent {
   popoverLeft: number = 0;
 
   textBuilder = inject(TextBuilderService);
+  routeHelper = inject(RouteHelperService);
 
   @HostListener("wheel", ["$event"])
   onScroll(event: WheelEvent) {

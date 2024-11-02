@@ -5,12 +5,12 @@ import { Episode } from '../common-shared/models/jikan/episode';
 import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
 import { QueryParams } from '../common-shared/constants/query-params';
-import { AnimeEpisodes } from '../common-shared/models/jikan/anime-episodes';
 import { CommonModule } from '@angular/common';
-import { EpisodePaginationComponent } from './episode-pagination/episode-pagination.component';
-import { PlayerComponent } from './player/player.component';
-import { EpisodeDetailsComponent } from './episode-details/episode-details.component';
+import { EpisodePaginationComponent } from './components/episode-pagination/episode-pagination.component';
+import { PlayerComponent } from './components/player/player.component';
+import { EpisodeDetailsComponent } from './components/episode-details/episode-details.component';
 import { PaginationComponent } from "../common-shared/components/pagination/pagination.component";
+import { RouteHelperService } from '../common-shared/services/route-helper.service';
 
 // TODO: Split into different components.
 @Component({
@@ -30,7 +30,7 @@ export class WatchComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private jikan = inject(Jikan);
-  public textBuilder = inject(TextBuilderService);
+  private routeHelper = inject(RouteHelperService);
 
   constructor() {
     this.route.paramMap.subscribe(params => {
@@ -38,7 +38,7 @@ export class WatchComponent implements OnInit {
       if (!slugId) {
         this.navigateToHome();
       }
-      this.animeId = this.textBuilder.getIdFromSlug(slugId);
+      this.animeId = this.routeHelper.getIdFromSlug(slugId);
     });
   }
 
@@ -53,7 +53,7 @@ export class WatchComponent implements OnInit {
     this.jikan.getAnimeById(animeId).subscribe({
       next: (response) => {
         this.anime = response.data;
-        this.correctSlug = this.textBuilder.getSlugRoute(response.data).replace('/', '');
+        this.correctSlug = this.routeHelper.getSlugRoute(response.data).replace('/', '');
         this.updateUrlWithCorrectSlug();
         if (response.data && response.data.episodes > 1) {
           const episode = episodeParam ? +episodeParam : 1;
