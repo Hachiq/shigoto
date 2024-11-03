@@ -29,9 +29,9 @@
                                       [route]="correctSlug"
                                       [currentEpisode]="episode.mal_id">
               </app-episode-pagination>
-            } @else {
+            } @else if (anime.episodes === 1) {
               <app-single-episode-pagination [route]="correctSlug"
-                                             [title]="anime.title">
+                                              [title]="anime.title">
               </app-single-episode-pagination>
             }
           </section>
@@ -45,7 +45,6 @@
                                   [episodes]="anime.episodes"
                                   [type]="anime.type"
                                   [duration]="anime.duration"
-                                  [durationInSeconds]="episode?.duration"
                                   [synopsis]="episode?.synopsis || anime.synopsis"
                                   [score]="anime.score">
             </app-episode-details>   

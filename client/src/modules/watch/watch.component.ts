@@ -47,22 +47,23 @@ export class WatchComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchAnime(this.animeId);
+
     this.route.queryParamMap.subscribe(queryParams => {
-      const episodeParam = queryParams.get(QueryParams.episode);
-      this.fetchAnime(this.animeId, episodeParam);
+      if (this.anime && this.anime.episodes > 1) {
+        const episodeParam = queryParams.get(QueryParams.episode);
+        const episode = episodeParam ? +episodeParam : 1;
+        this.fetchEpisode(this.animeId, episode);
+      }
     });
   }
 
-  fetchAnime(animeId: number, episodeParam: string | null) {
+  fetchAnime(animeId: number) {
     this.jikan.getAnimeById(animeId).subscribe({
       next: (response) => {
         this.anime = response.data;
         this.correctSlug = this.routeHelper.getSlugRoute(response.data).replace('/', '');
         this.routeHelper.updateUrlWithCorrectSlug(this.route.snapshot.paramMap.get('slugId'), this.correctSlug, 'watch/');
-        if (response.data && response.data.episodes > 1) {
-          const episode = episodeParam ? +episodeParam : 1;
-          this.fetchEpisode(animeId, episode);
-        }
       }
     });
   }
