@@ -49,19 +49,12 @@ export class AnimeDetailsComponent implements OnInit {
       next: (response) => {
         this.anime = response.data;
         this.correctSlug = this.routeHelper.getSlugRoute(response.data).replace('/', '');
-        this.updateUrlWithCorrectSlug();
+        this.routeHelper.updateUrlWithCorrectSlug(this.route.snapshot.paramMap.get('slugId'), this.correctSlug);
       },
       error: () => {
         this.navigateToHome();
       }
     });
-  }
-
-  private updateUrlWithCorrectSlug(): void {
-    const currentSlug = this.route.snapshot.paramMap.get('slugId');
-    if (currentSlug !== this.correctSlug) {
-      this.router.navigate([`${this.correctSlug}`], { replaceUrl: true });
-    }
   }
 
   toggleDescription() {

@@ -58,15 +58,10 @@ export class WatchComponent implements OnInit {
       next: (response) => {
         this.anime = response.data;
         this.correctSlug = this.routeHelper.getSlugRoute(response.data).replace('/', '');
-        this.updateUrlWithCorrectSlug();
+        this.routeHelper.updateUrlWithCorrectSlug(this.route.snapshot.paramMap.get('slugId'), this.correctSlug, 'watch/');
         if (response.data && response.data.episodes > 1) {
           const episode = episodeParam ? +episodeParam : 1;
           this.fetchEpisode(animeId, episode);
-        } else {
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParamsHandling: ''
-          });
         }
       }
     });
@@ -78,13 +73,6 @@ export class WatchComponent implements OnInit {
         this.episode = response.data;
       }
     });
-  }
-
-  private updateUrlWithCorrectSlug(): void {
-    const currentSlug = this.route.snapshot.paramMap.get('slugId');
-    if (currentSlug !== this.correctSlug) {
-      this.router.navigate([`watch/${this.correctSlug}`], { replaceUrl: true });
-    }
   }
 
   private navigateToHome(): void {

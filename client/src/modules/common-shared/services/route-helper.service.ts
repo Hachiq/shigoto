@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Anime } from '../models/jikan/anime';
 import { AnimeFull } from '../models/jikan/anime-full';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouteHelperService {
+
+  private router = inject(Router);
 
   constructor() { }
 
@@ -29,5 +32,15 @@ export class RouteHelperService {
 
   buildPageUrl(route: string, page: number): string {
     return `${route}?page=${page}`;
+  }
+
+  updateUrlWithCorrectSlug(
+    currentSlug: string | null, 
+    correctSlug: string, 
+    prefix: string = ''
+  ): void {
+    if (currentSlug !== correctSlug) {
+      this.router.navigate([`${prefix}${correctSlug}`], { replaceUrl: true });
+    }
   }
 }
