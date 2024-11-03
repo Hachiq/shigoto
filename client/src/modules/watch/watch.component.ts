@@ -2,21 +2,25 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Jikan } from '../common-shared/services/jikan';
 import { Episode } from '../common-shared/models/jikan/episode';
-import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
 import { QueryParams } from '../common-shared/constants/query-params';
-import { AnimeEpisodes } from '../common-shared/models/jikan/anime-episodes';
 import { CommonModule } from '@angular/common';
-import { EpisodePaginationComponent } from './episode-pagination/episode-pagination.component';
-import { PlayerComponent } from './player/player.component';
-import { EpisodeDetailsComponent } from './episode-details/episode-details.component';
-import { PaginationComponent } from "../common-shared/components/pagination/pagination.component";
+import { EpisodePaginationComponent } from './components/episode-pagination/episode-pagination.component';
+import { SingleEpisodePaginationComponent } from './components/single-episode-pagination/single-episode-pagination.component';
+import { PlayerComponent } from './components/player/player.component';
+import { EpisodeDetailsComponent } from './components/episode-details/episode-details.component';
+import { RouteHelperService } from '../common-shared/services/route-helper.service';
 
-// TODO: Split into different components.
 @Component({
   selector: 'app-watch',
   standalone: true,
-  imports: [CommonModule, EpisodePaginationComponent, PlayerComponent, EpisodeDetailsComponent, PaginationComponent],
+  imports: [
+    CommonModule,
+    EpisodePaginationComponent,
+    SingleEpisodePaginationComponent,
+    PlayerComponent,
+    EpisodeDetailsComponent
+  ],
   templateUrl: './watch.component.html',
   styleUrl: './watch.component.scss'
 })
@@ -30,7 +34,7 @@ export class WatchComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private jikan = inject(Jikan);
-  public textBuilder = inject(TextBuilderService);
+  private routeHelper = inject(RouteHelperService);
 
   constructor() {
     this.route.paramMap.subscribe(params => {
@@ -38,7 +42,7 @@ export class WatchComponent implements OnInit {
       if (!slugId) {
         this.navigateToHome();
       }
-      this.animeId = this.textBuilder.getIdFromSlug(slugId);
+      this.animeId = this.routeHelper.getIdFromSlug(slugId);
     });
   }
 
@@ -53,16 +57,11 @@ export class WatchComponent implements OnInit {
     this.jikan.getAnimeById(animeId).subscribe({
       next: (response) => {
         this.anime = response.data;
-        this.correctSlug = this.textBuilder.getSlugRoute(response.data).replace('/', '');
-        this.updateUrlWithCorrectSlug();
+        this.correctSlug = this.routeHelper.getSlugRoute(response.data).replace('/', '');
+        this.routeHelper.updateUrlWithCorrectSlug(this.route.snapshot.paramMap.get('slugId'), this.correctSlug, 'watch/');
         if (response.data && response.data.episodes > 1) {
           const episode = episodeParam ? +episodeParam : 1;
           this.fetchEpisode(animeId, episode);
-        } else {
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParamsHandling: ''
-          });
         }
       }
     });
@@ -74,13 +73,6 @@ export class WatchComponent implements OnInit {
         this.episode = response.data;
       }
     });
-  }
-
-  private updateUrlWithCorrectSlug(): void {
-    const currentSlug = this.route.snapshot.paramMap.get('slugId');
-    if (currentSlug !== this.correctSlug) {
-      this.router.navigate([`watch/${this.correctSlug}`], { replaceUrl: true });
-    }
   }
 
   private navigateToHome(): void {

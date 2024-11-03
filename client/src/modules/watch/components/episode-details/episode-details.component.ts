@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { TextBuilderService } from '../../common-shared/services/text-builder.service';
+import { TextBuilderService } from '../../../common-shared/services/text-builder.service';
 
 @Component({
   selector: 'app-episode-details',

@@ -1,0 +1,14 @@
+<div class="episode-pagination-container">
+  <div class="header">
+    List of episodes:
+  </div>
+  <div class="episodes">
+    <a class="episode-item current" [routerLink]="'/watch/'+ route">
+      <div class="number">1</div>
+      <div class="title">{{ title }}</div>
+      <div class="play-icon">
+        <fa-icon [icon]="iplay"></fa-icon>
+      </div>
+    </a>
+  </div>
+</div>

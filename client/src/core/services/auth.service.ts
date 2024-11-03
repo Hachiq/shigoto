@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { RegisterRequest } from '../models/register.request';
 import { LoginRequest } from '../models/login.request';
-import { Helpers } from '../../modules/common-shared/services/helpers';
 import { User } from '../../modules/common-shared/models/user';
 import { ConfirmEmailRequest } from '../models/confirm-email.request';
 import { Response } from '../../modules/common-shared/models/response';
