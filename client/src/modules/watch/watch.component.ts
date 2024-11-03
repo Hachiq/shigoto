@@ -2,21 +2,25 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Jikan } from '../common-shared/services/jikan';
 import { Episode } from '../common-shared/models/jikan/episode';
-import { TextBuilderService } from '../common-shared/services/text-builder.service';
 import { Anime } from '../common-shared/models/jikan/anime';
 import { QueryParams } from '../common-shared/constants/query-params';
 import { CommonModule } from '@angular/common';
 import { EpisodePaginationComponent } from './components/episode-pagination/episode-pagination.component';
+import { SingleEpisodePaginationComponent } from './components/single-episode-pagination/single-episode-pagination.component';
 import { PlayerComponent } from './components/player/player.component';
 import { EpisodeDetailsComponent } from './components/episode-details/episode-details.component';
-import { PaginationComponent } from "../common-shared/components/pagination/pagination.component";
 import { RouteHelperService } from '../common-shared/services/route-helper.service';
 
-// TODO: Split into different components.
 @Component({
   selector: 'app-watch',
   standalone: true,
-  imports: [CommonModule, EpisodePaginationComponent, PlayerComponent, EpisodeDetailsComponent, PaginationComponent],
+  imports: [
+    CommonModule,
+    EpisodePaginationComponent,
+    SingleEpisodePaginationComponent,
+    PlayerComponent,
+    EpisodeDetailsComponent
+  ],
   templateUrl: './watch.component.html',
   styleUrl: './watch.component.scss'
 })

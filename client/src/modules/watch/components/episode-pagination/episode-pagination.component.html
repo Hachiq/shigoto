@@ -1,10 +1,11 @@
-<div class="pagination-container">
-  <div class="header">List of episodes:</div>
+<div class="episode-pagination-container">
+  <div class="header">
+    List of episodes:
+  </div>
   @if (episodes) {
-    <div class="episodes" #scrollContainer>
+    <div class="episodes">
       @for (item of episodes.data; track $index) {
         <a class="episode-item"
-           #episodeItem
            [ngClass]="{'current': currentEpisode === item.mal_id, 'even' : $even }"
            [routerLink]="'/watch/'+ route"
            [queryParams]="{'ep': item.mal_id}"

@@ -18,7 +18,7 @@ export class EpisodePaginationComponent implements OnInit {
 
   @Input() animeId!: number;
   @Input() route!: string;
-  @Input() currentEpisode?: number;
+  @Input() currentEpisode!: number;
 
   episodes?: AnimeEpisodes;
   currentPage: number = 1;

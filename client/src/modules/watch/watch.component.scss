@@ -30,7 +30,6 @@
 
 .content {
   position: relative;
-  min-height: 50vh;
 
   .prebreadcrumb {
     margin: 0;
@@ -70,27 +69,25 @@
 
   .main {
     display: flex;
-    height: 100vh;
+    height: 860px;
 
     .pagination {
       width: 20%;
-      // background-color: #2a2a2a; // temporary
-      overflow: hidden;
-      // border-right: 1px solid #444;
+      height: 100%;
+      background-color: #191826;
     }
     
     .player {
       width: 55%;
-      // background-color: #333; // temporary
+      height: 100%;
       display: flex;
       justify-content: center;
+      background-color: #11101A;
     }
     
     .details {
       width: 25%;
-      // background-color: #2a2a2a; // temporary
-      overflow-y: auto;
-      // border-left: 1px solid #444;
+      height: 100%;
     }
   }
 }
