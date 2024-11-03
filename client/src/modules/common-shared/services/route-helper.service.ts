@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Anime } from '../models/jikan/anime';
 import { AnimeFull } from '../models/jikan/anime-full';
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RouteHelperService {
 
-  private router = inject(Router);
+  private location = inject(Location);
 
   constructor() { }
 
@@ -40,7 +40,7 @@ export class RouteHelperService {
     prefix: string = ''
   ): void {
     if (currentSlug !== correctSlug) {
-      this.router.navigate([`${prefix}${correctSlug}`], { replaceUrl: true });
+      this.location.replaceState(`${prefix}${correctSlug}`);
     }
   }
 }
