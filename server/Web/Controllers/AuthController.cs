@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Core.Shared;
 
 namespace Web.Controllers;
 
@@ -39,7 +40,7 @@ public class AuthController(
                 Success = false
             });
         }
-        var user = new UserResponse(Id: id, Name: name, Email: email);
+        var user = new UserResponse(id, email, name);
         return Ok(new Response<UserResponse>
         {
             Success = true,

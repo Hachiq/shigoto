@@ -1,4 +1,4 @@
-﻿namespace Core.DTOs;
+﻿namespace Core.Shared;
 
 public class Response<T>
 {
