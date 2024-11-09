@@ -48,4 +48,17 @@
       }
     }
   }
+
+  .more-anime {
+    padding-top: 2rem;
+    font-size: 20px;
+    font-weight: 500;
+
+    .list {
+      display: flex;
+      padding-top: 1rem;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+  }
 }

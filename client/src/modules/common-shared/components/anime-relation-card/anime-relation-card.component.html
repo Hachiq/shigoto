@@ -1,0 +1,6 @@
+<a class="card"
+   [ngClass]="{'current': current}"
+   [href]="routeHelper.getSlugRouteFromTitle(title, animeId)">
+  <img [src]="image" [alt]="title">
+  <div class="card-text">{{ title }}</div>
+</a>

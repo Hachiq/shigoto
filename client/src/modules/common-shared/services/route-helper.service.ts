@@ -30,6 +30,19 @@ export class RouteHelperService {
     return `/${cleanedTitle}-${anime.mal_id}`;
   }
 
+  getSlugRouteFromTitle(title: string, id: number): string {
+    if (!title || !id) {
+      return '/';
+    }
+
+    const cleanedTitle = title
+      .replace(/[;:().]/g, '')
+      .replace(/\s+/g, '-')
+      .toLowerCase();
+
+    return `/${cleanedTitle}-${id}`;
+  }
+
   buildPageUrl(route: string, page: number): string {
     return `${route}?page=${page}`;
   }

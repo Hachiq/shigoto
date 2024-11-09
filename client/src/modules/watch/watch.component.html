@@ -36,7 +36,11 @@
             }
           </section>
           <section class="player">
-            <app-player></app-player>
+            <app-player [animeId]="animeId"
+                        [name]="anime.title"
+                        [url]="anime.url"
+                        [image]="anime.images.jpg.image_url">
+            </app-player>
           </section>
           <section class="details">
             <app-episode-details [poster_url]="anime.images.jpg.image_url"
