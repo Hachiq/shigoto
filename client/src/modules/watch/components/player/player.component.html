@@ -17,17 +17,19 @@
         <div class="plus-icon"></div>
       </button>
     </div>
-    <div class="more-anime">
-      <span>Watch more seasons of this anime</span>
-      <div class="list">
-        @for (item of relations; track $index) {
-          <app-anime-relation-card [animeId]="item.mal_id"
-                                   [title]="item.name"
-                                   [image]="image"
-                                   [current]="item.mal_id === animeId">
-          </app-anime-relation-card>
-        }
+    @if (relations && relations.length > 1) {
+      <div class="more-anime">
+        <span>Watch more seasons of this anime</span>
+        <div class="list">
+          @for (item of relations; track $index) {
+            <app-anime-relation-card [animeId]="item.mal_id"
+                                     [title]="item.name"
+                                     [image]="image"
+                                     [current]="item.mal_id === animeId">
+            </app-anime-relation-card>
+          }
+        </div>
       </div>
-    </div>
+    }
   </div>
 </div>

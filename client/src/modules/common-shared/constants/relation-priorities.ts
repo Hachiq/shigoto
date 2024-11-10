@@ -3,5 +3,5 @@ export const relationPriorities = [
   "Side Story",
   "Summary",
   "Character",
-  "Other"
+  "Alternative Version"
 ];
