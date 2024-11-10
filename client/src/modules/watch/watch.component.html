@@ -22,7 +22,7 @@
           </nav>
         </div>
 
-        <div class="main">
+        <div id="main" class="main">
           <section class="pagination">
             @if (episode) {
               <app-episode-pagination [animeId]="animeId"
@@ -39,7 +39,8 @@
             <app-player [animeId]="animeId"
                         [name]="anime.title"
                         [url]="anime.url"
-                        [image]="anime.images.jpg.image_url">
+                        [image]="anime.images.jpg.image_url"
+                        (moreThanOneRelationLoaded)="extendMainContainer()">
             </app-player>
           </section>
           <section class="details">

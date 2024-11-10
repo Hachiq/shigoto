@@ -25,7 +25,6 @@ import { RouteHelperService } from '../common-shared/services/route-helper.servi
   styleUrl: './watch.component.scss'
 })
 export class WatchComponent implements OnInit {
-
   animeId!: number;
   correctSlug!: string;
   anime?: Anime;
@@ -74,6 +73,12 @@ export class WatchComponent implements OnInit {
         this.episode = response.data;
       }
     });
+  }
+
+  // TODO: Figure out CSS & HTML instead of this ugly JS approach
+  extendMainContainer() {
+    const element = document.getElementById("main");
+    element?.classList.add("extended");
   }
 
   private navigateToHome(): void {

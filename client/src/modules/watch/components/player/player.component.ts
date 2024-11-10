@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { VIDEO } from '../../../common-shared/constants/video';
 import { Jikan } from '../../../common-shared/services/jikan';
 import { RelationEntry } from '../../../common-shared/models/jikan/relation-entry';
@@ -14,6 +14,8 @@ import { AnimeRelationCardComponent } from '../../../common-shared/components/an
   styleUrl: './player.component.scss'
 })
 export class PlayerComponent implements OnInit {
+  @Output() moreThanOneRelationLoaded = new EventEmitter();
+
   VIDEO = VIDEO;
   relations?: RelationEntry[];
 
@@ -35,6 +37,9 @@ export class PlayerComponent implements OnInit {
     this.jikan.getAnimeRelations(this.animeId).subscribe({
       next: (response) => {
         this.relations = mapRelationEntries(response.data, currentAnime);
+        if (this.relations.length > 1) {
+          this.moreThanOneRelationLoaded.emit();
+        }
       }
     });
   }
