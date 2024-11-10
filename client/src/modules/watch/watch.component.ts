@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Jikan } from '../common-shared/services/jikan';
 import { Episode } from '../common-shared/models/jikan/episode';
@@ -34,6 +34,9 @@ export class WatchComponent implements OnInit {
   private router = inject(Router);
   private jikan = inject(Jikan);
   private routeHelper = inject(RouteHelperService);
+
+  private renderer = inject(Renderer2);
+  private el = inject(ElementRef);
 
   constructor() {
     this.route.paramMap.subscribe(params => {
@@ -77,8 +80,8 @@ export class WatchComponent implements OnInit {
 
   // TODO: Figure out CSS & HTML instead of this ugly JS approach
   extendMainContainer() {
-    const element = document.getElementById("main");
-    element?.classList.add("extended");
+    const main = this.el.nativeElement.querySelector('#main');
+    this.renderer.addClass(main, 'extended');
   }
 
   private navigateToHome(): void {
