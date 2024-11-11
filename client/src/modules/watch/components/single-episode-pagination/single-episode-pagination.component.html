@@ -3,7 +3,10 @@
     List of episodes:
   </div>
   <div class="episodes">
-    <a class="episode-item current" [routerLink]="'/watch/'+ route">
+    <a class="episode-item current"
+        [routerLink]="'/watch/'+ route"
+        (mousemove)="popoverService.movePopover($event, title)"
+        (mouseleave)="popoverService.removePopover()">
       <div class="number">1</div>
       <div class="title">{{ title }}</div>
       <div class="play-icon">

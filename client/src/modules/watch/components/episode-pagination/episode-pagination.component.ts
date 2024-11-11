@@ -1,10 +1,11 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnInit, Renderer2 } from '@angular/core';
 import { AnimeEpisodes } from '../../../common-shared/models/jikan/anime-episodes';
 import { CommonModule } from '@angular/common';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { Jikan } from '../../../common-shared/services/jikan';
+import { DefaultPopoverService } from '../../../common-shared/services/default-popover.service';
 
 @Component({
   selector: 'app-episode-pagination',
@@ -24,6 +25,12 @@ export class EpisodePaginationComponent implements OnInit {
   currentPage: number = 1;
 
   private jikan = inject(Jikan);
+  public popoverService = inject(DefaultPopoverService);
+  
+  constructor() {
+    this.popoverService.renderer = inject(Renderer2);
+    this.popoverService.el = inject(ElementRef);
+  }
 
   ngOnInit(): void {
     this.fetchAnimeEpisodes(this.animeId, this.currentPage);

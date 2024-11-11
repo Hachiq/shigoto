@@ -442,3 +442,16 @@ a {
     }
   }  
 }
+
+.default-popover {
+  position: fixed;
+  font-size: 14px;
+  background-color: var(--light-grey);
+  color: var(--text);
+  padding: .2rem .6rem;
+  border: 1px solid var(--text);
+  white-space: nowrap;
+  transition: opacity 0.2s ease-in-out;
+  pointer-events: none;
+  z-index: var(--popover);
+}
