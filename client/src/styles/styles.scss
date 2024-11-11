@@ -376,6 +376,10 @@ a {
       background-color: rgba(255, 255, 255, .4);
     }
 
+    .episode-item.even {
+      background-color: #201F2D;
+    }
+
     .episode-item {
       display: flex;
       padding: 1rem;
@@ -423,10 +427,6 @@ a {
           color: var(--secondary);
         }
       }
-    }
-  
-    .episode-item.even {
-      background-color: #201F2D;
     }
 
     .episode-item.current {
