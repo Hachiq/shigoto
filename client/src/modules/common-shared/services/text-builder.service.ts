@@ -36,7 +36,7 @@ export class TextBuilderService {
   }
 
   getRatingIdentifier(rating: string): string {
-    const match = rating.match(/^[A-Za-z0-9+-]+/);
+    const match = rating?.match(/^[A-Za-z0-9+-]+/);
     return match ? match[0] : '';
   }
 

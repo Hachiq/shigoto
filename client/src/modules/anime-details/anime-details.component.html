@@ -29,7 +29,7 @@
                 {{ textBuilder.getRatingIdentifier(anime.rating) }}
               </div>
               <div class="tick-item tick-eps">
-                {{ anime.episodes }}
+                {{ anime.episodes || '?' }}
               </div>
               <span class="dot"></span>
               <span class="item">{{ anime.type }}</span>
@@ -69,7 +69,13 @@
             <div class="item">
               <span class="label">Aired: </span>
               <span class="value">
-                {{ textBuilder.formatDate(anime.aired.from) + ' to ' + textBuilder.formatDate(anime.aired.to) }}
+                @let from = textBuilder.formatDate(anime.aired.from);
+                @let to = textBuilder.formatDate(anime.aired.to);
+                @if (from < to) {
+                  {{ from + ' to ' + to }}
+                } @else {
+                  {{ from }}
+                }
               </span>
             </div>
             <div class="item">
@@ -86,7 +92,7 @@
             </div>
             <div class="item">
               <span class="label">MAL Score: </span>
-              <span class="value">{{ anime.score }}</span>
+              <span class="value">{{ anime.score || 'N/a' }}</span>
             </div>
             <div class="item item-bordered">
               <span class="label">Genres: </span>
