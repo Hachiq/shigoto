@@ -10,7 +10,6 @@
           <div class="content">
             @for (item of animeList.data; track $index) {
               <app-anime-list-item [item]="item"
-                                   [index]="$index"
                                    [bigItem]="$index < 4">
               </app-anime-list-item>
             }

@@ -17,7 +17,7 @@
   <h3 class="name">
     <a [href]="routeHelper.getSlugRoute(item)">{{ item.title }}</a>
   </h3>
-  @if (index < 4) {
+  @if (bigItem) {
     <div class="description">{{ item.synopsis }}</div>
   }
   <div class="info">

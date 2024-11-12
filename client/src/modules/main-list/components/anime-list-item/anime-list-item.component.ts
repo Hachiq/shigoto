@@ -19,7 +19,6 @@ export class AnimeListItemComponent {
   istar = faStar;
 
   @Input() item!: Anime;
-  @Input() index!: number;
   @Input() bigItem: boolean = false;
 
   @ViewChild('poster', { static: true }) poster!: ElementRef;
@@ -35,7 +34,9 @@ export class AnimeListItemComponent {
   @HostListener("wheel", ["$event"])
   onScroll(event: WheelEvent) {
     if (this.popoverVisible) {
-      this.setPopoverPositioning();
+      setTimeout(() => {
+        this.setPopoverPositioning();
+      }, 200);
     }
   }
 
