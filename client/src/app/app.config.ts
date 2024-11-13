@@ -6,6 +6,7 @@ import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi 
 import { ErrorHandlerService } from '../core/services/error-handler.service';
 import { withCredentialsInterceptor } from '../core/interceptors/with-credentials.interceptor';
 import { routes } from './app.routes';
+import { retryInterceptor } from '../core/interceptors/retry.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +14,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withInterceptors([
-        withCredentialsInterceptor
+        withCredentialsInterceptor,
+        retryInterceptor
       ]),
       withFetch(),
       withInterceptorsFromDi()
