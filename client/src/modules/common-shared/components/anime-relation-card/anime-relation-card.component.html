@@ -1,6 +1,8 @@
-<a class="card"
-   [ngClass]="{'current': current}"
-   [href]="routeHelper.getSlugRouteFromTitle(title, animeId)">
-  <img [src]="image" [alt]="title">
-  <div class="card-text">{{ title }}</div>
-</a>
+@if (pictures$ | async; as images) {
+  <a class="card"
+      [ngClass]="{'current': current}"
+      [href]="routeHelper.getSlugRouteFromTitle(title, animeId)">
+    <img [src]="images.data[0].jpg.image_url" [alt]="title">
+    <div class="card-text">{{ title }}</div>
+  </a>
+}

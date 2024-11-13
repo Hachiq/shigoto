@@ -24,7 +24,6 @@
           @for (item of relations; track $index) {
             <app-anime-relation-card [animeId]="item.mal_id"
                                      [title]="item.name"
-                                     [image]="image"
                                      [current]="item.mal_id === animeId">
             </app-anime-relation-card>
           }

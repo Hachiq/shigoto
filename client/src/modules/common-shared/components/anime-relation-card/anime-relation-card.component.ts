@@ -1,6 +1,9 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouteHelperService } from '../../services/route-helper.service';
+import { Jikan } from '../../services/jikan';
+import { Observable } from 'rxjs';
+import { ImagesData } from '../../models/images-data';
 
 @Component({
   selector: 'app-anime-relation-card',
@@ -9,23 +12,18 @@ import { RouteHelperService } from '../../services/route-helper.service';
   templateUrl: './anime-relation-card.component.html',
   styleUrl: './anime-relation-card.component.scss'
 })
-export class AnimeRelationCardComponent {
+export class AnimeRelationCardComponent implements OnInit {
   @Input() animeId!: number;
   @Input() title!: string;
-  @Input() image!: string;
 
   @Input() current!: boolean;
 
   public routeHelper = inject(RouteHelperService);
+  private jikan = inject(Jikan);
 
-  //// TODO: Find a way to bypass Jikan's rate limiting (3 per second, 60 per minute)
-  // pictures: any;
-  // private jikan = inject(Jikan);
-  // ngOnInit(): void {
-  //   this.jikan.getAnimePictures(this.animeId).subscribe({
-  //     next: (response) => {
-  //       this.pictures = response;
-  //     }
-  //   });
-  // }
+  pictures$?: Observable<ImagesData>;
+
+  ngOnInit(): void {
+    this.pictures$ = this.jikan.getAnimePictures(this.animeId);
+  }
 }

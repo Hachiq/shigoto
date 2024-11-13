@@ -10,6 +10,7 @@ import { AnimeData } from '../models/jikan/anime-data';
 import { QueryParams } from '../constants/query-params';
 import { AnimeEpisodes } from '../models/jikan/anime-episodes';
 import { AnimeRelationsData } from '../models/jikan/anime-relations-data';
+import { ImagesData } from '../models/images-data';
 
 @Injectable({
   providedIn: 'root'
@@ -75,8 +76,8 @@ export class Jikan {
     return this.http.get<AnimeRelationsData>(url);
   }
 
-  getAnimePictures(id: number): Observable<any> {
+  getAnimePictures(id: number): Observable<ImagesData> {
     const url = `${this.baseUrl}/${COMMON_SHARED_CONFIGURATION.jikan.anime}/${id}/pictures`;
-    return this.http.get<any>(url);
+    return this.http.get<ImagesData>(url);
   }
 }
