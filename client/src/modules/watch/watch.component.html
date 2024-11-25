@@ -36,12 +36,12 @@
             }
           </section>
           <section class="player">
-            <app-player [animeId]="animeId"
-                        [name]="anime.title"
-                        [url]="anime.url"
-                        [image]="anime.images.jpg.image_url"
-                        (moreThanOneRelationLoaded)="extendMainContainer()">
-            </app-player>
+            <app-player-container [animeId]="animeId"
+                                  [name]="anime.title"
+                                  [url]="anime.url"
+                                  [image]="anime.images.jpg.image_url"
+                                  (moreThanOneRelationLoaded)="extendMainContainer()">
+            </app-player-container>
           </section>
           <section class="details">
             <app-episode-details [poster_url]="anime.images.jpg.image_url"

@@ -1,34 +1,4 @@
-<div class="player-container">
-  <video width="100%" controls>
-    <source [src]="VIDEO.default" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <div class="additional">
-    <div class="options">
-      <button class="btn-empty option-btn">
-        <span>Auto Play</span>
-        <span>Off</span>
-      </button>
-      <button class="btn-empty option-btn">
-        <span>Auto Next</span>
-        <span>Off</span>
-      </button>
-      <button class="btn-empty add-btn">
-        <div class="plus-icon"></div>
-      </button>
-    </div>
-    @if (relations && relations.length > 1) {
-      <div class="more-anime">
-        <span>Watch more seasons of this anime</span>
-        <div class="list">
-          @for (item of relations; track $index) {
-            <app-anime-relation-card [animeId]="item.mal_id"
-                                     [title]="item.name"
-                                     [current]="item.mal_id === animeId">
-            </app-anime-relation-card>
-          }
-        </div>
-      </div>
-    }
-  </div>
-</div>
+<video width="100%" controls>
+  <source [src]="VIDEO.default" type="video/mp4">
+  Your browser does not support the video tag.
+</video>

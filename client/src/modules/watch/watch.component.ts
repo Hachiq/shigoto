@@ -7,7 +7,7 @@ import { QueryParams } from '../common-shared/constants/query-params';
 import { CommonModule } from '@angular/common';
 import { EpisodePaginationComponent } from './components/episode-pagination/episode-pagination.component';
 import { SingleEpisodePaginationComponent } from './components/single-episode-pagination/single-episode-pagination.component';
-import { PlayerComponent } from './components/player/player.component';
+import { PlayerContainerComponent } from './components/player-container/player-container.component';
 import { EpisodeDetailsComponent } from './components/episode-details/episode-details.component';
 import { RouteHelperService } from '../common-shared/services/route-helper.service';
 
@@ -18,7 +18,7 @@ import { RouteHelperService } from '../common-shared/services/route-helper.servi
     CommonModule,
     EpisodePaginationComponent,
     SingleEpisodePaginationComponent,
-    PlayerComponent,
+    PlayerContainerComponent,
     EpisodeDetailsComponent
   ],
   templateUrl: './watch.component.html',

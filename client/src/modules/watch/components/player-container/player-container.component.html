@@ -1,0 +1,32 @@
+<div class="player-container">
+  <app-player></app-player>
+  <div class="additional">
+    <!-- TODO: Implement options -->
+    <div class="options">
+      <button class="btn-empty option-btn">
+        <span>Auto Play</span>
+        <span>Off</span>
+      </button>
+      <button class="btn-empty option-btn">
+        <span>Auto Next</span>
+        <span>Off</span>
+      </button>
+      <button class="btn-empty add-btn">
+        <div class="plus-icon"></div>
+      </button>
+    </div>
+    @if (relations && relations.length > 1) {
+      <div class="more-anime">
+        <span>Watch more seasons of this anime</span>
+        <div class="list">
+          @for (item of relations; track $index) {
+            <app-anime-relation-card [animeId]="item.mal_id"
+                                     [title]="item.name"
+                                     [current]="item.mal_id === animeId">
+            </app-anime-relation-card>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
