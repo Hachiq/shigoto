@@ -1,0 +1,66 @@
+.container {
+  position: relative;
+
+  video {
+    width: 100%;
+    height: auto;
+  }
+
+  .controls {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    bottom: 0;
+    padding: 1.5rem 1rem;
+
+    .progress-container {
+      display: flex;
+      height: 4px;
+      width: 100%;
+      background-color: rgba(255, 255, 255, .2);
+      margin-bottom: 1rem;
+
+      .progress {
+        background-color:cornflowerblue;
+        pointer-events: none;
+      }
+    }
+
+    .controls-container {
+      display: flex;
+      padding: 0 1rem;
+
+      .controls-group {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .control-item {
+          opacity: .8;
+
+          &:hover {
+            opacity: 1;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+#play-button {
+  min-width: 14px;
+}
+
+#timer {
+  user-select: none;
+  font-size: 14px;
+  opacity: 1;
+}
+
+#separator {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0 .2rem;
+  font-family: Open sans;
+}

@@ -1,4 +1,44 @@
-<video width="100%" controls>
-  <source [src]="VIDEO.default" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+<div class="container">
+  <video #videoPlayer>
+    <source [src]="VIDEO.default" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="controls">
+    <div class="progress-container" (click)="seek($event)">
+      <span class="progress" [ngStyle]="{'width.%': progress}"></span>
+    </div>
+    <div class="controls-container">
+      <div class="controls-group">
+        <span class="control-item" id="play-button" (click)="togglePlay()">
+          @if (isPlaying) {
+            <fa-icon [icon]="ipause"></fa-icon>
+          } @else {
+            <fa-icon [icon]="iplay"></fa-icon>
+          }
+        </span>
+        <span class="control-item">
+          <fa-icon [icon]="ivolumemute"></fa-icon>
+        </span>
+        <span id="timer">
+          {{ currentTime | time }}
+          <span id="separator">/</span>
+          {{ duration | time }}
+        </span>
+      </div>
+      <div class="controls-group ml-auto">
+        <span class="control-item">
+          <fa-icon [icon]="ibackward"></fa-icon>
+        </span>
+        <span class="control-item">
+          <fa-icon [icon]="iforward"></fa-icon>
+        </span>
+        <span class="control-item">
+          <fa-icon [icon]="isettings"></fa-icon>
+        </span>
+        <span class="control-item">
+          <fa-icon [icon]="iexpand"></fa-icon>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
