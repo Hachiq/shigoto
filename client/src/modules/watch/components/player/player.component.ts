@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { VIDEO } from '../../../common-shared/constants/video';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
@@ -46,8 +46,11 @@ export class PlayerComponent {
   VIDEO = VIDEO;
 
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
+  @ViewChild('progressContainer', { static: true }) progressBarContainer!: ElementRef<HTMLVideoElement>;
 
-  isPlaying = false;
+  isPlaying: boolean = false;
+  isDragging: boolean = false;
+  wasPlayingOnDrag: boolean = false;
 
   currentTime: number = 0;
   duration: number = 0;
@@ -80,6 +83,28 @@ export class PlayerComponent {
     };
   }
 
+  startDragging(event: MouseEvent): void {
+    this.wasPlayingOnDrag = this.isPlaying;
+    this.pause();
+    this.isDragging = true;
+    this.seek(event);
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    if (this.isDragging) {
+      this.seek(event);
+    }
+  }
+
+  @HostListener('document:mouseup')
+  stopDragging(): void {
+    this.isDragging = false;
+    if (this.wasPlayingOnDrag) {
+      this.play();
+    }
+  }
+
   play() {
     const video: HTMLVideoElement = this.videoPlayer.nativeElement;
     video.play();
@@ -90,7 +115,7 @@ export class PlayerComponent {
     video.pause();
   }
 
-  togglePlay() {
+  togglePlayButton() {
     if (this.isPlaying) {
       this.pause();
     } else {
@@ -105,11 +130,17 @@ export class PlayerComponent {
 
     const video = this.videoPlayer.nativeElement;
     const newTime = (clickX / progressBarWidth) * video.duration;
-    this.seekTo(newTime);
+    
+    video.currentTime = newTime;
   }
 
-  seekTo(time: number) {
+  goBackward() {
     const video: HTMLVideoElement = this.videoPlayer.nativeElement;
-    video.currentTime = time;
+    video.currentTime -= 10;
+  }
+
+  goForward() {
+    const video: HTMLVideoElement = this.videoPlayer.nativeElement;
+    video.currentTime += 10;
   }
 }

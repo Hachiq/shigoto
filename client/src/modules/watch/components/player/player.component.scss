@@ -15,14 +15,46 @@
 
     .progress-container {
       display: flex;
-      height: 4px;
+      height: 20px;
+      align-items: center;
       width: 100%;
-      background-color: rgba(255, 255, 255, .2);
-      margin-bottom: 1rem;
+      margin-bottom: .6rem;
+      background: none;
+      cursor: pointer;
 
-      .progress {
-        background-color:cornflowerblue;
-        pointer-events: none;
+      .video-timeline {
+        display: flex;
+        height: 4px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, .2);
+  
+        .progress {
+          position: relative;
+          background-color:cornflowerblue;
+          pointer-events: none;
+  
+          &::before {
+            content: "";
+            right: 0;
+            top: 50%;
+            height: 13px;
+            width: 13px;
+            position: absolute;
+            border-radius: 50%;
+            background: #2289ff;
+            transform: translate(50%, -50%);
+            opacity: 0;
+            transition: opacity .1s;
+          }
+        }
+      }
+
+      &:hover {
+        .video-timeline {
+          .progress::before {
+            opacity: 1;
+          }
+        }
       }
     }
 

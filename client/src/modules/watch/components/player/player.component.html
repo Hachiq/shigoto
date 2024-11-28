@@ -4,12 +4,14 @@
     Your browser does not support the video tag.
   </video>
   <div class="controls">
-    <div class="progress-container" (click)="seek($event)">
-      <span class="progress" [ngStyle]="{'width.%': progress}"></span>
+    <div #progressContainer class="progress-container" (click)="seek($event)" (mousedown)="startDragging($event)">
+      <div class="video-timeline">
+        <span class="progress" [ngStyle]="{'width.%': progress}"></span>
+      </div>
     </div>
     <div class="controls-container">
       <div class="controls-group">
-        <span class="control-item" id="play-button" (click)="togglePlay()">
+        <span class="control-item" id="play-button" (click)="togglePlayButton()">
           @if (isPlaying) {
             <fa-icon [icon]="ipause"></fa-icon>
           } @else {
@@ -26,10 +28,10 @@
         </span>
       </div>
       <div class="controls-group ml-auto">
-        <span class="control-item">
+        <span class="control-item" (click)="goBackward()">
           <fa-icon [icon]="ibackward"></fa-icon>
         </span>
-        <span class="control-item">
+        <span class="control-item" (click)="goForward()">
           <fa-icon [icon]="iforward"></fa-icon>
         </span>
         <span class="control-item">
