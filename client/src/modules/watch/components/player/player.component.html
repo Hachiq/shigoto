@@ -6,7 +6,9 @@
   <div class="controls">
     <div #progressContainer class="progress-container" (click)="seek($event)" (mousedown)="startDragging($event)">
       <div class="video-timeline">
-        <span class="progress" [ngClass]="{'show-scrubber': isDragging}" [ngStyle]="{'width.%': progress}">
+        <span class="progress"
+              [ngClass]="{'show-scrubber': isDragging}"
+              [ngStyle]="{'width.%': progress}">
         </span>
       </div>
     </div>
@@ -19,8 +21,23 @@
           <fa-icon [icon]="iplay"></fa-icon>
           }
         </span>
-        <span class="control-item">
-          <fa-icon [icon]="ivolumemute"></fa-icon>
+        <span class="control-item" id="volume-button">
+          <span class="icon" (click)="toggleVolumeButton()">
+            @if (volume >= 0.5) {
+              <fa-icon [icon]="ivolumehigh"></fa-icon>
+            } @else if (volume < 0.5 && volume > 0) {
+              <fa-icon [icon]="ivolumelow"></fa-icon>
+            } @else {
+              <fa-icon [icon]="ivolumemute"></fa-icon>
+            }
+          </span>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            [value]="volume"
+            (input)="onVolumeChange($event)"/>
         </span>
         <span id="timer">
           {{ currentTime | time }}

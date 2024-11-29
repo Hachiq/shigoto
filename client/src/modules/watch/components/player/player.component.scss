@@ -39,8 +39,8 @@
             content: "";
             right: 0;
             top: 50%;
-            height: 13px;
-            width: 13px;
+            height: 15px;
+            width: 15px;
             position: absolute;
             border-radius: 50%;
             background: #2289ff;
@@ -78,7 +78,9 @@
         gap: 1rem;
 
         .control-item {
-          opacity: .8;
+          display: flex;
+          align-items: center;
+          opacity: .7;
 
           &:hover {
             opacity: 1;
@@ -105,4 +107,26 @@
   font-weight: 600;
   padding: 0 .2rem;
   font-family: Open sans;
+}
+
+#volume-button {
+  .icon {
+    min-width: 23px;
+    padding-right: .3rem;
+  }
+
+  input {
+    opacity: 0;
+    width: 0px;
+    height: 4px;
+    transition: width .2s ease;
+    cursor: pointer;
+  }
+
+  &:hover {
+    input {
+      opacity: 1;
+      width: 100px;
+    }
+  }
 }

@@ -61,8 +61,13 @@ export class PlayerComponent {
   duration: number = 0;
   progress: number = 0;
 
+  volume: number = 1;
+  lastVolume: number = 1;
+
   ngOnInit() {
     const video = this.videoPlayer.nativeElement;
+
+    video.volume = this.volume;
 
     video.addEventListener('loadedmetadata', () => {
       this.duration = video.duration;
@@ -86,6 +91,17 @@ export class PlayerComponent {
       this.progress = (video.currentTime / video.duration) * 100;
       requestAnimationFrame(updateTime); // Keep updating on the rendering cycle
     };
+  }
+
+  onVolumeChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.volume = parseFloat(input.value);
+
+    this.videoPlayer.nativeElement.volume = this.volume;
+
+    if (this.volume > 0) {
+      this.lastVolume = this.volume;
+    }
   }
 
   startDragging(event: MouseEvent): void {
@@ -125,6 +141,19 @@ export class PlayerComponent {
       this.pause();
     } else {
       this.play();
+    }
+  }
+
+  toggleVolumeButton() {
+    const video = this.videoPlayer.nativeElement;
+
+    if (this.volume === 0) {
+      this.volume = this.lastVolume || 1;
+      video.volume = this.volume;
+    } else {
+      this.lastVolume = this.volume;
+      this.volume = 0;
+      video.volume = 0;
     }
   }
 
