@@ -51,7 +51,7 @@ export class PlayerComponent {
   VIDEO = VIDEO;
 
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
-  @ViewChild('progressContainer', { static: true }) progressBarContainer!: ElementRef<HTMLVideoElement>;
+  video!: HTMLVideoElement;
 
   isPlaying: boolean = false;
   isDragging: boolean = false;
@@ -65,33 +65,31 @@ export class PlayerComponent {
   lastVolume: number = 1;
 
   ngOnInit() {
-    const video = this.videoPlayer.nativeElement;
-
-    video.volume = this.volume;
-
-    video.addEventListener('loadedmetadata', () => {
-      this.duration = video.duration;
-    });
-
-    video.addEventListener('play', () => {
-      this.isPlaying = true;
-      requestAnimationFrame(updateTime);
-    });
-
-    video.addEventListener('pause', () => {
-      this.isPlaying = false;
-    });
-
-    video.addEventListener('seeked', () => {
-      requestAnimationFrame(updateTime);
-    });
-
-    const updateTime = () => {
-      this.currentTime = video.currentTime;
-      this.progress = (video.currentTime / video.duration) * 100;
-      requestAnimationFrame(updateTime); // Keep updating on the rendering cycle
-    };
+    this.video = this.videoPlayer.nativeElement;
   }
+
+  setDuration() {
+    this.duration = this.video.duration;
+  }
+
+  onPlay() {
+    this.isPlaying = true;
+    requestAnimationFrame(this.updateTime);
+  }
+
+  onPause() {
+    this.isPlaying = false;
+  }
+
+  onSeeked() {
+    requestAnimationFrame(this.updateTime);
+  }
+
+  updateTime = () => {
+    this.currentTime = this.video.currentTime;
+    this.progress = (this.video.currentTime / this.video.duration) * 100;
+    requestAnimationFrame(this.updateTime); // Keep updating on the rendering cycle
+  };
 
   onVolumeChange(event: Event): void {
     const input = event.target as HTMLInputElement;

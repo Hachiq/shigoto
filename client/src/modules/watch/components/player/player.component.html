@@ -1,5 +1,10 @@
 <div class="container">
-  <video #videoPlayer (click)="togglePlayButton()">
+  <video #videoPlayer
+          (click)="togglePlayButton()"
+          (loadedmetadata)="setDuration()"
+          (play)="onPlay()"
+          (pause)="onPause()"
+          (seeked)="onSeeked()">
     <source [src]="VIDEO.default" type="video/mp4">
     Your browser does not support the video tag.
   </video>
