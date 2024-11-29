@@ -1,13 +1,18 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild
+} from '@angular/core';
 import { VIDEO } from '../../../common-shared/constants/video';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
-  faBackward,
   faCog,
   faDownLeftAndUpRightToCenter,
-  faForward,
   faPause,
   faPlay,
+  faRotateLeft,
+  faRotateRight,
   faUpRightAndDownLeftFromCenter,
   faVolumeHigh,
   faVolumeLow,
@@ -35,8 +40,8 @@ export class PlayerComponent {
   ivolumelow = faVolumeLow;
   ivolumehigh = faVolumeHigh;
 
-  ibackward = faBackward;
-  iforward = faForward;
+  ibackward = faRotateLeft;
+  iforward = faRotateRight;
 
   isettings = faCog;
 

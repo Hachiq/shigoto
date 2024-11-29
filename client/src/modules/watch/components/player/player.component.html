@@ -1,21 +1,22 @@
 <div class="container">
-  <video #videoPlayer>
+  <video #videoPlayer (click)="togglePlayButton()">
     <source [src]="VIDEO.default" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <div class="controls">
     <div #progressContainer class="progress-container" (click)="seek($event)" (mousedown)="startDragging($event)">
       <div class="video-timeline">
-        <span class="progress" [ngStyle]="{'width.%': progress}"></span>
+        <span class="progress" [ngClass]="{'show-scrubber': isDragging}" [ngStyle]="{'width.%': progress}">
+        </span>
       </div>
     </div>
     <div class="controls-container">
       <div class="controls-group">
         <span class="control-item" id="play-button" (click)="togglePlayButton()">
           @if (isPlaying) {
-            <fa-icon [icon]="ipause"></fa-icon>
+          <fa-icon [icon]="ipause"></fa-icon>
           } @else {
-            <fa-icon [icon]="iplay"></fa-icon>
+          <fa-icon [icon]="iplay"></fa-icon>
           }
         </span>
         <span class="control-item">
