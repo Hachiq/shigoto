@@ -21,9 +21,9 @@
       <div class="controls-group">
         <span class="control-item" id="play-button" (click)="togglePlayButton()">
           @if (isPlaying) {
-          <fa-icon [icon]="ipause"></fa-icon>
+            <fa-icon [icon]="ipause"></fa-icon>
           } @else {
-          <fa-icon [icon]="iplay"></fa-icon>
+            <fa-icon [icon]="iplay"></fa-icon>
           }
         </span>
         <span class="control-item" id="volume-button">
@@ -60,8 +60,12 @@
         <span class="control-item">
           <fa-icon [icon]="isettings"></fa-icon>
         </span>
-        <span class="control-item">
-          <fa-icon [icon]="iexpand"></fa-icon>
+        <span class="control-item" (click)="toggleFullscreen()">
+          @if (isFullscreen()) {
+            <fa-icon [icon]="icollapse"></fa-icon>
+          } @else {
+            <fa-icon [icon]="iexpand"></fa-icon>
+          }
         </span>
       </div>
     </div>

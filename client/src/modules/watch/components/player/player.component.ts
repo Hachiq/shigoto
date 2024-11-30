@@ -68,6 +68,35 @@ export class PlayerComponent {
     this.video = this.videoPlayer.nativeElement;
   }
 
+  isFullscreen() {
+    return !!document.fullscreenElement;
+  }
+
+  toggleFullscreen(): void {
+    const videoContainer = this.video.parentElement;
+    if (!videoContainer) {
+      return;
+    }
+
+    if (!this.isFullscreen()) {
+      if (videoContainer.requestFullscreen) {
+        videoContainer.requestFullscreen();
+      } else if ((videoContainer as any).webkitRequestFullscreen) {
+        (videoContainer as any).webkitRequestFullscreen();
+      } else if ((videoContainer as any).msRequestFullscreen) {
+        (videoContainer as any).msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
+      }
+    }
+  }
+
   setDuration() {
     this.duration = this.video.duration;
   }
