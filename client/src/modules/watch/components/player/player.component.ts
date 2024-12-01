@@ -7,8 +7,12 @@ import {
 import { VIDEO } from '../../../common-shared/constants/video';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
+  faAngleLeft,
+  faAngleRight,
+  faClosedCaptioning,
   faCog,
   faDownLeftAndUpRightToCenter,
+  faGaugeHigh,
   faPause,
   faPlay,
   faRotateLeft,
@@ -48,6 +52,12 @@ export class PlayerComponent {
   iexpand = faUpRightAndDownLeftFromCenter;
   icollapse = faDownLeftAndUpRightToCenter;
 
+  isubtitles = faClosedCaptioning;
+  ispeed = faGaugeHigh;
+
+  iright = faAngleRight;
+  ileft = faAngleLeft;
+
   VIDEO = VIDEO;
 
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
@@ -64,12 +74,20 @@ export class PlayerComponent {
   volume: number = 1;
   lastVolume: number = 1;
 
+  currentPlaybackRate = 1;
+
+  showSettings = false;
+
   ngOnInit() {
     this.video = this.videoPlayer.nativeElement;
   }
 
+  toggleSettings() {
+    this.showSettings = !this.showSettings;
+  }
+
   isFullscreen() {
-    return !!document.fullscreenElement;
+    return !!document?.fullscreenElement;
   }
 
   toggleFullscreen(): void {

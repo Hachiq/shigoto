@@ -4,11 +4,28 @@
           (loadedmetadata)="setDuration()"
           (play)="onPlay()"
           (pause)="onPause()"
-          (seeked)="onSeeked()">
+          (seeked)="onSeeked()"
+          [ngClass]="{'no-events': showSettings}">
     <source [src]="VIDEO.default" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <div class="controls">
+    @if (showSettings) {
+      <div class="settings">
+        <div class="settings-item">
+          <span class="icon"><fa-icon [icon]="isubtitles"></fa-icon></span>
+          <span class="label">Subtitles</span>
+          <span class="value">Off</span>
+          <span class="arrow"><fa-icon [icon]="iright"></fa-icon></span>
+        </div>
+        <div class="settings-item">
+          <span class="icon"><fa-icon [icon]="ispeed"></fa-icon></span>
+          <span class="label">Play speed</span>
+          <span class="value">Usual</span>
+          <span class="arrow"><fa-icon [icon]="iright"></fa-icon></span>
+        </div>
+      </div>
+    }
     <div #progressContainer class="progress-container" (click)="seek($event)" (mousedown)="startDragging($event)">
       <div class="video-timeline">
         <span class="progress"
@@ -57,7 +74,7 @@
         <span class="control-item" (click)="goForward()">
           <fa-icon [icon]="iforward"></fa-icon>
         </span>
-        <span class="control-item">
+        <span class="control-item" (click)="toggleSettings()">
           <fa-icon [icon]="isettings"></fa-icon>
         </span>
         <span class="control-item" (click)="toggleFullscreen()">

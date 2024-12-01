@@ -7,12 +7,42 @@
     height: auto;
   }
 
+  video.no-events {
+    pointer-events: none;
+  }
+
   .controls {
     position: absolute;
     box-sizing: border-box;
     width: 100%;
     bottom: 0;
     padding: 1.5rem 1rem;
+
+    .settings {
+      width: 300px;
+      margin-left: auto;
+      background: rgba(28, 28, 28, .9);
+      padding: 1rem 0;
+      border-radius: 1rem;
+
+      .settings-item {
+        display: flex;
+        gap: 8px;
+        padding: .5rem 1rem;
+
+        .icon {
+          min-width: 21px;
+        }
+
+        .value {
+          margin-left: auto;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, .1);
+        }
+      }
+    }
 
     .progress-container {
       display: flex;
