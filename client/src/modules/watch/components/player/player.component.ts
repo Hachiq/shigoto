@@ -82,7 +82,16 @@ export class PlayerComponent {
     this.video = this.videoPlayer.nativeElement;
   }
 
-  toggleSettings() {
+  @HostListener('document:click', ['$event'])
+  handleClickOutsideSettings(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (this.showSettings && !target.closest('.settings')) {
+      this.showSettings = false;
+    }
+  }
+
+  toggleSettings($event: MouseEvent) {
+    $event.stopPropagation();
     this.showSettings = !this.showSettings;
   }
 
