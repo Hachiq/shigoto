@@ -11,19 +11,47 @@
   </video>
   <div class="controls">
     @if (showSettings) {
-      <div class="settings">
-        <div class="settings-item">
-          <span class="icon"><fa-icon [icon]="isubtitles"></fa-icon></span>
-          <span class="label">Subtitles</span>
-          <span class="value">Off</span>
-          <span class="arrow"><fa-icon [icon]="iright"></fa-icon></span>
-        </div>
-        <div class="settings-item">
-          <span class="icon"><fa-icon [icon]="ispeed"></fa-icon></span>
-          <span class="label">Play speed</span>
-          <span class="value">Usual</span>
-          <span class="arrow"><fa-icon [icon]="iright"></fa-icon></span>
-        </div>
+      <div class="settings" [ngClass]="{'wide': settingsTab === SETTINGS.General}">
+        @switch (settingsTab) {
+          @case (SETTINGS.General) {
+            <div class="settings-item" (click)="changeSettingsTab(SETTINGS.Subtitles)">
+              <span class="icon"><fa-icon [icon]="isubtitles"></fa-icon></span>
+              <span class="label">{{ SETTINGS.Subtitles }}</span>
+              <span class="value">Off</span>
+              <span class="arrow"><fa-icon [icon]="iright"></fa-icon></span>
+            </div>
+            <div class="settings-item" (click)="changeSettingsTab(SETTINGS.PlaybackRate)">
+              <span class="icon"><fa-icon [icon]="ispeed"></fa-icon></span>
+              <span class="label">{{ SETTINGS.PlaybackRate }}</span>
+              <span class="value">{{ currentPlaybackRate }}</span>
+              <span class="arrow"><fa-icon [icon]="iright"></fa-icon></span>
+            </div>
+          }
+          @case (SETTINGS.PlaybackRate) {
+            <div class="header" (click)="changeSettingsTab(SETTINGS.General)">
+              <span class="arrow"><fa-icon [icon]="ileft"></fa-icon></span>
+              <span class="label">{{ SETTINGS.PlaybackRate }}</span>
+            </div>
+            <div class="divider"></div>
+            @for (item of playbackRateOptions; track $index) {
+              <div class="settings-item" (click)="changePlaybackRate(item); changeSettingsTab(SETTINGS.General)">
+                <span class="icon">
+                  @if (item === currentPlaybackRate) {
+                    <fa-icon [icon]="icheck"></fa-icon>
+                  }
+                </span>
+                <span class="label">{{ item }}</span>
+              </div>
+            }
+          }
+          @case (SETTINGS.Subtitles) {
+            <div class="header" (click)="changeSettingsTab(SETTINGS.General)">
+              <span class="arrow"><fa-icon [icon]="ileft"></fa-icon></span>
+              <span class="label">{{ SETTINGS.Subtitles }}</span>
+            </div>
+            <div class="divider"></div>
+          }
+        }
       </div>
     }
     <div #progressContainer class="progress-container" (click)="seek($event)" (mousedown)="startDragging($event)">

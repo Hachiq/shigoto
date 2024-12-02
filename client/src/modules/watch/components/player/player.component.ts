@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faAngleLeft,
   faAngleRight,
+  faCheck,
   faClosedCaptioning,
   faCog,
   faDownLeftAndUpRightToCenter,
@@ -24,6 +25,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CommonModule } from '@angular/common';
 import { TimePipe } from '../../../common-shared/pipes/time.pipe';
+import { VIDEO_SETTINGS_TABS } from '../../../common-shared/constants/video-settings-tabs';
+import { playbackRateOptions } from '../../../common-shared/constants/playback-rate-options';
 
 @Component({
   selector: 'app-player',
@@ -58,7 +61,10 @@ export class PlayerComponent {
   iright = faAngleRight;
   ileft = faAngleLeft;
 
+  icheck = faCheck;
+
   VIDEO = VIDEO;
+  SETTINGS = VIDEO_SETTINGS_TABS;
 
   @ViewChild('videoPlayer', { static: true }) videoPlayer!: ElementRef<HTMLVideoElement>;
   video!: HTMLVideoElement;
@@ -74,12 +80,25 @@ export class PlayerComponent {
   volume: number = 1;
   lastVolume: number = 1;
 
+  // Consider getting rid of currentPlaybackRate property.
   currentPlaybackRate = 1;
+  playbackRateOptions = playbackRateOptions;
 
   showSettings = false;
 
+  settingsTab: string = this.SETTINGS.General;
+
   ngOnInit() {
     this.video = this.videoPlayer.nativeElement;
+  }
+
+  changePlaybackRate(speed: number) {
+    this.currentPlaybackRate = speed;
+    this.video.playbackRate = this.currentPlaybackRate;
+  }
+
+  changeSettingsTab(tab: string) {
+    this.settingsTab = tab;
   }
 
   @HostListener('document:click', ['$event'])
@@ -87,11 +106,13 @@ export class PlayerComponent {
     const target = event.target as HTMLElement;
     if (this.showSettings && !target.closest('.settings')) {
       this.showSettings = false;
+      this.changeSettingsTab(this.SETTINGS.General);
     }
   }
 
   toggleSettings($event: MouseEvent) {
     $event.stopPropagation();
+    this.changeSettingsTab(this.SETTINGS.General);
     this.showSettings = !this.showSettings;
   }
 
