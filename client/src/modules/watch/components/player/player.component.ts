@@ -233,9 +233,14 @@ export class PlayerComponent {
   }
 
   seek(event: MouseEvent) {
-    const progressBar = event.target as HTMLElement;
+    const target = event.target as HTMLElement;
+
+    if (!target.closest('.video-container')) {
+      return;
+    }
+
     const clickX = event.offsetX;
-    const progressBarWidth = progressBar.offsetWidth;
+    const progressBarWidth = target.offsetWidth;
 
     const video = this.videoPlayer.nativeElement;
     const newTime = (clickX / progressBarWidth) * video.duration;

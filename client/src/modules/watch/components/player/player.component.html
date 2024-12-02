@@ -1,4 +1,4 @@
-<div class="container">
+<div class="video-container">
   <video #videoPlayer
           (click)="togglePlayButton()"
           (loadedmetadata)="setDuration()"
@@ -54,7 +54,7 @@
         }
       </div>
     }
-    <div #progressContainer class="progress-container" (click)="seek($event)" (mousedown)="startDragging($event)">
+    <div #progressContainer class="progress-container" (mousedown)="startDragging($event)">
       <div class="video-timeline">
         <span class="progress"
               [ngClass]="{'show-scrubber': isDragging}"
@@ -62,7 +62,7 @@
         </span>
       </div>
     </div>
-    <div class="controls-container">
+    <div class="controls-container" [ngClass]="{'no-events': isDragging}">
       <div class="controls-group">
         <span class="control-item" id="play-button" (click)="togglePlayButton()">
           @if (isPlaying) {
