@@ -199,6 +199,7 @@ export class PlayerComponent {
     if (this.wasPlayingOnDrag) {
       this.play();
     }
+    this.wasPlayingOnDrag = false;
   }
 
   play() {
